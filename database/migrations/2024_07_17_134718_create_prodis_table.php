@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('prodis', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_fakultas');
+            $table->unsignedBigInteger('id_fakultas');
+            $table->foreign('id_fakultas')->references('id')->on('fakultas');
             $table->string('kode_prodi');
             $table->string('nama_prodi');
             $table->string('ka_prodi');
             $table->enum('jenjang', ['sarjana', 'magister', 'diploma']);
-            
             $table->timestamps();
         });
     }
