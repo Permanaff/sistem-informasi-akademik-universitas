@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('prodis', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_fakultas');
-            $table->foreign('id_fakultas')->references('id')->on('fakultas');
+            $table->foreignId('id_fakultas')->constrained(
+                table: 'fakultas',
+                indexName: 'prodi_id_fakultas'
+            );
             $table->string('kode_prodi');
             $table->string('nama_prodi');
             $table->string('ka_prodi');

@@ -135,12 +135,12 @@
 {{-- CONTENT --}}
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Fakultas</h1>
+    <h1 class="h2">Program Studi</h1>
   </div>
 
   <div class="card border-0">
     <div class="card-body">
-        <a href="#" class="btn btn-md btn-success mb-3">Tambah Fakultas</a>
+        <button type="button" class="btn btn-md btn-success mb-3" id="showModalBtn">Tambah Prodi</button>
         {{ $prodis }}
         <table class="table table-bordered">
             <thead>
@@ -157,10 +157,10 @@
                 @forelse ($prodis as $prodi)
                     <tr>
                         <td class="text-center">{{ $prodi->kode_prodi }}</td>
-                        <td class="text-center">{{ $prodi->prodi }}</td>
-                        <td class="text-center">{{ $prodi->fakultas }}</td>
-                        <td class="text-center">{{ $prodi->ka_prodi }}</td>
+                        <td class="text-center">{{ $prodi->nama_prodi }}</td>
                         <td class="text-center">{{ $prodi->fakultas->nama_fakultas }}</td>
+                        <td class="text-center">{{ $prodi->ka_prodi }}</td>
+                        <td class="text-center">{{ $prodi->jenjang }}</td>
                         <td>
                             <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="#" method="POST">
                                 <a href="#" class="btn btn-sm btn-primary">EDIT</a>
@@ -184,6 +184,89 @@
     </div>
   </div>
 
+
+  <div class="modal fade" id="tambahModal" tabindex="-1" aria-labelledby="tambahModal" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Fakultas</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form action="#" method="POST" enctype="multipart/form-data">
+                  <div class="modal-body"> 
+                      @csrf
+                      <div class="form-group mb-3">
+                          <label class="font-weight-bold">Kode Prodi</label>
+                          <input type="text" class="form-control mt-2 @error('Nama Fakultas') is-invalid @enderror" name="nama_fakultas" value="" placeholder="Masukkan Nama Fakultas">
+                          <!-- error message untuk fakultas -->
+                          @error('fakultas')
+                              <div class="alert alert-danger mt-2">
+                                  {{ $message }}
+                              </div>
+                          @enderror
+                      </div>
+
+                      <div class="form-group mb-3">
+                          <label class="font-weight-bold">Nama Prodi</label>
+                          <input type="text" class="form-control mt-2 @error('Nama Fakultas') is-invalid @enderror" name="prodi" value="" placeholder="Masukkan Nama Fakultas">
+                          <!-- error message untuk fakultas -->
+                          @error('fakultas')
+                              <div class="alert alert-danger mt-2">
+                                  {{ $message }}
+                              </div>
+                          @enderror
+                      </div>
+                      <div class="form-group mb-3">
+                          <label class="font-weight-bold">Fakultas</label>
+                          <select class="form-select mt-2 @error('Nama Fakultas') is-invalid @enderror" aria-label="fakultas" name="fakultas">
+                            <option selected>--- Pilih Fakultas ---</option>
+                            @foreach ($fakultas as $fakul)
+                              <option value="{{ $fakul->id }}">{{ $fakul->nama_fakultas }}</option>
+                            @endforeach
+                            
+                          </select>
+                          <!-- error message untuk fakultas -->
+                          @error('fakultas')
+                              <div class="alert alert-danger mt-2">
+                                  {{ $message }}
+                              </div>
+                          @enderror
+                      </div>
+
+                      <div class="form-group mb-3">
+                          <label class="font-weight-bold">Kaprodi</label>
+                          <input type="text" class="form-control mt-2 @error('Nama Fakultas') is-invalid @enderror" name="kaprodi" value="" placeholder="Masukkan Nama Fakultas">
+                          <!-- error message untuk fakultas -->
+                          @error('fakultas')
+                              <div class="alert alert-danger mt-2">
+                                  {{ $message }}
+                              </div>
+                          @enderror
+                      </div>
+
+                      <div class="form-group mb-3">
+                          <label class="font-weight-bold">Jenjang</label>
+                          <select class="form-select mt-2 @error('Nama Fakultas') is-invalid @enderror" aria-label="jenjang" name="jenjang">
+                              <option selected>--- Pilih Jenjang ---</option>
+                              <option value="sarjana">Sarjana</option>
+                              <option value="diploma">Diploma</option>
+                              <option value="magister">Magister</option>
+                          </select>
+                          <!-- error message untuk fakultas -->
+                          @error('fakultas')
+                              <div class="alert alert-danger mt-2">
+                                  {{ $message }}
+                              </div>
+                          @enderror
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="submit" class="btn btn-success">Simpan</button>
+                  </div>
+              </form> 
+          </div>
+      </div>
+  </div>
   
 
   
@@ -193,7 +276,7 @@
 </div>
 
 @section('scripts')
-<script src="{{ asset('/js/dashboard.js') }}"></script>
+<script src="{{ asset('/js/prodi.js') }}"></script>
 
 <script>
     //message with sweetalert

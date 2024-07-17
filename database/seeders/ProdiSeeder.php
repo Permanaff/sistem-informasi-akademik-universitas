@@ -15,9 +15,9 @@ class ProdiSeeder extends Seeder
     {
         DB::table('prodis')->insert([
             [
-                'id_fakultas' => '1',
-                'kode_prodi' => '1',
-                'nama_prodi' => 'informatika',
+                'id_fakultas' => 1,
+                'kode_prodi' => 'IF',
+                'nama_prodi' => 'Informatika',
                 'ka_prodi' => 'admin',
                 'jenjang' => 'sarjana',
             ],

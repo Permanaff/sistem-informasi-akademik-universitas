@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Fakultas;
 use App\Models\Prodi;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -13,6 +14,7 @@ class ProdiController extends Controller
     {
         $prodis = Prodi::with('fakultas')->latest()->paginate(10);
         // Log::info();
-        return view('admin.prodi', compact('prodis'));
+        $fakultas = Fakultas::all();
+        return view('admin.prodi', compact('prodis', 'fakultas'));
     }
 }
