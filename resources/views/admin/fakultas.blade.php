@@ -217,6 +217,7 @@
 
 @section('scripts')
 <script src="{{ asset('/js/fakultas.js') }}"></script>
+<script src="{{ asset('/js/dashboard.js') }}"></script>
 
 <script>
     //message with sweetalert

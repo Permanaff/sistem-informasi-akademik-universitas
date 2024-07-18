@@ -20,12 +20,13 @@
 }
 
 .sidebar .nav-link {
-  font-size: .875rem;
+  font-size: .885rem;
   font-weight: 500;
 }
 
 .sidebar .nav-link.active {
   color: #2470dc;
+  background-color: rgb(249, 248, 248)
 }
 
 .sidebar-heading {

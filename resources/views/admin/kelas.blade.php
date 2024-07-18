@@ -135,31 +135,25 @@
 {{-- CONTENT --}}
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Matakuliah</h1>
+    <h1 class="h2">Ruang Kelas</h1>
   </div>
 
   <div class="card border-0">
     <div class="card-body">
-        <button type="button" class="btn btn-md btn-success mb-3" id="showModalBtn">Tambah Matkul</button>
+        <button type="button" class="btn btn-md btn-success mb-3" id="showModalBtn">Tambah Kelas</button>
         <table class="table table-bordered">
             <thead>
                 <tr class="text-center">
-                    <th scope="col">Kode MK</th>
-                    <th scope="col">Prodi</th>
-                    <th scope="col">Matkul</th>
-                    <th scope="col">SKS</th>
-                    <th scope="col">Semester</th>
+                  <th scope="col">Gedung</th>
+                  <th scope="col">No.Kelas</th>
                     <th scope="col" style="width:20%;">Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse ($matkuls as $matkul)
+                @forelse ($kelas as $kls)
                     <tr>
-                        <td class="text-center">{{ $matkul->kode_matkul }}</td>
-                        <td class="text-center">{{ $matkul->prodis->nama_prodi }}</td>
-                        <td class="text-center">{{ $matkul->nama_matkul }}</td>
-                        <td class="text-center">{{ $matkul->sks }}</td>
-                        <td class="text-center">{{ $matkul->semester }}</td>
+                      <td class="text-center">{{ $kls->gedung }}</td>
+                      <td class="text-center">{{ $kls->no_kelas }}</td>
                         <td>
                             <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="#" method="POST">
                                 <a href="#" class="btn btn-sm btn-primary">EDIT</a>
@@ -171,108 +165,65 @@
                     </tr>
                 @empty
                     <div class="alert alert-danger">
-                        Data Fakultas Belum Tersedia
+                        Data Kelas Belum Tersedia
                     </div>
                 @endforelse
             </tbody>
-              
-            <p>
-
-            </p>
         </table>
     </div>
   </div>
 
-
-  <div class="modal fade" id="tambahModal" tabindex="-1" aria-labelledby="tambahModal" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-              <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Matkul</h1>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <form action="{{ route('matkul.store') }}" method="POST" enctype="multipart/form-data">
-                  <div class="modal-body"> 
-                      @csrf
-                      <div class="form-group mb-3">
-                          <label class="font-weight-bold">Kode Matkul</label>
-                          <input type="text" class="form-control mt-2 @error('kode_matkul') is-invalid @enderror" name="kode_matkul" value="" placeholder="Masukkan Kode Matkul">
-                          <!-- error message untuk fakultas -->
-                          @error('kode_matkul')
-                              <div class="alert alert-danger mt-2">
-                                  {{ $message }}
-                              </div>
-                          @enderror
-                      </div>
-
-                      <div class="form-group mb-3">
-                        <label class="font-weight-bold">Program Studi</label>
-                        <select class="form-select mt-2 @error('prodi') is-invalid @enderror" aria-label="prodi" name="prodi">
-                          <option selected>--- Pilih Program Studi ---</option>
-                          @foreach ($prodis as $prodi)
-                            <option value="{{ $prodi->id }}">{{ $prodi->nama_prodi }}</option>
-                          @endforeach
-                          
+  {{-- Modal Tambah Fakultas --}}
+  <!-- Modal -->
+    <!-- Modal -->
+<div class="modal fade" id="tambahModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Kelas</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="#" method="POST" enctype="multipart/form-data">
+                <div class="modal-body"> 
+                    @csrf
+                    <div class="form-group mb-3">
+                        <label class="font-weight-bold">Gedung</label>
+                        <select class="form-select mt-2 @error('fakultas') is-invalid @enderror" aria-label="gedung" name="gedung">
+                          <option selected>--- Pilih Gedung ---</option>
+                          <option value="K1">Kampus 1</option>
+                          <option value="K2">Kampus 2</option>
+                          <option value="K3">Kampus 3</option>
                         </select>
+                    
                         <!-- error message untuk fakultas -->
-                        @error('prodi')
+                        @error('gedung')
                             <div class="alert alert-danger mt-2">
                                 {{ $message }}
                             </div>
                         @enderror
                     </div>
 
-                      <div class="form-group mb-3">
-                          <label class="font-weight-bold">Matakuliah</label>
-                          <input type="text" class="form-control mt-2 @error('matkul') is-invalid @enderror" name="matkul" value="" placeholder="Masukkan Matakuliah">
-                          <!-- error message untuk fakultas -->
-                          @error('matkul')
-                              <div class="alert alert-danger mt-2">
-                                  {{ $message }}
-                              </div>
-                          @enderror
-                      </div>
-                      
+                    <div class="form-group mb-3">
+                        <label class="font-weight-bold">No. Kelas</label>
+                        <input type="text" class="form-control mt-2 @error('kelas') is-invalid @enderror" name="kelas" value="" placeholder="Masukkan Nomor Kelas">
+                    
+                        <!-- error message untuk fakultas -->
+                        @error('kelas')
+                            <div class="alert alert-danger mt-2">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
 
-                      <div class="form-group mb-3">
-                          <label class="font-weight-bold">SKS</label>
-                          <input type="number" class="form-control mt-2 @error('sks') is-invalid @enderror" name="sks" value="" placeholder="Masukkan Jumlah SKS">
-                          <!-- error message untuk fakultas -->
-                          @error('sks')
-                              <div class="alert alert-danger mt-2">
-                                  {{ $message }}
-                              </div>
-                          @enderror
-                      </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Simpan</button>
+                </div>
+            </form> 
+        </div>
+    </div>
+</div>
 
-                      <div class="form-group mb-3">
-                          <label class="font-weight-bold">Semester</label>
-                          <select class="form-select mt-2 @error('smt') is-invalid @enderror" aria-label="smt" name="smt">
-                              <option selected>--- Pilih Semster ---</option>
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                              <option value="4">4</option>
-                              <option value="5">5</option>
-                              <option value="6">6</option>
-                              <option value="7">7</option>
-                              <option value="8">8</option>
-                          </select>
-                          <!-- error message untuk fakultas -->
-                          @error('smt')
-                              <div class="alert alert-danger mt-2">
-                                  {{ $message }}
-                              </div>
-                          @enderror
-                      </div>
-                  </div>
-                  <div class="modal-footer">
-                      <button type="submit" class="btn btn-success">Simpan</button>
-                  </div>
-              </form> 
-          </div>
-      </div>
-  </div>
   
 
   
@@ -282,7 +233,7 @@
 </div>
 
 @section('scripts')
-<script src="{{ asset('/js/prodi.js') }}"></script>
+<script src="{{ asset('/js/fakultas.js') }}"></script>
 <script src="{{ asset('/js/dashboard.js') }}"></script>
 
 <script>
@@ -304,6 +255,14 @@
             timer: 2000
         });
     @endif
+
+    // document.addEventListener("DOMContentLoaded", function(event) { 
+    //     // const tambahModal = document.getElementById('exampleModal')
+    //     const myModal = new bootstrap.Modal(document.getElementById('exampleModal'), options)
+    // });
+
+
+
 </script>
 
 
