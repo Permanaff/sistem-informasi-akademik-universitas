@@ -10,7 +10,7 @@ class Prodi extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id_fakultas', 'kode_prodi', 'prodi', 'ka_prodi', 'jenjang'
+        'id_fakultas', 'kode_prodi', 'nama_prodi', 'ka_prodi', 'jenjang'
     ];
 
     protected $hidden = [
@@ -27,8 +27,8 @@ class Prodi extends Model
     // 	return $this->belongsTo(Dosen::class,'ka_prodi');
     // }
 
-    // public function matkuls()
-    // {
-    //     return $this->hasMany(Matkul::class,'id_prodi');
-    // }
+    public function matkuls()
+    {
+        return $this->hasMany(Matkul::class,'id_prodi');
+    }
 }

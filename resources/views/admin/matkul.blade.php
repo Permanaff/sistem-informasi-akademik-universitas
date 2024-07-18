@@ -135,32 +135,31 @@
 {{-- CONTENT --}}
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Program Studi</h1>
+    <h1 class="h2">Matakuliah</h1>
   </div>
 
   <div class="card border-0">
     <div class="card-body">
-        <button type="button" class="btn btn-md btn-success mb-3" id="showModalBtn">Tambah Prodi</button>
-        {{ $prodis }}
+        <button type="button" class="btn btn-md btn-success mb-3" id="showModalBtn">Tambah Matkul</button>
         <table class="table table-bordered">
             <thead>
                 <tr class="text-center">
-                    <th scope="col">Kode Prodi</th>
+                    <th scope="col">Kode MK</th>
                     <th scope="col">Prodi</th>
-                    <th scope="col">Fakultas</th>
-                    <th scope="col">Kaprodi</th>
-                    <th scope="col">Jenjang</th>
+                    <th scope="col">Matkul</th>
+                    <th scope="col">SKS</th>
+                    <th scope="col">Semester</th>
                     <th scope="col" style="width:20%;">Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse ($prodis as $prodi)
+                @forelse ($matkuls as $matkul)
                     <tr>
-                        <td class="text-center">{{ $prodi->kode_prodi }}</td>
-                        <td class="text-center">{{ $prodi->nama_prodi }}</td>
-                        <td class="text-center">{{ $prodi->fakultas->nama_fakultas }}</td>
-                        <td class="text-center">{{ $prodi->ka_prodi }}</td>
-                        <td class="text-center">{{ $prodi->jenjang }}</td>
+                        <td class="text-center">{{ $matkul->kode_matkul }}</td>
+                        <td class="text-center">{{ $matkul->prodis->nama_prodi }}</td>
+                        <td class="text-center">{{ $matkul->nama_matkul }}</td>
+                        <td class="text-center">{{ $matkul->sks }}</td>
+                        <td class="text-center">{{ $matkul->semester }}</td>
                         <td>
                             <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="#" method="POST">
                                 <a href="#" class="btn btn-sm btn-primary">EDIT</a>
@@ -189,17 +188,17 @@
       <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
               <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Fakultas</h1>
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Matkul</h1>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
-              <form action="{{ route('prodi.store') }}" method="POST" enctype="multipart/form-data">
+              <form action="{{ route('matkul.store') }}" method="POST" enctype="multipart/form-data">
                   <div class="modal-body"> 
                       @csrf
                       <div class="form-group mb-3">
-                          <label class="font-weight-bold">Kode Prodi</label>
-                          <input type="text" class="form-control mt-2 @error('Nama Fakultas') is-invalid @enderror" name="kode_prodi" value="" placeholder="Masukkan Nama Fakultas">
+                          <label class="font-weight-bold">Kode Matkul</label>
+                          <input type="text" class="form-control mt-2 @error('kode_matkul') is-invalid @enderror" name="kode_matkul" value="" placeholder="Masukkan Kode Matkul">
                           <!-- error message untuk fakultas -->
-                          @error('fakultas')
+                          @error('kode_matkul')
                               <div class="alert alert-danger mt-2">
                                   {{ $message }}
                               </div>
@@ -207,53 +206,60 @@
                       </div>
 
                       <div class="form-group mb-3">
-                          <label class="font-weight-bold">Nama Prodi</label>
-                          <input type="text" class="form-control mt-2 @error('prodi') is-invalid @enderror" name="nama_prodi" value="" placeholder="Masukkan Nama Prodi">
+                        <label class="font-weight-bold">Program Studi</label>
+                        <select class="form-select mt-2 @error('prodi') is-invalid @enderror" aria-label="prodi" name="prodi">
+                          <option selected>--- Pilih Program Studi ---</option>
+                          @foreach ($prodis as $prodi)
+                            <option value="{{ $prodi->id }}">{{ $prodi->nama_prodi }}</option>
+                          @endforeach
+                          
+                        </select>
+                        <!-- error message untuk fakultas -->
+                        @error('prodi')
+                            <div class="alert alert-danger mt-2">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+
+                      <div class="form-group mb-3">
+                          <label class="font-weight-bold">Matakuliah</label>
+                          <input type="text" class="form-control mt-2 @error('matkul') is-invalid @enderror" name="matkul" value="" placeholder="Masukkan Matakuliah">
                           <!-- error message untuk fakultas -->
-                          @error('prodi')
+                          @error('matkul')
                               <div class="alert alert-danger mt-2">
                                   {{ $message }}
                               </div>
                           @enderror
                       </div>
+                      
+
                       <div class="form-group mb-3">
-                          <label class="font-weight-bold">Fakultas</label>
-                          <select class="form-select mt-2 @error('fakultas') is-invalid @enderror" aria-label="fakultas" name="fakultas">
-                            <option selected>--- Pilih Fakultas ---</option>
-                            @foreach ($fakultas as $fakul)
-                              <option value="{{ $fakul->id }}">{{ $fakul->nama_fakultas }}</option>
-                            @endforeach
-                            
+                          <label class="font-weight-bold">SKS</label>
+                          <input type="number" class="form-control mt-2 @error('sks') is-invalid @enderror" name="sks" value="" placeholder="Masukkan Jumlah SKS">
+                          <!-- error message untuk fakultas -->
+                          @error('sks')
+                              <div class="alert alert-danger mt-2">
+                                  {{ $message }}
+                              </div>
+                          @enderror
+                      </div>
+
+                      <div class="form-group mb-3">
+                          <label class="font-weight-bold">Semester</label>
+                          <select class="form-select mt-2 @error('smt') is-invalid @enderror" aria-label="smt" name="smt">
+                              <option selected>--- Pilih Semster ---</option>
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                              <option value="4">4</option>
+                              <option value="5">5</option>
+                              <option value="6">6</option>
+                              <option value="7">7</option>
+                              <option value="8">8</option>
                           </select>
                           <!-- error message untuk fakultas -->
-                          @error('fakultas')
-                              <div class="alert alert-danger mt-2">
-                                  {{ $message }}
-                              </div>
-                          @enderror
-                      </div>
-
-                      <div class="form-group mb-3">
-                          <label class="font-weight-bold">Kaprodi</label>
-                          <input type="text" class="form-control mt-2 @error('ka_prodi') is-invalid @enderror" name="ka_prodi" value="" placeholder="Masukkan Nama Fakultas">
-                          <!-- error message untuk fakultas -->
-                          @error('ka_prodi')
-                              <div class="alert alert-danger mt-2">
-                                  {{ $message }}
-                              </div>
-                          @enderror
-                      </div>
-
-                      <div class="form-group mb-3">
-                          <label class="font-weight-bold">Jenjang</label>
-                          <select class="form-select mt-2 @error('jenjang') is-invalid @enderror" aria-label="jenjang" name="jenjang">
-                              <option selected>--- Pilih Jenjang ---</option>
-                              <option value="sarjana">Sarjana</option>
-                              <option value="diploma">Diploma</option>
-                              <option value="magister">Magister</option>
-                          </select>
-                          <!-- error message untuk fakultas -->
-                          @error('jenjang')
+                          @error('smt')
                               <div class="alert alert-danger mt-2">
                                   {{ $message }}
                               </div>

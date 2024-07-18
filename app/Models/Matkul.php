@@ -10,7 +10,7 @@ class Matkul extends Model
     use HasFactory;
 
     protected $fillable = [
-        'kode', 'matkul', 'sks', 'kategori', 'smt', 'semester', 'id_prodi'
+        'kode_matkul', 'id_prodi', 'nama_matkul', 'sks', 'semester'
     ];
 
     protected $hidden = [
@@ -19,7 +19,7 @@ class Matkul extends Model
 
     public function prodis()
     {
-        return $this->belongsTo(Prodi::class);
+        return $this->belongsTo(Prodi::class, 'id_prodi', 'id');
     }
 
     // public function schedules()

@@ -19,7 +19,6 @@ class FakultasController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        Log::debug($request->nama_fakultas);
         // Validasi 
         $request->validate([
             'nama_fakultas' => 'required'
