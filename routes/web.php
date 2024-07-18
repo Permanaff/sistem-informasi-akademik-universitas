@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FakultasController;
+use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\MatkulController;
 use App\Http\Controllers\ProdiController;
@@ -20,5 +21,6 @@ Route::resource('/adm/prodi', ProdiController::class );
 Route::resource('/prodi', ProdiController::class );
 Route::resource('/adm/matkul', MatkulController::class );
 Route::resource('/adm/kelas', KelasController::class );
+Route::resource('/adm/jadwal', JadwalController::class );
 
 

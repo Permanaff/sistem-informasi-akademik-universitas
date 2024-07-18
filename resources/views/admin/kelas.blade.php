@@ -183,12 +183,12 @@
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Kelas</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="#" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('kelas.store') }}" method="POST" enctype="multipart/form-data">
                 <div class="modal-body"> 
                     @csrf
                     <div class="form-group mb-3">
                         <label class="font-weight-bold">Gedung</label>
-                        <select class="form-select mt-2 @error('fakultas') is-invalid @enderror" aria-label="gedung" name="gedung">
+                        <select class="form-select mt-2 @error('gedung') is-invalid @enderror" aria-label="gedung" name="gedung">
                           <option selected>--- Pilih Gedung ---</option>
                           <option value="K1">Kampus 1</option>
                           <option value="K2">Kampus 2</option>

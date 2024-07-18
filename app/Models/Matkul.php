@@ -22,8 +22,8 @@ class Matkul extends Model
         return $this->belongsTo(Prodi::class, 'id_prodi', 'id');
     }
 
-    // public function schedules()
-    // {
-    //     return $this->hasMany(Schedule::class,'id_matkul');
-    // }
+    public function jadwal()
+    {
+        return $this->hasMany(Jadwal::class,'id_matkul');
+    }
 }
