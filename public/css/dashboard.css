@@ -47,3 +47,31 @@
 .navbar .form-control {
   padding: .75rem 1rem;
 }
+
+.btn-icon-primary {
+  background-color: DodgerBlue; /* Blue background */
+  border: none; /* Remove borders */
+  color: white; /* White text */
+  padding: 3px 8px; /* Some padding */
+  font-size: 16px; /* Set a font size */
+  cursor: pointer; /* Mouse pointer on hover */
+}
+
+/* Darker background on mouse-over */
+.btn-icon-primary:hover {
+  background-color: RoyalBlue;
+}
+
+.btn-icon-danger {
+  background-color: #dc3545; /* Blue background */
+  border: none; /* Remove borders */
+  color: white; /* White text */
+  padding: 3px 8px; /* Some padding */
+  font-size: 16px; /* Set a font size */
+  cursor: pointer; /* Mouse pointer on hover */
+}
+
+/* Darker background on mouse-over */
+.btn-icon-danger:hover {
+  background-color: #c82333;
+}

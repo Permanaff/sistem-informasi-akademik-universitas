@@ -157,10 +157,10 @@
                 @forelse ($prodis as $prodi)
                     <tr>
                         <td class="text-center">{{ $prodi->kode_prodi }}</td>
-                        <td class="text-center">{{ $prodi->nama_prodi }}</td>
+                        <td class="text-center">{{ Str::title($prodi->nama_prodi) }}</td>
                         <td class="text-center">{{ $prodi->fakultas->nama_fakultas }}</td>
-                        <td class="text-center">{{ $prodi->ka_prodi }}</td>
-                        <td class="text-center">{{ $prodi->jenjang }}</td>
+                        <td class="text-center">{{ Str::title($prodi->ka_prodi) }}</td>
+                        <td class="text-center">{{ Str::title($prodi->jenjang) }}</td>
                         <td>
                             <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="#" method="POST">
                                 <a href="#" class="btn btn-sm btn-primary">EDIT</a>
