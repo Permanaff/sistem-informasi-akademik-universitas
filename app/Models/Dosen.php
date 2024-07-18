@@ -5,25 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Fakultas extends Model
+class Dosen extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'nama_fakultas',
+        'nidn', 'nama', 'tempat_lahir', 'alamat', 'agama', 'notelp', 'email', 'jk', 'id_fakultas', 'photo'
     ];
 
     protected $hidden = [
         
     ];
 
-    public function prodi()
+    public function fakultas()
     {
-        return $this->hasMany(Prodi::class,'id_fakultas');
-    }
-
-    public function dosens()
-    {
-        return $this->hasMany(Dosen::class,'id_fakultas');
+        return $this->belongsTo(Fakultas::class,'id_fakultas','id');
     }
 }

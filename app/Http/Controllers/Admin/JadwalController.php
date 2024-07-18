@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
 
 use App\Models\Jadwal;
 use App\Models\Kelas;
@@ -31,7 +33,6 @@ class JadwalController extends Controller
 
     public function store(Request $request): RedirectResponse
     {   
-        Log::info($request);
         $request->validate([
             'matkul' => 'required',
             'ruang' => 'required',
