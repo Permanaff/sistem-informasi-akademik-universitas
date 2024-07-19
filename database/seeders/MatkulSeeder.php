@@ -19,6 +19,8 @@ class MatkulSeeder extends Seeder
             'nama_matkul' => 'Pemrogram Web', 
             'sks' => 3,
             'semester' => '3',
+            'created_at' => now(),
+                'updated_at' => now(),
         ]);
     }
 }

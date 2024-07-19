@@ -6,24 +6,28 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class FakultasSeeder extends Seeder
+class TahunAjarSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        DB::table('fakultas')->insert([
+        DB::table('tahun_ajars')->insert([
             [
-                'nama_fakultas' => 'Sains dan Teknologi',
+                'tahun_ajaran' => '2023/2024',
+                'semester' => 'ganjil',
+                'status' => 'non-aktif',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'nama_fakultas' => 'Bisnis dan Humaniora',
+                'tahun_ajaran' => '2023/2024',
+                'semester' => 'genap',
+                'status' => 'aktif',
                 'created_at' => now(),
                 'updated_at' => now(),
-            ]
+            ],
         ]);
     }
 }

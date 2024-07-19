@@ -20,6 +20,8 @@ class ProdiSeeder extends Seeder
                 'nama_prodi' => 'Informatika',
                 'ka_prodi' => 'admin',
                 'jenjang' => 'sarjana',
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
         ]);
     }

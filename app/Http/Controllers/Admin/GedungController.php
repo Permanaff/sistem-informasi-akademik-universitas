@@ -3,17 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-
-use App\Models\Kelas;
-use Illuminate\Contracts\View\View;
+use App\Models\Gedung;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
-class KelasController extends Controller
+class GedungController extends Controller
 {
     public function index() : View 
     {
-        $kelas = Kelas::all();
+        $kelas = Gedung::all();
 
         return view('admin.kelas', compact('kelas'));
     }
@@ -25,7 +24,7 @@ class KelasController extends Controller
             'kelas' => 'required'
         ]);
 
-        Kelas::create([
+        Gedung::create([
             'gedung' => $request->gedung,
             'no_kelas' => $request->kelas
         ]);

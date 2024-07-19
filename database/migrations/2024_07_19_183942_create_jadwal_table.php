@@ -18,8 +18,12 @@ return new class extends Migration
                 indexName: 'jadwal_id_matkul'
             );
             $table->foreignId('id_kelas')->constrained(
-                table: 'kelas',
+                table: 'gedungs',
                 indexName: 'jadwal_id_kelas'
+            );
+            $table->foreignId('id_ta')->constrained(
+                table: 'tahun_ajars',
+                indexName: 'jadwals_id_ta'
             );
             $table->string("kls");
             $table->enum('hari', ['senin', 'selasa', 'rabu', 'kamis', 'jumat', 'sabtu']);

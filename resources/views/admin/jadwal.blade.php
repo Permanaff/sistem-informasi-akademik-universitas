@@ -149,6 +149,7 @@
                     <th class="text-center" scope="col">Matakuliah</th>
                     <th class="text-center" scope="col">SKS</th>
                     <th class="text-center" scope="col">SMT</th>
+                    <th class="text-center" scope="col">Tahun Ajar</th>
                     <th class="text-center" scope="col">KLS</th>
                     <th class="text-center" scope="col">Kuota</th>
                     <th class="text-center" scope="col">Jadwal</th>
@@ -162,9 +163,10 @@
                     <td class="text-center">{{ $jadwal->matkul->nama_matkul }}</td>
                     <td class="text-center">{{ $jadwal->matkul->sks }}</td>
                     <td class="text-center">{{ $jadwal->matkul->semester }}</td>
+                    <td class="text-center">{{ $jadwal->tahun_ajar->tahun_ajaran}}</td>
                     <td class="text-center">{{ $jadwal->kls}}</td>
                     <td class="text-center">{{ $jadwal->kuota }}</td>
-                    <td class="text-center">({{ Str::title($jadwal->hari) }}) {{ $jadwal->formatted_jam_mulai }}-{{ $jadwal->formatted_jam_selesai }} ({{ $jadwal->kelas->gedung }}-{{ $jadwal->kelas->no_kelas }})</td>
+                    <td class="text-center">({{ Str::title($jadwal->hari) }}) {{ $jadwal->formatted_jam_mulai }}-{{ $jadwal->formatted_jam_selesai }} ({{ $jadwal->gedungs->gedung }}-{{ $jadwal->gedungs->no_ruang }})</td>
                     <td>
                       <div class="d-flex justify-content-center"> 
                         <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="#" method="POST">
@@ -218,7 +220,7 @@
                           <select class="form-select mt-2 @error('ruang') is-invalid @enderror" aria-label="ruang" name="ruang">
                             <option selected>--- Pilih Ruang Kelas ---</option>
                             @foreach ($kelas as $kls)
-                              <option value="{{ $kls->id }}">{{ $kls->gedung }}-{{ $kls->no_kelas }}</option>
+                              <option value="{{ $kls->id }}">{{ $kls->gedung }}-{{ $kls->no_ruang }}</option>
                             @endforeach
                           </select>
                           <!-- error message untuk fakultas -->

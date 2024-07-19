@@ -169,13 +169,12 @@
                         <td>
                           <div class="d-flex justify-content-center">
                             <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="#" method="POST">
-                                {{-- <a href="#" class="btn btn-sm btn-primary">EDIT</a> --}}
-                                <a href="#" class="btn btn-icon-primary"><i class="bi bi-info-square"></i></a>
-                                <a href="#" class="btn btn-icon-primary"><i class="bi bi-pencil-square"></i></a>
+                                <button class="btn btn-icon-primary"><i class="fa fa-info-circle"></i></button>
+                                <button class="btn btn-icon-primary"><i class="fa fa-pencil-square-o"></i></button>
                                 @csrf
                                 @method('DELETE')
                                 {{-- <button type="submit" class="btn btn-sm btn-danger">HAPUS</button> --}}
-                                <button type="submit" class="btn btn-sm btn-icon-danger"><i class="bi bi-trash3-fill"></i></button>
+                                <button type="submit" class="btn btn-sm btn-icon-danger"><i class="fa fa-trash"></i></button>
                             </form>
                           </div>
                         </td>
