@@ -21,4 +21,14 @@ class Dosen extends Model
     {
         return $this->belongsTo(Fakultas::class,'id_fakultas','id');
     }
+
+    public function jadwal()
+    {
+        return $this->hasMany(Jadwal::class,'id_jadwal');
+    }
+
+    public function kelas()
+    {
+        return $this->hasOne(Jadwal::class,'id_dosen');
+    }
 }

@@ -78,6 +78,10 @@
   .bd-mode-toggle .dropdown-menu .active .bi {
     display: block !important;
   }
+
+  .datatable-info {
+    visibility: hidden;
+  }
 </style>
 
 
@@ -85,6 +89,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
 <!-- Custom styles for this template -->
 <link href="{{ asset('/css/dashboard.css') }}" rel="stylesheet">
+<link href="{{ asset('/css/admin/tables.css') }}" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
 @endsection
 
@@ -150,6 +155,7 @@
                     <th class="text-center" scope="col">SKS</th>
                     <th class="text-center" scope="col">SMT</th>
                     <th class="text-center" scope="col">Tahun Ajar</th>
+                    <th class="text-center" scope="col">Dosen</th>
                     <th class="text-center" scope="col">KLS</th>
                     <th class="text-center" scope="col">Kuota</th>
                     <th class="text-center" scope="col">Jadwal</th>
@@ -164,6 +170,7 @@
                     <td class="text-center">{{ $jadwal->matkul->sks }}</td>
                     <td class="text-center">{{ $jadwal->matkul->semester }}</td>
                     <td class="text-center">{{ $jadwal->tahun_ajar->tahun_ajaran}}</td>
+                    <td class="text-center">{{ $jadwal->dosen->nama}}</td>
                     <td class="text-center">{{ $jadwal->kls}}</td>
                     <td class="text-center">{{ $jadwal->kuota }}</td>
                     <td class="text-center">({{ Str::title($jadwal->hari) }}) {{ $jadwal->formatted_jam_mulai }}-{{ $jadwal->formatted_jam_selesai }} ({{ $jadwal->gedungs->gedung }}-{{ $jadwal->gedungs->no_ruang }})</td>
@@ -216,6 +223,22 @@
                       </div>
 
                       <div class="form-group mb-3">
+                          <label class="font-weight-bold">Dosen</label>
+                          <select class="form-select mt-2 @error('dosen') is-invalid @enderror" aria-label="dosen" name="dosen">
+                            <option selected>--- Pilih Dosen Pengampu ---</option>
+                            @foreach ($dosen as $dsn)
+                              <option value="{{ $dsn->id }}">{{ $dsn->nama }}</option>
+                            @endforeach
+                          </select>
+                          <!-- error message untuk fakultas -->
+                          @error('dosen')
+                              <div class="alert alert-danger mt-2">
+                                  {{ $message }}
+                              </div>
+                          @enderror
+                      </div>
+                    
+                      <div class="form-group mb-3">
                           <label class="font-weight-bold">Ruang Kelas</label>
                           <select class="form-select mt-2 @error('ruang') is-invalid @enderror" aria-label="ruang" name="ruang">
                             <option selected>--- Pilih Ruang Kelas ---</option>
@@ -231,7 +254,6 @@
                           @enderror
                       </div>
                     
-
                       <div class="form-group mb-3">
                           <label class="font-weight-bold">Kelas</label>
                           <input type="text" class="form-control mt-2 @error('kelas') is-invalid @enderror" name="kelas" value="" placeholder="Masukkan Kelas Jadwal">

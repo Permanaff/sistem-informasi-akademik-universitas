@@ -29,6 +29,9 @@ class DatabaseSeeder extends Seeder
             DosenSeeder::class,
             TahunAjarSeeder::class,
             KalenderAkademikSeeder::class,
+            JadwalSeeder::class,
+            KelasSeeder::class,
+            MahasiswaSeeder::class,
         ]);
     }
 }

@@ -22,7 +22,7 @@
           </h6>
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-2" href="/adm/fakultas">
+            <a class="nav-link d-flex align-items-center gap-2" href="/dsn/presensi">
               <i class="bi bi-building"></i>
               Buat Presensi
             </a>

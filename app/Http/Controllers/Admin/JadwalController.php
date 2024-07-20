@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Dosen;
 use App\Models\Gedung;
 use App\Models\Jadwal;
 use App\Models\Matkul;
@@ -17,7 +18,7 @@ class JadwalController extends Controller
 {
     public function index() : View 
     {
-        $jadwals = Jadwal::with('matkul', 'gedungs', 'tahun_ajar')->latest()->get();
+        $jadwals = Jadwal::with('matkul', 'gedungs', 'tahun_ajar', 'dosen')->latest()->get();
 
         foreach ($jadwals as $jadwal) {
             $jadwal->formatted_jam_mulai = Carbon::parse($jadwal->jam_mulai)->format('H:i');
@@ -25,14 +26,16 @@ class JadwalController extends Controller
         }
         $matkuls = Matkul::all();
         $kelas = Gedung::all();
+        $dosen = Dosen::all();
 
-        return view('admin.jadwal', compact('jadwals' ,'matkuls', 'kelas'));
+        return view('admin.jadwal', compact('jadwals' ,'matkuls', 'kelas', 'dosen'));
     }
 
     public function store(Request $request): RedirectResponse
     {   
         $request->validate([
             'matkul' => 'required',
+            'dosen' => 'required',
             'ruang' => 'required',
             'kelas' => 'required',
             'hari' => 'required',
@@ -47,6 +50,7 @@ class JadwalController extends Controller
             'id_matkul' => $request->matkul,
             'id_kelas' => $request->ruang,
             'id_ta' => $id_ta,
+            'id_dosen' => $request->dosen,
             'kls' => $request->kelas,
             'hari' => $request->hari,
             'jam_mulai' => $request->mulai,

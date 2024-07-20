@@ -78,6 +78,7 @@
   .bd-mode-toggle .dropdown-menu .active .bi {
     display: block !important;
   }
+
 </style>
 
 
@@ -85,6 +86,8 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
 <!-- Custom styles for this template -->
 <link href="{{ asset('/css/dashboard.css') }}" rel="stylesheet">
+<link href="{{ asset('/css/admin/tables.css') }}" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
 @endsection
 
 @section('content')
@@ -135,37 +138,61 @@
 {{-- CONTENT --}}
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Ruang Kelas</h1>
+    <h1 class="h2">Mahasiswa</h1>
   </div>
 
   <div class="card border-0">
     <div class="card-body">
-        <button type="button" class="btn btn-md btn-success mb-3" id="showModalBtn">Tambah Kelas</button>
-        <table class="table table-bordered">
+        <button type="button" class="btn btn-md btn-success mb-3" id="showModalBtn">Tambah Mahasiswa</button>
+        <table class="table table-bordered table-striped" id="MahasiswaTable">
             <thead>
                 <tr class="text-center">
-                  <th scope="col">Gedung</th>
-                  <th scope="col">No.Kelas</th>
-                    <th scope="col" style="width:20%;">Aksi</th>
+                    <th scope="col">NPM</th>
+                    <th scope="col">Nama Lengkap</th>
+                    <th scope="col">Prodi</th>
+                    <th scope="col">TTL</th>
+                    <th scope="col">Alamat</th>
+                    <th scope="col">Agama</th>
+                    <th scope="col">No. Telp</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Kelas</th>
+                    <th scope="col">Angkatan</th>
+                    <th scope="col">Jenis Kelamin</th>
+                    <th scope="col">Status</th>
+                    <th scope="col" style="width:12%;">Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse ($kelas as $kls)
+                @forelse ($mahasiswa as $maha)
                     <tr>
-                      <td class="text-center">{{ $kls->gedung }}</td>
-                      <td class="text-center">{{ $kls->no_ruang }}</td>
+                        <td class="text-center">{{ $maha->nim }}</td>
+                        <td class="text-center">{{ $maha->nama }}</td>
+                        <td class="text-center">{{ Str::title($maha->prodi->nama_prodi) }}</td>
+                        <td class="text-center">{{ $maha->tempat_lahir }}, {{ $maha->tanggal_lahir }}</td>
+                        <td class="text-center">{{ $maha->alamat }}</td>
+                        <td class="text-center">{{ Str::title($maha->agama) }}</td>
+                        <td class="text-center">{{ $maha->notelp }}</td>
+                        <td class="text-center">{{ $maha->email }}</td>
+                        <td class="text-center">{{ $maha->kelas->nama }}</td>
+                        <td class="text-center">{{ $maha->kelas->angkatan }}</td>
+                        <td class="text-center">{{ Str::title($maha->jk) }}</td>
+                        <td class="text-center">{{ Str::title($maha->status) }}</td>
                         <td>
+                          <div class="d-flex justify-content-center">
                             <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="#" method="POST">
-                                <a href="#" class="btn btn-sm btn-primary">EDIT</a>
+                                <button class="btn btn-icon-primary"><i class="fa fa-info-circle"></i></button>
+                                <button class="btn btn-icon-primary"><i class="fa fa-pencil-square-o"></i></button>
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger">HAPUS</button>
+                                {{-- <button type="submit" class="btn btn-sm btn-danger">HAPUS</button> --}}
+                                <button type="submit" class="btn btn-sm btn-icon-danger"><i class="fa fa-trash"></i></button>
                             </form>
+                          </div>
                         </td>
                     </tr>
                 @empty
                     <div class="alert alert-danger">
-                        Data Kelas Belum Tersedia
+                        Data Fakultas Belum Tersedia
                     </div>
                 @endforelse
             </tbody>
@@ -180,40 +207,23 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Kelas</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Fakultas</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="{{ route('kelas.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('fakultas.store') }}" method="POST" enctype="multipart/form-data">
                 <div class="modal-body"> 
                     @csrf
-                    <div class="form-group mb-3">
-                        <label class="font-weight-bold">Gedung</label>
-                        <select class="form-select mt-2 @error('gedung') is-invalid @enderror" aria-label="gedung" name="gedung">
-                          <option selected>--- Pilih Gedung ---</option>
-                          <option value="K1">Kampus 1</option>
-                          <option value="K2">Kampus 2</option>
-                          <option value="K3">Kampus 3</option>
-                        </select>
+                    {{-- <div class="form-group mb-3">
+                        <label class="font-weight-bold">Nama Fakultas</label>
+                        <input type="text" class="form-control mt-2 @error('Nama Fakultas') is-invalid @enderror" name="nama_fakultas" value="" placeholder="Masukkan Nama Fakultas">
                     
                         <!-- error message untuk fakultas -->
-                        @error('gedung')
+                        @error('fakultas')
                             <div class="alert alert-danger mt-2">
                                 {{ $message }}
                             </div>
                         @enderror
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label class="font-weight-bold">No. Kelas</label>
-                        <input type="text" class="form-control mt-2 @error('kelas') is-invalid @enderror" name="kelas" value="" placeholder="Masukkan Nomor Kelas">
-                    
-                        <!-- error message untuk fakultas -->
-                        @error('kelas')
-                            <div class="alert alert-danger mt-2">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                    </div>
+                    </div> --}}
 
                 </div>
                 <div class="modal-footer">
@@ -233,8 +243,10 @@
 </div>
 
 @section('scripts')
-<script src="{{ asset('/js/fakultas.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
+{{-- <script src="{{ asset('/js/fakultas.js') }}"></script> --}}
 <script src="{{ asset('/js/dashboard.js') }}"></script>
+<script src="{{ asset('/js/admin/mahasiswa.js') }}"></script>
 
 <script>
     //message with sweetalert
