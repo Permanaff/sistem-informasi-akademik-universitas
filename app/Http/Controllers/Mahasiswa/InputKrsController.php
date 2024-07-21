@@ -26,7 +26,6 @@ class InputKrsController extends Controller
         }
 
         $ta = TahunAjar::all()->where('status', 'aktif');
-        Log::info($krs);
         return view('mahasiswa.inputkrs', compact('krs', 'ta'));
     }   
     
@@ -60,24 +59,24 @@ class InputKrsController extends Controller
 
     public function store(Request $request)
     {
-        Log::info($request);
         $request->validate([
             'matkul_ids' => 'required|array',
         ]);
-        Log::info('a');
         // $mahasiswaId = auth()->id(); // Asumsi mahasiswa sudah login
         $mahasiswaId = '1';
-        Log::info('b');
 
         foreach ($request->matkul_ids as $matkulId) {
-            Log::info($mahasiswaId);
-            Log::info($matkulId);
+            $jadwal = Jadwal::findOrFail($matkulId);
+            
+            $jadwal->update([
+                'kuota' => $jadwal->kuota - 1
+            ]);
+
             Krs::create([
                 'id_mahasiswa' => $mahasiswaId,
                 'id_jadwal' => $matkulId,
             ]);
         }
-        Log::info('c');
 
         return redirect('/std/krs')->with('success', 'KRS berhasil disimpan.');
 

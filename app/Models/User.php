@@ -4,6 +4,8 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -17,9 +19,9 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
+        'no_induk',
         'password',
+        'role',
     ];
 
     /**
@@ -44,4 +46,27 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // public function dosens() : HasOne
+    // {
+    //     return $this->hasOne(Dosen::class,'nidn', 'no_induk');
+    // }
+
+    // public function mahasiswas()
+    // {
+    //     return $this->hasOne(Mahasiswa::class,'nim', 'no_induk');
+    // }
+
+    // public function getRoleData()
+    // {
+    //     switch ($this->role) {
+    //         case 'dosen':
+    //             return $this->dosen;
+    //         case 'mahasiswa':
+    //             return $this->mahasiswa;
+    //         default:
+    //             return null;
+    //     }
+    // }
+
 }

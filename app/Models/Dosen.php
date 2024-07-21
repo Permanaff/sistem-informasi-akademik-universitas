@@ -17,6 +17,11 @@ class Dosen extends Model
         
     ];
 
+    // public function users()
+    // {
+    //     return $this->belongsTo(User::class,'no_induk','nidn');
+    // }
+
     public function fakultas()
     {
         return $this->belongsTo(Fakultas::class,'id_fakultas','id');

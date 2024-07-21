@@ -21,6 +21,7 @@ return new class extends Migration
                 table: 'jadwals',
                 indexName: 'krs_id_jadwal'
             );
+            $table->enum('status', ['acc', 'belum-acc', 'ditolak']);
             $table->timestamps();
         });
     }

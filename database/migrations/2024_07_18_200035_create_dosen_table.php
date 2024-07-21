@@ -17,7 +17,8 @@ return new class extends Migration
                 table: 'fakultas',
                 indexName: 'dosen_id_fakultas'
             );
-            $table->integer('nidn');
+            $table->string('nidn', 10)->unique();
+            // $table->foreign('nidn')->references('no_induk')->on('users');      
             $table->string('nama');
             $table->string('tempat_lahir');
             $table->date('tanggal_lahir');

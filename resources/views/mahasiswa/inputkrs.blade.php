@@ -158,15 +158,16 @@
         <table class="table table-bordered table-striped" id="jadwalTable">
             <thead>
                 <tr>
-                    <th class="text-center" scope="col" style="min-width: 70px">Kode MK</th>
+                    <th class="text-center" scope="col" style="min-width: 50px">Kode MK</th>
                     <th class="text-center" scope="col" style="min-width: 350px">Matakuliah</th>
-                    <th class="text-center" scope="col" style="min-width: 70px">SKS</th>
-                    <th class="text-center" scope="col" style="min-width: 70px">SMT</th>
-                    <th class="text-center" scope="col" style="min-width: 70px">Tahun Ajar</th>
-                    <th class="text-center" scope="col" style="min-width: 70px">Kelas</th>
-                    <th class="text-center" scope="col" style="min-width: 70px">Sisa Kuota</th>
+                    <th class="text-center" scope="col" style="min-width: 50px">SKS</th>
+                    <th class="text-center" scope="col" style="min-width: 50px">SMT</th>
+                    <th class="text-center" scope="col" style="min-width: 50px">Tahun Ajar</th>
+                    <th class="text-center" scope="col" style="min-width: 50px">Kelas</th>
+                    <th class="text-center" scope="col" style="min-width: 50px">Sisa Kuota</th>
                     <th class="text-center" scope="col" style="min-width: 350px">Jadwal/Ruang</th>
-                </tr>
+                    <th class="text-center" scope="col" style="min-width: 50px">Status</th>
+                  </tr>
             </thead>
             <tbody>
               @foreach ($krs as $kr)       
@@ -178,13 +179,14 @@
                     <td class="text-center">{{ $kr->jadwal->kls}}</td>
                     <td class="text-center">{{ $kr->jadwal->kuota }}</td>
                     <td class="text-center">({{ Str::title($kr->jadwal->hari) }}) {{ $kr->formatted_jam_mulai }}-{{ $kr->formatted_jam_selesai }} ({{ $kr->jadwal->gedungs->gedung }}-{{ $kr->jadwal->gedungs->no_ruang }})</td>
+                    <td class="text-center"></td>
                 </tr>  
               @endforeach
             </tbody>
           </table>
-          @if (!$krs)
+          @if ($krs->isEmpty())
               <div class="alert alert-secondary text-center" role="alert">
-                  Belum ada data krs
+                  Anda belum input KRS Semester ini
               </div>
           @endif
     </div>

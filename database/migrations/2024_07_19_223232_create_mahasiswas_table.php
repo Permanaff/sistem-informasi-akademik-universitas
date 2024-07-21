@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('mahasiswas', function (Blueprint $table) {
             $table->id();
-            $table->string('nim', 10);
+            $table->string('nim', 10)->unique();
+            // $table->foreign('nim')->references('no_induk')->on('users');
             $table->string('nama');
             $table->string('tempat_lahir');
             $table->date('tanggal_lahir');

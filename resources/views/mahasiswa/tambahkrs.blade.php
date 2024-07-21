@@ -167,11 +167,16 @@
               <tbody>
                 @foreach ($jadwals as $jadwal)
                   <tr>
-                    <td class="d-flex justify-content-center fw-bold text-danger">
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="matkul_ids[]" value="{{ $jadwal->id }}" id="flexCheckDefault">
-                      </div>
-                    </td>
+                    @if ($jadwal->kuota > 0)
+                      <td class="d-flex justify-content-center fw-bold text-danger">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" name="matkul_ids[]" value="{{ $jadwal->id }}" id="flexCheckDefault">
+                        </div>
+                      </td>
+                    @else
+                    <td class="text-center fw-bold text-danger">FULL</td>
+                    @endif
+                      
                       
                       <td class="text-center">{{ $jadwal->matkul->kode_matkul }}</td>
                       <td class="">{{ $jadwal->matkul->nama_matkul }}</td>
@@ -181,6 +186,7 @@
                       <td class="text-center">{{ $jadwal->kls}}</td>
                       <td class="text-center">{{ $jadwal->kuota }}</td>
                       <td class="text-center">({{ Str::title($jadwal->hari) }}) {{ $jadwal->formatted_jam_mulai }}-{{ $jadwal->formatted_jam_selesai }} ({{ $jadwal->gedungs->gedung }}-{{ $jadwal->gedungs->no_ruang }})</td>
+                      
                   </tr>  
                 @endforeach
               </tbody>

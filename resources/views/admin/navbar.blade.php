@@ -17,7 +17,7 @@
     
     <div id="navbarSearch" class="navbar-search w-100">
     <div class="d-flex justify-content-end px-3">
-      <button class="btn btn-danger">Logout</button>
+      <a href="{{ url('logout') }}" class="btn btn-danger">Logout</a>
     </div>
     {{-- <input class="form-control w-100 rounded-0 border-0" type="text" placeholder="Search" aria-label="Search"> --}}
     </div>

@@ -17,6 +17,11 @@ class Mahasiswa extends Model
         
     ];
 
+    // public function users()
+    // {
+    //     return $this->belongsTo(User::class,'no_induk', 'nim');
+    // }
+
     public function kelas()
     {
         return $this->belongsTo(Kelas::class,'id_kelas', 'id');
