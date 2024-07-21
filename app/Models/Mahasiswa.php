@@ -31,4 +31,9 @@ class Mahasiswa extends Model
     {
         return $this->belongsTo(RiwayatAbsen::class,'id_mahasiswa');
     }
+
+    public function krs()
+    {
+        return $this->belongsTo(Krs::class,'id_mahasiswa');
+    }
 }

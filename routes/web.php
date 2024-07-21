@@ -9,6 +9,8 @@ use App\Http\Controllers\Admin\MatkulController;
 use App\Http\Controllers\Admin\ProdiController;
 use App\Http\Controllers\Dosen\HomeDosenController;
 use App\Http\Controllers\Dosen\PresensiController;
+use App\Http\Controllers\Mahasiswa\HomeMahasiswaController;
+use App\Http\Controllers\Mahasiswa\InputKrsController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -35,3 +37,13 @@ Route::resource('/dsn/presensi', PresensiController::class );
 
 
 
+// Route Mahasiswa
+Route::get('/std', [HomeMahasiswaController::class, 'index']);
+
+// Mahasiswa KRS
+Route::get('/std/krs', [InputKrsController::class, 'index']);
+Route::get('/std/krs/daftarmatkul', [InputKrsController::class, 'daftarMatkul']);
+Route::get('/std/krs/tambahkrs', [InputKrsController::class, 'tambahKrs']);
+Route::post('/std/krs', [InputKrsController::class, 'store'])->name('std.krs.store');
+
+// Route::get('/std/krs/daftarMatkul', [InputKrsController::class, 'daftarMatkul'])->name('std.krs.daftarMatkul');
