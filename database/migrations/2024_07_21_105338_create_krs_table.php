@@ -13,15 +13,17 @@ return new class extends Migration
     {
         Schema::create('krs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_mahasiswa')->constrained(
-                table: 'mahasiswas',
-                indexName: 'krs_id_mahasiswa'
-            );
+            // $table->foreignId('id_mahasiswa')->constrained(
+            //     table: 'mahasiswas',
+            //     indexName: 'krs_id_mahasiswa'
+            // );
+            $table->string('nim', 10);
+            $table->foreign('nim')->references('nim')->on('mahasiswas');
             $table->foreignId('id_jadwal')->constrained(
                 table: 'jadwals',
                 indexName: 'krs_id_jadwal'
             );
-            $table->enum('status', ['acc', 'belum-acc', 'ditolak']);
+            $table->enum('status', ['acc', 'belum-acc', 'ditolak'])->default('belum-acc');
             $table->timestamps();
         });
     }

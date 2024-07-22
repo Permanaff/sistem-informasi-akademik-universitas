@@ -29,11 +29,11 @@ class Dosen extends Model
 
     public function jadwal()
     {
-        return $this->hasMany(Jadwal::class,'id_jadwal');
+        return $this->hasMany(Jadwal::class,'nidn');
     }
 
     public function kelas()
     {
-        return $this->hasOne(Jadwal::class,'id_dosen');
+        return $this->hasOne(Jadwal::class,'nidn');
     }
 }

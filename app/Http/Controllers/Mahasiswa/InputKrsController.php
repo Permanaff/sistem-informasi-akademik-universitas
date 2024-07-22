@@ -11,6 +11,7 @@ use App\Models\Matkul;
 use App\Models\TahunAjar;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
@@ -18,7 +19,8 @@ class InputKrsController extends Controller
 {
     public function index() : View
     {
-        $krs = Krs::with('mahasiswa', 'jadwal', 'jadwal.matkul', 'jadwal.tahun_ajar', 'jadwal.gedungs')->where('id_mahasiswa', 1)->get();
+        $mahasiswaId = Auth::user()->no_induk;
+        $krs = Krs::with('mahasiswa', 'jadwal', 'jadwal.matkul', 'jadwal.tahun_ajar', 'jadwal.gedungs')->where('nim', $mahasiswaId)->get();
 
         foreach ($krs as $kr) {
             $kr->formatted_jam_mulai = Carbon::parse($kr->jadwal->jam_mulai)->format('H:i');
@@ -63,7 +65,7 @@ class InputKrsController extends Controller
             'matkul_ids' => 'required|array',
         ]);
         // $mahasiswaId = auth()->id(); // Asumsi mahasiswa sudah login
-        $mahasiswaId = '1';
+        $mahasiswaId = Auth::user()->no_induk;
 
         foreach ($request->matkul_ids as $matkulId) {
             $jadwal = Jadwal::findOrFail($matkulId);
@@ -73,7 +75,7 @@ class InputKrsController extends Controller
             ]);
 
             Krs::create([
-                'id_mahasiswa' => $mahasiswaId,
+                'nim' => $mahasiswaId,
                 'id_jadwal' => $matkulId,
             ]);
         }

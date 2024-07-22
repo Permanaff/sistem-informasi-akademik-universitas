@@ -25,10 +25,12 @@ return new class extends Migration
                 table: 'tahun_ajars',
                 indexName: 'jadwals_id_ta'
             );
-            $table->foreignId('id_dosen')->constrained(
-                table : 'dosens',
-                indexName: 'jadwal_id_dosen'
-            );
+            // $table->foreignId('id_dosen')->constrained(
+            //     table : 'dosens',
+            //     indexName: 'jadwal_id_dosen'
+            // );
+            $table->string('nidn', 10);
+            $table->foreign('nidn')->references('nidn')->on('dosens');    
             $table->string("kls");
             $table->enum('hari', ['senin', 'selasa', 'rabu', 'kamis', 'jumat', 'sabtu']);
             $table->time('jam_mulai');

@@ -10,12 +10,12 @@ class Krs extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id_mahasiswa', 'id_jadwal'
+        'nim', 'id_jadwal', 'status'
     ];
 
     public function mahasiswa()
     {
-        return $this->belongsTo(Mahasiswa::class,'id_mahasiswa', 'id');
+        return $this->belongsTo(Mahasiswa::class,'nim', 'nim');
     }
 
     public function jadwal()

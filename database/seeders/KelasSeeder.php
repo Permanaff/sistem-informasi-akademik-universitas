@@ -16,7 +16,7 @@ class KelasSeeder extends Seeder
         DB::table('kelas')->insert([
             [
                 'nama' => 'A',
-                'id_dosen' => 1,
+                'nidn' => 1234567,
                 'id_prodi' => 1,
                 'angkatan' => '2023'
             ],

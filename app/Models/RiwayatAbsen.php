@@ -10,13 +10,13 @@ class RiwayatAbsen extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id_mahasiswa', 'pertemuan', 'ket'
+        'nim', 'pertemuan', 'ket'
     ];
 
     
     
     public function mahasiswa()
     {
-        return $this->belongsTo(Mahasiswa::class,'id_mahasiswa','id');
+        return $this->belongsTo(Mahasiswa::class,'nim','nim');
     }
 }

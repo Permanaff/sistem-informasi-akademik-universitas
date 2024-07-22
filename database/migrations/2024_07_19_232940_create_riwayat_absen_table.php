@@ -17,10 +17,8 @@ return new class extends Migration
                 table: 'absens',
                 indexName: 'riwayat_absen_id_absen'
             );
-            $table->foreignId('id_mahasiswa')->constrained(
-                table: 'mahasiswas',
-                indexName: 'riwayat_absen_id_mahasiswa'
-            );
+            $table->string('nim', 10);
+            $table->foreign('nim')->references('nim')->on('mahasiswas');
             $table->tinyInteger('pertemuan');
             $table->enum('ket', ['A', 'H', 'S', "I"])->nullable();
             $table->timestamps();

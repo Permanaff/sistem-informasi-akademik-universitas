@@ -179,7 +179,13 @@
                     <td class="text-center">{{ $kr->jadwal->kls}}</td>
                     <td class="text-center">{{ $kr->jadwal->kuota }}</td>
                     <td class="text-center">({{ Str::title($kr->jadwal->hari) }}) {{ $kr->formatted_jam_mulai }}-{{ $kr->formatted_jam_selesai }} ({{ $kr->jadwal->gedungs->gedung }}-{{ $kr->jadwal->gedungs->no_ruang }})</td>
-                    <td class="text-center"></td>
+                    <td class="text-center">
+                      @if ($kr->status == 'belum-acc')
+                        <button type="submit" class="btn btn-sm btn-icon-danger"><i class="fa fa-trash"></i></button>
+                        @else
+                        <p class="fs-5 m-0 text-success"><i class="fa fa-check-square-o" aria-hidden="true"></i></p>
+                      @endif
+                    </td>
                 </tr>  
               @endforeach
             </tbody>

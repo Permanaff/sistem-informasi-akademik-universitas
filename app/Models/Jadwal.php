@@ -9,7 +9,7 @@ class Jadwal extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'id_matkul', 'id_kelas', 'id_ta', 'id_dosen', 'kls', 'hari', 'jam_mulai', 'jam_selesai', 'kuota'
+        'id_matkul', 'id_kelas', 'id_ta', 'nidn', 'kls', 'hari', 'jam_mulai', 'jam_selesai', 'kuota'
     ];
 
     public function matkul()
@@ -29,7 +29,7 @@ class Jadwal extends Model
 
     public function dosen()
     {
-        return $this->belongsTo(Dosen::class,'id_dosen','id');
+        return $this->belongsTo(Dosen::class,'nidn','nidn');
     }
 
     public function absen()

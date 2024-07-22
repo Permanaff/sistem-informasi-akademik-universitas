@@ -10,12 +10,12 @@ class Kelas extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nama', 'id_dosen', 'id_prodi', 'angkatan'
+        'nama', 'nidn', 'id_prodi', 'angkatan'
     ];
 
     public function dosen()
     {
-        return $this->belongsTo(Dosen::class,'id_dosen', 'id');
+        return $this->belongsTo(Dosen::class,'nidn', 'nidn');
     }
 
     public function mahasiswa()

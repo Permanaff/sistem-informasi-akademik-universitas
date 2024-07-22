@@ -14,10 +14,12 @@ return new class extends Migration
         Schema::create('kelas', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->foreignId('id_dosen')->constrained(
-                table: 'dosens',
-                indexName: 'kelas_id_dosen'
-            );
+            // $table->foreignId('id_dosen')->constrained(
+            //     table: 'dosens',
+            //     indexName: 'kelas_id_dosen'
+            // );
+            $table->string('nidn', 10);
+            $table->foreign('nidn')->references('nidn')->on('dosens');    
             $table->foreignId('id_prodi')->constrained(
                 table: 'prodis',
                 indexName: 'kelas_id_prodis'
