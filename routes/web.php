@@ -19,35 +19,41 @@ use Illuminate\Support\Facades\Route;
 //     return view('auth.login');
 // });
 
-Route::get('/', [AuthController::class, 'index']);
-Route::post('/', [AuthController::class, 'login']);
-Route::get('/logout', [AuthController::class, 'logout']);
-
-Route::get('/adm', function () {
-    return view('admin.dashboard');
+route::middleware(['guest'])->group(function () {
+    Route::get('/', [AuthController::class, 'index'])->name('login');
+    Route::post('/', [AuthController::class, 'login']);
 });
 
-// Route Admin
-Route::get('/adm', [FakultasController::class, 'index'] );
-Route::resource('/adm/fakultas', FakultasController::class );
-Route::resource('/adm/prodi', ProdiController::class );
-Route::resource('/adm/matkul', MatkulController::class );
-Route::resource('/adm/kelas', GedungController::class );
-Route::resource('/adm/jadwal', JadwalController::class );
-Route::resource('/adm/dosen', DosenController::class );
-Route::resource('/adm/student', MahasiswaController::class );
 
-// Route Dosen
-Route::get('/dsn', [HomeDosenController::class, 'index'] );
-Route::resource('/dsn/presensi', PresensiController::class );
+// Route::get('/adm', function () {
+//     return view('admin.dashboard');
+// });
 
-// Route Mahasiswa
-Route::get('/std', [HomeMahasiswaController::class, 'index']);
-
-// Mahasiswa KRS
-Route::get('/std/krs', [InputKrsController::class, 'index']);
-Route::get('/std/krs/daftarmatkul', [InputKrsController::class, 'daftarMatkul']);
-Route::get('/std/krs/tambahkrs', [InputKrsController::class, 'tambahKrs']);
-Route::post('/std/krs', [InputKrsController::class, 'store'])->name('std.krs.store');
-
-// Route::get('/std/krs/daftarMatkul', [InputKrsController::class, 'daftarMatkul'])->name('std.krs.daftarMatkul');
+Route::middleware(['auth'])->group(function() {
+    Route::get('/logout', [AuthController::class, 'logout']);
+    
+    // Route Admin
+    Route::get('/adm', [FakultasController::class, 'index'] )->middleware('userAccess:admin');
+    Route::resource('/adm/fakultas', FakultasController::class )->middleware('userAccess:admin');
+    Route::resource('/adm/prodi', ProdiController::class )->middleware('userAccess:admin');
+    Route::resource('/adm/matkul', MatkulController::class )->middleware('userAccess:admin');
+    Route::resource('/adm/kelas', GedungController::class )->middleware('userAccess:admin');
+    Route::resource('/adm/jadwal', JadwalController::class )->middleware('userAccess:admin');
+    Route::resource('/adm/dosen', DosenController::class )->middleware('userAccess:admin');
+    Route::resource('/adm/student', MahasiswaController::class )->middleware('userAccess:admin');
+    
+    // Route Dosen
+    Route::get('/dsn', [HomeDosenController::class, 'index'] )->middleware('userAccess:dosen');
+    Route::resource('/dsn/presensi', PresensiController::class )->middleware('userAccess:dosen');
+    
+    // Route Mahasiswa
+    Route::get('/std', [HomeMahasiswaController::class, 'index'])->middleware('userAccess:mahasiswa');
+    
+    // Mahasiswa KRS
+    Route::get('/std/krs', [InputKrsController::class, 'index'])->middleware('userAccess:mahasiswa');
+    Route::get('/std/krs/daftarmatkul', [InputKrsController::class, 'daftarMatkul'])->middleware('userAccess:mahasiswa');
+    Route::get('/std/krs/tambahkrs', [InputKrsController::class, 'tambahKrs'])->middleware('userAccess:mahasiswa');
+    Route::post('/std/krs', [InputKrsController::class, 'store'])->name('std.krs.store')->middleware('userAccess:mahasiswa');
+    
+    // Route::get('/std/krs/daftarMatkul', [InputKrsController::class, 'daftarMatkul'])->name('std.krs.daftarMatkul');
+});
