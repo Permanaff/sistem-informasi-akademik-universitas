@@ -78,10 +78,6 @@
   .bd-mode-toggle .dropdown-menu .active .bi {
     display: block !important;
   }
-
-  .datatable-info {
-    visibility: hidden;
-  }
 </style>
 
 
@@ -89,8 +85,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
 <!-- Custom styles for this template -->
 <link href="{{ asset('/css/dashboard.css') }}" rel="stylesheet">
-<link href="{{ asset('/css/krstables.css') }}" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
+{{-- <link href="{{ asset('/css/krstables.css') }}" rel="stylesheet"> --}}
 @endsection
 
 @section('content')
@@ -136,100 +131,66 @@
 <div class="container-fluid">
 {{-- SIDEBARD --}}
 <div class="row">
-@include('mahasiswa/sidebar')
+@include('dosen/sidebar')
 
 {{-- CONTENT --}}
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Kartu Rencana Studi</h1>
+    <h1 class="h2">Kelas Bimbingan <span class="fs-5 fw-normal text-secondary">Kelas {{ $kelas->pluck('nama')->implode(',') }}</span></h1>
   </div>
-
-  {{-- <button type="button" class="btn btn-md btn-success mb-3" id="showModalBtn">Tambah Jadwal</button> --}}
-  <a href="/std/krs/daftarmatkul" class="btn btn-md btn-success mb-3">Daftar Matkul</a>
-  <a href="/std/krs/tambahkrs" class="btn btn-md btn-success mb-3">Tambah Krs</a>
-
   <div class="card">
     <div class="card-header">
-      @foreach ($ta as $ak)
-        <p class="fs-6 m-0">Kartu Rencana Studi | Tahun Akademik {{ $ak->tahun_ajaran }} - Semseter {{ Str::title($ak->semester) }}</p>
+      @foreach ($kelas as $kls)
+      <p class="fs-6 m-0">Daftar Mahasiswa | {{ Str::title($kls->prodi->nama_prodi) }} | Kelas {{ $kls->nama }} | Angkatan {{ $kls->angkatan }} </p>
       @endforeach
     </div>
     <div class="card-body">
         <table class="table table-bordered table-striped" id="jadwalTable">
             <thead>
                 <tr>
-                    <th class="text-center" scope="col" style="min-width: 50px">Kode MK</th>
-                    <th class="text-center" scope="col" style="min-width: 350px">Matakuliah</th>
-                    <th class="text-center" scope="col" style="min-width: 50px">SKS</th>
-                    <th class="text-center" scope="col" style="min-width: 50px">SMT</th>
-                    <th class="text-center" scope="col" style="min-width: 50px">Tahun Ajar</th>
-                    <th class="text-center" scope="col" style="min-width: 50px">Kelas</th>
-                    <th class="text-center" scope="col" style="min-width: 50px">Sisa Kuota</th>
-                    <th class="text-center" scope="col" style="min-width: 350px">Jadwal/Ruang</th>
-                    <th class="text-center" scope="col" style="min-width: 50px">Status</th>
-                  </tr>
+                    <th class="text-center" scope="col">No</th>
+                    <th class="text-center" scope="col">NPM</th>
+                    <th class="text-center" scope="col">Nama Mahasiswa</th>
+                    <th class="text-center" scope="col">Angkatan</th>
+                    <th class="text-center" scope="col">L/P</th>
+                    <th class="text-center" scope="col">No. Telp</th>
+                    <th class="text-center" scope="col">Status</th>
+                </tr>
             </thead>
             <tbody>
-              @foreach ($krs as $kr)       
-                    <td class="text-center">{{ $kr->jadwal->matkul->kode_matkul }}</td>
-                    <td class="">{{ $kr->jadwal->matkul->nama_matkul }}</td>
-                    <td class="text-center">{{ $kr->jadwal->matkul->sks }}</td>
-                    <td class="text-center">{{ $kr->jadwal->matkul->semester }}</td>
-                    <td class="text-center">{{ $kr->jadwal->tahun_ajar->tahun_ajaran}}</td>
-                    <td class="text-center">{{ $kr->jadwal->kls}}</td>
-                    <td class="text-center">{{ $kr->jadwal->kuota }}</td>
-                    <td class="text-center">({{ Str::title($kr->jadwal->hari) }}) {{ $kr->formatted_jam_mulai }}-{{ $kr->formatted_jam_selesai }} ({{ $kr->jadwal->gedungs->gedung }}-{{ $kr->jadwal->gedungs->no_ruang }})</td>
+              @foreach ($mahasiswa as $index => $mhs)
+                <tr>
+                    <td class="text-center">{{ $index + 1 }}</td>
+                    <td class="text-center">{{ $mhs->nim }}</td>
+                    <td class="text">{{ $mhs->nama }}</td>
+                    <td class="text-center">{{ $mhs->angkatan }}</td>
                     <td class="text-center">
-                      @if ($kr->status == 'belum-acc')
-                        <button type="submit" class="btn btn-sm btn-icon-danger"><i class="fa fa-trash"></i></button>
-                        @else
-                        <p class="fs-5 m-0 text-success"><i class="fa fa-check-square-o" aria-hidden="true"></i></p>
+                      @if ($mhs->jk == "laki-laki")
+                          L
+                      @else
+                          P
                       @endif
                     </td>
+                    <td class="text">{{ $mhs->notelp }}</td>
+                    <td class="text-center">{{ Str::title($mhs->status) }}</td>
                 </tr>  
               @endforeach
             </tbody>
-          </table>
-          @if ($krs->isEmpty())
-              <div class="alert alert-secondary text-center" role="alert">
-                  Anda belum input KRS Semester ini
-              </div>
-          @endif
+            <p>
+
+            </p>
+        </table>
     </div>
   </div>
+
+
 </main>
 {{-- CONTENT END --}}
 </div>
 </div>
 
 @section('scripts')
-<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
 <script src="{{ asset('/js/dashboard.js') }}"></script>
-{{-- <script src="{{ asset('/js/mhs/krs.js') }}"></script> --}}
-
-<script>
-    //message with sweetalert
-    @if(session('success'))
-        Swal.fire({
-            icon: "success",
-            title: "BERHASIL",
-            text: "{{ session('success') }}",
-            showConfirmButton: false,
-            timer: 2000
-        });
-    @elseif(session('error'))
-        Swal.fire({
-            icon: "error",
-            title: "GAGAL!",
-            text: "{{ session('error') }}",
-            showConfirmButton: false,
-            timer: 2000
-        });
-    @endif
-</script>
-
-
 @endsection
-
 @endsection
 

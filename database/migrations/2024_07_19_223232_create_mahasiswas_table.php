@@ -31,6 +31,7 @@ return new class extends Migration
             $table->string('notelp')->nullable();
             $table->string('email')->nullable();
             $table->enum('jk', ['laki-laki', 'perempuan']);
+            $table->string('angkatan');
             $table->enum('status', ['aktif', 'cuti', 'non-aktif']);
             $table->string('photo')->nullable();
             $table->timestamps();

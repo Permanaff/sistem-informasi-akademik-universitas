@@ -26,6 +26,7 @@ class MahasiswaSeeder extends Seeder
                 'notelp' => '0852145675678',
                 'email' => 'andi@dosen.com',
                 'jk' => 'laki-laki',
+                'angkatan' => '2023',
                 'status' => 'aktif',
                 'created_at' => now(),
                 'updated_at' => now(),

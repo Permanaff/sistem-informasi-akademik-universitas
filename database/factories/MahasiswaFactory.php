@@ -40,6 +40,7 @@ class MahasiswaFactory extends Factory
             'email' => $faker->unique()->safeEmail,
             'jk' => $faker->randomElement(['laki-laki', 'perempuan']),
             // 'status' => $faker->randomElement(['aktif', 'cuti', 'non-aktif']),
+            'angkatan' => '2023',
             'status' => 'aktif',
             'photo' => $faker->imageUrl(),
             'created_at' => now(),

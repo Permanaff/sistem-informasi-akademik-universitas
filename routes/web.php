@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\MatkulController;
 use App\Http\Controllers\Admin\ProdiController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Dosen\HomeDosenController;
+use App\Http\Controllers\Dosen\KelasBimbinganController;
 use App\Http\Controllers\Dosen\PresensiController;
 use App\Http\Controllers\Mahasiswa\HomeMahasiswaController;
 use App\Http\Controllers\Mahasiswa\InputKrsController;
@@ -45,6 +46,7 @@ Route::middleware(['auth'])->group(function() {
     // Route Dosen
     Route::get('/dsn', [HomeDosenController::class, 'index'] )->middleware('userAccess:dosen');
     Route::resource('/dsn/presensi', PresensiController::class )->middleware('userAccess:dosen');
+    Route::resource('/dsn/bimbingan', KelasBimbinganController::class )->middleware('userAccess:dosen');
     
     // Route Mahasiswa
     Route::get('/std', [HomeMahasiswaController::class, 'index'])->middleware('userAccess:mahasiswa');

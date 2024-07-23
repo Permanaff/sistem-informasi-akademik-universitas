@@ -44,7 +44,7 @@
           <hr class="my-1 mx-4">
 
           <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-2" href="/adm/jadwal">
+            <a class="nav-link d-flex align-items-center gap-2" href="/dsn/bimbingan">
               <i class="bi bi-calendar"></i>
               Kelas Bimbingan
             </a>

@@ -147,35 +147,44 @@
         <table class="table table-bordered table-striped" id="MahasiswaTable">
             <thead>
                 <tr class="text-center">
+                    <th scope="col">No</th>
                     <th scope="col">NPM</th>
                     <th scope="col">Nama Lengkap</th>
                     <th scope="col">Prodi</th>
-                    <th scope="col">TTL</th>
-                    <th scope="col">Alamat</th>
+                    <th scope="col" class="text-center">TTL</th>
+                    <th scope="col" class="text-center">Alamat</th>
                     <th scope="col">Agama</th>
                     <th scope="col">No. Telp</th>
                     <th scope="col">Email</th>
                     <th scope="col">Kelas</th>
                     <th scope="col">Angkatan</th>
-                    <th scope="col">Jenis Kelamin</th>
+                    <th scope="col">L/P</th>
                     <th scope="col">Status</th>
                     <th scope="col" style="width:12%;">Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse ($mahasiswa as $maha)
+                @forelse ($mahasiswa as $index => $maha)
                     <tr>
+                        <td class="text-center">{{ $index + 1 }}</td>
                         <td class="text-center">{{ $maha->nim }}</td>
-                        <td class="text-center">{{ $maha->nama }}</td>
+                        <td class="text-">{{ $maha->nama }}</td>
                         <td class="text-center">{{ Str::title($maha->prodi->nama_prodi) }}</td>
-                        <td class="text-center">{{ $maha->tempat_lahir }}, {{ $maha->tanggal_lahir }}</td>
-                        <td class="text-center">{{ $maha->alamat }}</td>
+                        <td class="text-">{{ $maha->tempat_lahir }}, {{ $maha->tanggal_lahir }}</td>
+                        <td class="text-">{{ $maha->alamat }}</td>
                         <td class="text-center">{{ Str::title($maha->agama) }}</td>
                         <td class="text-center">{{ $maha->notelp }}</td>
                         <td class="text-center">{{ $maha->email }}</td>
                         <td class="text-center">{{ $maha->kelas->nama }}</td>
                         <td class="text-center">{{ $maha->kelas->angkatan }}</td>
-                        <td class="text-center">{{ Str::title($maha->jk) }}</td>
+                        {{-- <td class="text-center">{{ Str::title($maha->jk) }}</td> --}}
+                        <td class="text-center">
+                          @if ($maha->jk === 'laki-laki')
+                              L
+                          @else
+                              P
+                          @endif
+                        </td>
                         <td class="text-center">{{ Str::title($maha->status) }}</td>
                         <td>
                           <div class="d-flex justify-content-center">
