@@ -47,6 +47,11 @@ class User extends Authenticatable
         ];
     }
 
+    public function mahasiswa()
+    {
+        return $this->hasOne(Mahasiswa::class, 'nim', 'no_induk');
+    }
+
     // public function dosens() : HasOne
     // {
     //     return $this->hasOne(Dosen::class,'nidn', 'no_induk');

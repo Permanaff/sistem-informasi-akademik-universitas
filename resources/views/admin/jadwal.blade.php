@@ -227,7 +227,7 @@
                           <select class="form-select mt-2 @error('dosen') is-invalid @enderror" aria-label="dosen" name="dosen">
                             <option selected>--- Pilih Dosen Pengampu ---</option>
                             @foreach ($dosen as $dsn)
-                              <option value="{{ $dsn->id }}">{{ $dsn->nama }}</option>
+                              <option value="{{ $dsn->nidn }}">{{ $dsn->nama }}</option>
                             @endforeach
                           </select>
                           <!-- error message untuk fakultas -->

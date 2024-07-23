@@ -50,7 +50,7 @@ class JadwalController extends Controller
             'id_matkul' => $request->matkul,
             'id_kelas' => $request->ruang,
             'id_ta' => $id_ta,
-            'id_dosen' => $request->dosen,
+            'nidn' => $request->dosen,
             'kls' => $request->kelas,
             'hari' => $request->hari,
             'jam_mulai' => $request->mulai,

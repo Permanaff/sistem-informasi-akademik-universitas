@@ -16,7 +16,6 @@ class UserAccess
      */
     public function handle(Request $request, Closure $next, $role): Response
     {   
-        Log::info($role);
         if(auth()->user()->role == $role){
             return $next($request);
         }

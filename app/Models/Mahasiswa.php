@@ -41,4 +41,9 @@ class Mahasiswa extends Model
     {
         return $this->belongsTo(Krs::class,'nim');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'nim', 'no_induk');
+    }
 }

@@ -8,6 +8,7 @@ use App\Models\Jadwal;
 use App\Models\RiwayatAbsen;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
@@ -16,8 +17,9 @@ use Illuminate\Support\Str;
 class PresensiController extends Controller
 {
     public function index(): View
-    {
-        $jadwals = Jadwal::with('matkul')->get();
+    {   
+        $nidn = Auth::user()->no_induk;
+        $jadwals = Jadwal::with('matkul')->where('nidn', $nidn)->get();
 
         return view('dosen.presensi', compact('jadwals'));
     }

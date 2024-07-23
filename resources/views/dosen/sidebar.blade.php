@@ -39,6 +39,10 @@
               Jadwal Mengajar
             </a>
           </li>
+          
+
+          <hr class="my-1 mx-4">
+
           <li class="nav-item">
             <a class="nav-link d-flex align-items-center gap-2" href="/adm/jadwal">
               <i class="bi bi-calendar"></i>
@@ -46,6 +50,13 @@
             </a>
           </li>
 
+          <li class="nav-item">
+            <a class="nav-link d-flex align-items-center gap-2" href="/adm/dosen">
+              <i class="bi bi-people"></i>
+              Bimbingan KRS
+            </a>
+          </li>
+          
           <hr class="my-1 mx-4">
 
           <li class="nav-item">

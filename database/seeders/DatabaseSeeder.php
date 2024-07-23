@@ -2,10 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Models\Mahasiswa;
 use App\Models\Prodi;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,6 +23,8 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
+        
+
         $this->call([
             UserSeeder::class,
             FakultasSeeder::class,
@@ -34,5 +38,24 @@ class DatabaseSeeder extends Seeder
             KelasSeeder::class,
             MahasiswaSeeder::class,
         ]);
+
+        // Generate Mahasiswa data first
+        // Mahasiswa::factory(10)->create()->each(function ($mahasiswa) {
+        //     // Create User with no_induk same as nim
+        //     User::factory()->create([
+        //         'no_induk' => $mahasiswa->nim,
+        //     ]);
+        // });
+        $count = 59;
+
+        DB::transaction(function () use ($count) {
+            // Generate Mahasiswa data first
+            Mahasiswa::factory($count)->create()->each(function ($mahasiswa) {
+                // Create User with no_induk same as nim
+                User::factory()->create([
+                    'no_induk' => $mahasiswa->nim,
+                ]);
+            });
+        });
     }
 }
