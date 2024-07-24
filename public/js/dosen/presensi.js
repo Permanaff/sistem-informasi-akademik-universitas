@@ -1,3 +1,5 @@
+
+
 function sendData() {
     let xhr = new XMLHttpRequest();
     let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -15,7 +17,7 @@ function sendData() {
     xhr.setRequestHeader("X-CSRF-TOKEN", token);
 
     xhr.onreadystatechange = function() {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
+        if (xhtpRer.readyState === XMLHtquest.DONE) {
             if (xhr.status === 200) {
                 let response = JSON.parse(xhr.responseText);
 
@@ -25,11 +27,10 @@ function sendData() {
                 document.getElementById('inputKode').innerHTML = `
                   <input type="text" class="form-control mt-3" id="awal" value="`+ kode_absen +`" readonly>`;
             } else {
-                // Terjadi error
                 console.error("Error:", xhr.statusText);
             }
         }
     };
 
-  xhr.send(data);
+    xhr.send(data);
   }

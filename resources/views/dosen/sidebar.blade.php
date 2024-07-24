@@ -34,18 +34,29 @@
             </a>
           </li>
           <li class="nav-item">
+            <a class="nav-link d-flex align-items-center gap-2" href="/dsn/absenmahasiswa">
+              <i class="bi bi-book"></i>
+               Riwayat Absen
+            </a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link d-flex align-items-center gap-2" href="/adm/matkul">
               <i class="bi bi-book"></i>
               Jadwal Mengajar
             </a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link d-flex align-items-center gap-2" href="/dsn/daftarmahasiswa">
+              <i class="bi bi-book"></i>
+              Daftar Mahasiswa
+            </a>
+          </li>
           
-
           <hr class="my-1 mx-4">
 
           <li class="nav-item">
             <a class="nav-link d-flex align-items-center gap-2" href="/dsn/bimbingan">
-              <i class="bi bi-calendar"></i>
+              <i class="bi bi-people"></i>
               Kelas Bimbingan
             </a>
           </li>

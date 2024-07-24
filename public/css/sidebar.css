@@ -1,0 +1,16 @@
+/* .sidebar {
+    position: fixed;
+    overflow-y: scroll;
+    top: 0;
+    bottom: 0;
+} */
+
+
+@media only screen and (min-width: 800px) {
+    .sidebar {
+        position: fixed;
+        overflow-y: scroll;
+        top: 0;
+        bottom: 0;
+    }
+  }
