@@ -29,7 +29,7 @@ function tampilData() {
         'id_jadwal' : kelasInput.value
       }
 
-    fetch('/dsn/daftarmahasiswa', {
+    fetch('/dsn/absenmahasiswa', {
         method: 'POST', 
         headers: {
             'Content-Type': 'application/json',
@@ -40,44 +40,43 @@ function tampilData() {
     })
     .then(response => response.json())
     .then(response => {
-        console.log(response.data)
-        tableContainer.innerHTML = `
-            <div class="card mt-3 card-rounded-bottom">
-                <div class="card-body" id="tableMahasiswa">
-                    <table class="table  table-bordered" id="jadwalTable">
-                        <thead>
-                            <tr>
-                                <th class="text-center" scope="col">No</th>
-                                <th class="text-center" scope="col">NPM</th>
-                                <th class="text-center" scope="col">Nama Mahasiswa</th>
-                                <th class="text-center" scope="col">Angkatan</th>
-                                <th class="text-center" scope="col">DPA</th>
-                                <th class="text-center" scope="col">L/P</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tableBody">
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        `
+        
         let data = response.data
-
+        let mahasiswa = data.mahasiswa
+        
+      
         let content = '';
 
+        
+
         data.mahasiswa.forEach((mhs, index) => {
+            const riwayatAbsensArray = Object.values(mhs.riwayat_absen);
+
             content += `
-                <tr>
-                    <td class="text-center">${index + 1}</td>
+                <tr  id="dataAbsen">
+                    <td class="text-center" style="width: 50px;">${index + 1}</td>
                     <td class="text-center">${mhs.nim}</td>
-                    <td class="text-center">${mhs.nama}</td>
-                    <td class="text-center">${mhs.angkatan}</td>
-                    <td class="text-center">${mhs.dpa}</td>
-                    <td class="text-center">${mhs.jk === 'laki-laki' ? 'L' : 'P'}</td>
-                </tr>      
+                    <td class="text-center">${mhs.nama}</td>  
             `
+            riwayatAbsensArray.forEach((absen, index) => {
+                content += `
+                    <td class="text-center">${absen.ket}</td>
+                `
+            })
+            // for (let i = mhs.ket.length; i < 14; i++) {
+            //     content += `
+            //         <td class="text-center" style="width: 50px;"></td>
+            //     `;
+            // }
+            content += '</tr>';
+
         });
+        document.getElementById('tableBody').innerHTML = '';
         document.getElementById('tableBody').innerHTML = content;
+        
+        if (mahasiswa.length === 0) {
+            document.getElementById('tableBody').innerHTML = `<tr><td colspan='17' class='text-center'>Belum Ada Data Mahasiswa!</td></tr>`
+        }
 
     })
     .catch(error => {

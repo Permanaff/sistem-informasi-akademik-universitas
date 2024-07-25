@@ -3,9 +3,107 @@
 namespace App\Http\Controllers\Dosen;
 
 use App\Http\Controllers\Controller;
+use App\Models\Absen;
+use App\Models\Jadwal;
+use App\Models\Krs;
+use App\Models\Mahasiswa;
+use App\Models\RiwayatAbsen;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\View\View;
 
 class RiwayatAbsenController extends Controller
 {
-    //
+    private $nidn;
+
+    public function __construct()
+    {
+        $this->nidn = Auth::user()->no_induk;
+    }
+
+
+    public function index() : View
+    {
+        $jadwal = Jadwal::with('matkul')->where('nidn', $this->nidn)->get();
+
+        return view('dosen.riwayatAbsen', compact('jadwal'));
+    }
+
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id_jadwal' => 'required',
+        ]);
+
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        } else if ($request->id_jadwal == '0') {
+            return response()->json($validator->errors(), 422);
+        }
+
+
+        $absen = Krs::with(['mahasiswa' => function($query) {
+            $query->orderBy('nim', 'asc');
+        }, 'mahasiswa.riwayat_absen' => function($query) {
+            $query->orderBy('pertemuan', 'asc');
+        }])
+        ->where('id_jadwal', $request->id_jadwal)
+        ->get();
+        
+        // Prepare the grouped data
+        $groupedData = [];
+        
+        foreach ($absen as $index => $item) {
+            $mahasiswa = $item->mahasiswa;
+            $nim = $mahasiswa->nim;
+        
+            if (!isset($groupedData[$nim])) {
+                $groupedData[] = [
+                    'nim' => $nim,
+                    'nama' => $mahasiswa->nama,
+                    'riwayat_absen' => []
+                ];
+
+                for ($i = 1; $i <= 14; $i++) {
+                    $groupedData[$index]['riwayat_absen'][$i] = [
+                        'pertemuan' => $i,
+                        'ket' => ''
+                    ];
+                }
+            }
+
+            foreach ($mahasiswa->riwayat_absen as $absen) {
+                $pertemuan = $absen->pertemuan;
+                if (isset($groupedData[$index]['riwayat_absen'][$pertemuan])) {
+                    $groupedData[$index]['riwayat_absen'][$pertemuan]['ket'] = $absen->ket;
+                }
+            }
+        }
+
+        Log::info($groupedData);
+
+        
+        // $result = [];
+        // foreach ($groupedData as $nim => $data) {
+        //     $result[] = [
+        //         'nama' => $data['nama'],
+        //         'nim' => $data['nim'],
+        //         'pertemuan' => $data['pertemuan'],
+        //         'ket' => $data['ket']
+        //     ];
+        // }
+
+        
+
+
+        return response()->json([
+            'success' => true, 
+            'data' => [
+                'mahasiswa' => $groupedData,
+            ]
+        ]);
+    }
 }

@@ -12,6 +12,7 @@ use App\Http\Controllers\Dosen\DaftarMahasiswaController;
 use App\Http\Controllers\Dosen\HomeDosenController;
 use App\Http\Controllers\Dosen\KelasBimbinganController;
 use App\Http\Controllers\Dosen\PresensiController;
+use App\Http\Controllers\Dosen\RiwayatAbsenController;
 use App\Http\Controllers\Mahasiswa\HomeMahasiswaController;
 use App\Http\Controllers\Mahasiswa\InputKrsController;
 use Illuminate\Support\Facades\Route;
@@ -49,6 +50,7 @@ Route::middleware(['auth'])->group(function() {
     Route::resource('/dsn/presensi', PresensiController::class )->middleware('userAccess:dosen');
     Route::resource('/dsn/bimbingan', KelasBimbinganController::class )->middleware('userAccess:dosen');
     Route::resource('/dsn/daftarmahasiswa', DaftarMahasiswaController::class )->middleware('userAccess:dosen');
+    Route::resource('/dsn/absenmahasiswa', RiwayatAbsenController::class )->middleware('userAccess:dosen');
     
     // Route Mahasiswa
     Route::get('/std', [HomeMahasiswaController::class, 'index'])->middleware('userAccess:mahasiswa');

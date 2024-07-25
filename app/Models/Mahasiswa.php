@@ -34,12 +34,12 @@ class Mahasiswa extends Model
 
     public function riwayat_absen()
     {
-        return $this->belongsTo(RiwayatAbsen::class,'nim');
+        return $this->hasMany(RiwayatAbsen::class,'nim', 'nim');
     }
 
     public function krs()
     {
-        return $this->belongsTo(Krs::class,'nim');
+        return $this->hasMany(Krs::class,'nim', 'nim');
     }
 
     public function user()
