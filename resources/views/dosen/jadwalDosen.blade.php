@@ -78,20 +78,6 @@
   .bd-mode-toggle .dropdown-menu .active .bi {
     display: block !important;
   }
-
-  .card-rounded-bottom {
-    border-top-left-radius: 0px; 
-    border-top-right-radius: 0px;
-  }
-
-  .card-rounded-top {
-    border-bottom-left-radius: 0px; 
-    border-bottom-right-radius: 0px;
-  }
-
-  .column-absen {
-    width: 50px
-  }
 </style>
 
 
@@ -99,7 +85,6 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
 <!-- Custom styles for this template -->
 <link href="{{ asset('/css/dashboard.css') }}" rel="stylesheet">
-{{-- <link href="{{ asset('/css/krstables.css') }}" rel="stylesheet"> --}}
 @endsection
 
 @section('content')
@@ -150,76 +135,83 @@
 {{-- CONTENT --}}
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Presensi Mahasiswa</h1>
+    <h1 class="h2">Jadwal Mengajar</h1>
   </div>
-  <div class="card card-rounded-top">
-    <div class="card-header">
-      <p class="fs-6 m-0">Daftar Presensi</p>
-    </div>
+
+  <div class="card">
     <div class="card-body">
-      <div class="container col-md-8">
-
-        <select class="form-select" aria-label="Default select example" id="kelasInput">
-          <option value="0" selected>--- Pilih Kelas ---</option>
-          @foreach ($jadwal as $jdwl)
-            <option value="{{ $jdwl->id }}">{{ $jdwl->matkul->nama_matkul }} - Kelas {{ $jdwl->kls }}</option>
-          @endforeach
-        </select>
-
-        <div class="d-flex justify-content-end mt-2" id="buttonContainer">
-          <button class="btn btn-success" disabled>Tampilkan</button>
-        </div>
-
-      </div>
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr class="text-center">
+                    <th scope="col">ID</th>
+                    <th scope="col">Mata Kuliah</th>
+                    <th scope="col">Kelas</th>
+                    <th scope="col">SKS</th>
+                    <th scope="col">SMT</th>
+                    <th scope="col">Jadwal/Ruang</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse ($jadwals as $index => $jadwal)
+                    <tr>
+                        <td class="text-center">{{ $index + 1 }}</td>
+                        <td class="text-center">{{ $jadwal->matkul->nama_matkul }}</td>
+                        <td class="text-center">{{ $jadwal->kls }}</td>
+                        <td class="text-center">{{ $jadwal->matkul->sks }}</td>
+                        <td class="text-center">{{ $jadwal->matkul->semester }}</td>
+                        <td class="text-center">({{ Str::title($jadwal->hari) }}) {{ $jadwal->formatted_jam_mulai }}-{{ $jadwal->formatted_jam_selesai }} ({{ $jadwal->gedungs->gedung }}-{{ $jadwal->gedungs->no_ruang }})</td>
+                    </tr>
+                @empty
+                    <div class="alert alert-danger">
+                        Data Jadwal Belum Tersedia
+                    </div>
+                @endforelse
+            </tbody>
+        </table>
     </div>
   </div>
-  <div id="tableContainer">
-    <div class="card mt-3 card-rounded-bottom">
-      <div class="card-body" id="tableMahasiswa">
-          <table class="table table-striped table-bordered" id="jadwalTable">
-            <thead>
-              <tr>
-                <th class="header text-center" rowspan="2" style="width: 90px;">No</th>
-                <th class="header text-center" rowspan="2" style="width: 200px;">NPM</i></th>
-                <th class="header text-center" rowspan="2" style="width: 300px;">Nama Mahasiswa</th>
-                <th colspan="16" class="header text-center">Pertemuan </th>
-              </tr>
-              <tr>
-                <th class="header text-center column-absen">1</th>
-                <th class="header text-center column-absen">2</th>
-                <th class="header text-center column-absen">3</th>
-                <th class="header text-center column-absen">4</th>
-                <th class="header text-center column-absen">5</th>
-                <th class="header text-center column-absen">6</th>
-                <th class="header text-center column-absen">7</th>
-                <th class="header text-center column-absen">8</th>
-                <th class="header text-center column-absen">9</th>
-                <th class="header text-center column-absen">10</th>
-                <th class="header text-center column-absen">11</th>
-                <th class="header text-center column-absen">12</th>
-                <th class="header text-center column-absen">13</th>
-                <th class="header text-center column-absen">14</th>
-              </tr>
-            </thead>
-              <tbody id="tableBody">
-                <tr><td colspan='17' class='text-center'>Pilih Matakuliah!</td></tr>
-              </tbody>
-          </table>
-      </div>
-  </div>
 
-  </div>
   
-
-
 </main>
 {{-- CONTENT END --}}
 </div>
 </div>
 
 @section('scripts')
+<script src="{{ asset('/js/fakultas.js') }}"></script>
 <script src="{{ asset('/js/dashboard.js') }}"></script>
-<script src="{{ asset('/js/dosen/riwayat-absen.js') }}"></script>
+
+<script>
+    //message with sweetalert
+    @if(session('success'))
+        Swal.fire({
+            icon: "success",
+            title: "BERHASIL",
+            text: "{{ session('success') }}",
+            showConfirmButton: false,
+            timer: 2000
+        });
+    @elseif(session('error'))
+        Swal.fire({
+            icon: "error",
+            title: "GAGAL!",
+            text: "{{ session('error') }}",
+            showConfirmButton: false,
+            timer: 2000
+        });
+    @endif
+
+    // document.addEventListener("DOMContentLoaded", function(event) { 
+    //     // const tambahModal = document.getElementById('exampleModal')
+    //     const myModal = new bootstrap.Modal(document.getElementById('exampleModal'), options)
+    // });
+
+
+
+</script>
+
+
 @endsection
+
 @endsection
 

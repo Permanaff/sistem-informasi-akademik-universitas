@@ -37,12 +37,10 @@ class RiwayatAbsenController extends Controller
             'id_jadwal' => 'required',
         ]);
 
-
-        if ($validator->fails()) {
+        // Validasi data 
+        if ($validator->fails() or $request->id_jadwal == '0') {
             return response()->json($validator->errors(), 422);
-        } else if ($request->id_jadwal == '0') {
-            return response()->json($validator->errors(), 422);
-        }
+        } 
 
 
         $absen = Krs::with(['mahasiswa' => function($query) {
@@ -83,7 +81,7 @@ class RiwayatAbsenController extends Controller
             }
         }
 
-        Log::info($groupedData);
+        // Log::info($groupedData);
 
         
         // $result = [];

@@ -10,9 +10,11 @@ use App\Http\Controllers\Admin\ProdiController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Dosen\DaftarMahasiswaController;
 use App\Http\Controllers\Dosen\HomeDosenController;
+use App\Http\Controllers\Dosen\JadwalDosenController;
 use App\Http\Controllers\Dosen\KelasBimbinganController;
 use App\Http\Controllers\Dosen\PresensiController;
 use App\Http\Controllers\Dosen\RiwayatAbsenController;
+use App\Http\Controllers\Dosen\UbahAbsensiController;
 use App\Http\Controllers\Mahasiswa\HomeMahasiswaController;
 use App\Http\Controllers\Mahasiswa\InputKrsController;
 use Illuminate\Support\Facades\Route;
@@ -51,6 +53,12 @@ Route::middleware(['auth'])->group(function() {
     Route::resource('/dsn/bimbingan', KelasBimbinganController::class )->middleware('userAccess:dosen');
     Route::resource('/dsn/daftarmahasiswa', DaftarMahasiswaController::class )->middleware('userAccess:dosen');
     Route::resource('/dsn/absenmahasiswa', RiwayatAbsenController::class )->middleware('userAccess:dosen');
+    Route::resource('/dsn/jadwalmengajar', JadwalDosenController::class )->middleware('userAccess:dosen');
+
+    // Route Ubah Absen Dosen
+    Route::get('/dsn/ubahabsen',[UbahAbsensiController::class, 'index'] )->middleware('userAccess:dosen');
+    Route::post('/dsn/ubahabsen', [UbahAbsensiController::class, 'store'] )->middleware('userAccess:dosen');
+    Route::put('/dsn/ubahabsen/update', [UbahAbsensiController::class, 'updateAbsen'] )->middleware('userAccess:dosen');
     
     // Route Mahasiswa
     Route::get('/std', [HomeMahasiswaController::class, 'index'])->middleware('userAccess:mahasiswa');

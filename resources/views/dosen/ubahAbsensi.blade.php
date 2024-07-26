@@ -158,13 +158,30 @@
     </div>
     <div class="card-body">
       <div class="container col-md-8">
+          <select class="form-select" aria-label="Default select example" id="kelasInput">
+            <option value="0" selected>--- Pilih Kelas ---</option>
+            @foreach ($jadwal as $jdwl)
+              <option value="{{ $jdwl->id }}">{{ $jdwl->matkul->nama_matkul }} - Kelas {{ $jdwl->kls }}</option>
+            @endforeach
+          </select>
 
-        <select class="form-select" aria-label="Default select example" id="kelasInput">
-          <option value="0" selected>--- Pilih Kelas ---</option>
-          @foreach ($jadwal as $jdwl)
-            <option value="{{ $jdwl->id }}">{{ $jdwl->matkul->nama_matkul }} - Kelas {{ $jdwl->kls }}</option>
-          @endforeach
-        </select>
+          <select class="form-select my-3" name="pertemuan" id="pertemuanInput">
+            <option value="0" selected>--- Pilih Pertemuan ---</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="1">9</option>
+            <option value="2">10</option>
+            <option value="3">11</option>
+            <option value="4">12</option>
+            <option value="5">13</option>
+            <option value="6">14</option>
+          </select>
 
         <div class="d-flex justify-content-end mt-2" id="buttonContainer">
           <button class="btn btn-success" disabled>Tampilkan</button>
@@ -174,31 +191,17 @@
     </div>
   </div>
   <div id="tableContainer">
+    <input type="hidden" id="X" value="">
+    <input type="hidden" id="Y" value="">
     <div class="card mt-3 card-rounded-bottom">
       <div class="card-body" id="tableMahasiswa">
           <table class="table table-striped table-bordered" id="jadwalTable">
             <thead>
               <tr>
-                <th class="header text-center" rowspan="2" style="width: 90px;">No</th>
-                <th class="header text-center" rowspan="2" style="width: 200px;">NPM</i></th>
-                <th class="header text-center" rowspan="2" style="width: 300px;">Nama Mahasiswa</th>
-                <th colspan="16" class="header text-center">Pertemuan </th>
-              </tr>
-              <tr>
-                <th class="header text-center column-absen">1</th>
-                <th class="header text-center column-absen">2</th>
-                <th class="header text-center column-absen">3</th>
-                <th class="header text-center column-absen">4</th>
-                <th class="header text-center column-absen">5</th>
-                <th class="header text-center column-absen">6</th>
-                <th class="header text-center column-absen">7</th>
-                <th class="header text-center column-absen">8</th>
-                <th class="header text-center column-absen">9</th>
-                <th class="header text-center column-absen">10</th>
-                <th class="header text-center column-absen">11</th>
-                <th class="header text-center column-absen">12</th>
-                <th class="header text-center column-absen">13</th>
-                <th class="header text-center column-absen">14</th>
+                <th class="header text-center" style="width: 90px;">No</th>
+                <th class="header text-center" style="width: 200px;">NPM</i></th>
+                <th class="header text-center" style="width: 300px;">Nama Mahasiswa</th>
+                <th class="header text-center">Keterangan</th>
               </tr>
             </thead>
               <tbody id="tableBody">
@@ -207,7 +210,10 @@
           </table>
       </div>
   </div>
+  </div>
 
+  <div class="d-flex justify-content-end my-3">
+    <button class="btn btn-success" id="saveBtn" onclick="test()">Simpan</button>
   </div>
   
 
@@ -219,7 +225,7 @@
 
 @section('scripts')
 <script src="{{ asset('/js/dashboard.js') }}"></script>
-<script src="{{ asset('/js/dosen/riwayat-absen.js') }}"></script>
+<script src="{{ asset('/js/dosen/ubah-absen.js') }}"></script>
 @endsection
 @endsection
 

@@ -10,7 +10,7 @@ class RiwayatAbsen extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nim', 'pertemuan', 'ket'
+        'id_absen', 'nim', 'pertemuan', 'ket'
     ];
 
     

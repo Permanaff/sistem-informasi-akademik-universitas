@@ -22,25 +22,7 @@
           </h6>
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-2" href="/dsn/presensi">
-              <i class="bi bi-building"></i>
-              Buat Presensi
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-2" href="/adm/prodi">
-              <i class="bi bi-building"></i>
-              Absensi
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-2" href="/dsn/absenmahasiswa">
-              <i class="bi bi-book"></i>
-               Riwayat Absen
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-2" href="/adm/matkul">
+            <a class="nav-link d-flex align-items-center gap-2" href="/dsn/jadwalmengajar">
               <i class="bi bi-book"></i>
               Jadwal Mengajar
             </a>
@@ -52,6 +34,25 @@
             </a>
           </li>
           
+          <hr class="my-1 mx-4">
+          <li class="nav-item">
+            <a class="nav-link d-flex align-items-center gap-2" href="/dsn/presensi">
+              <i class="bi bi-building"></i>
+              Buat Presensi
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link d-flex align-items-center gap-2" href="/dsn/ubahabsen">
+              <i class="bi bi-building"></i>
+              Ubah Absensi
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link d-flex align-items-center gap-2" href="/dsn/absenmahasiswa">
+              <i class="bi bi-book"></i>
+              Riwayat Absen
+            </a>
+          </li>
           <hr class="my-1 mx-4">
 
           <li class="nav-item">

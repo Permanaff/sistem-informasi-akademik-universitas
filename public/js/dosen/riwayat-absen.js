@@ -25,6 +25,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function tampilData() {
     let tableContainer = document.getElementById('tableContainer');
+
+    if (kelasInput.value == 0) {
+        return
+    }
+
     let data = {
         'id_jadwal' : kelasInput.value
       }
@@ -56,7 +61,7 @@ function tampilData() {
                 <tr  id="dataAbsen">
                     <td class="text-center" style="width: 50px;">${index + 1}</td>
                     <td class="text-center">${mhs.nim}</td>
-                    <td class="text-center">${mhs.nama}</td>  
+                    <td class="">${mhs.nama}</td>  
             `
             riwayatAbsensArray.forEach((absen, index) => {
                 content += `
@@ -73,7 +78,7 @@ function tampilData() {
         });
         document.getElementById('tableBody').innerHTML = '';
         document.getElementById('tableBody').innerHTML = content;
-        
+
         if (mahasiswa.length === 0) {
             document.getElementById('tableBody').innerHTML = `<tr><td colspan='17' class='text-center'>Belum Ada Data Mahasiswa!</td></tr>`
         }
