@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class RiwayatAbsen extends Model
+class Presensi extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'id_absen', 'nim', 'pertemuan', 'ket'
+        'id_jadwal', 'nim', 'pertemuan', 'ket'
     ];
 
     
@@ -19,8 +19,8 @@ class RiwayatAbsen extends Model
         return $this->belongsTo(Mahasiswa::class,'nim','nim');
     }
 
-    public function absen()
+    public function jadwal()
     {
-        return $this->belongsTo(Absen::class, 'id_absen', 'id');
+        return $this->belongsTo(Absen::class, 'id', 'id_jadwal');
     }
 }

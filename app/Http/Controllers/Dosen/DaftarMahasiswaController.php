@@ -28,7 +28,6 @@ class DaftarMahasiswaController extends Controller
 
     public function store(Request $request)
     {
-        Log::info('---------- store ----------');
         $validator = Validator::make($request->all(), [
             'id_jadwal' => 'required',
         ]);

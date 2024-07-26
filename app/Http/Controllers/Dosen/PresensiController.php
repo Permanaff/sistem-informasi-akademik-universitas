@@ -45,7 +45,7 @@ class PresensiController extends Controller
         Absen::create([
             'id_jadwal' => $request->matkul,
             'pertemuan' => $request->pertemuan,
-            'ket' => $request->matkul,
+            'ket' => '-',
             'kode_absen' => $kode_absen,
             'batas_mulai' => $request->mulai,
             'batas_selesai' => $request->selesai,

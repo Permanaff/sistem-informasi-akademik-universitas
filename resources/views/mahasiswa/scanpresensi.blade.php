@@ -79,18 +79,8 @@
     display: block !important;
   }
 
-  .card-rounded-bottom {
-    border-top-left-radius: 0px; 
-    border-top-right-radius: 0px;
-  }
-
-  .card-rounded-top {
-    border-bottom-left-radius: 0px; 
-    border-bottom-right-radius: 0px;
-  }
-
-  .column-absen {
-    width: 50px
+  .datatable-info {
+    visibility: hidden;
   }
 </style>
 
@@ -99,7 +89,8 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
 <!-- Custom styles for this template -->
 <link href="{{ asset('/css/dashboard.css') }}" rel="stylesheet">
-{{-- <link href="{{ asset('/css/krstables.css') }}" rel="stylesheet"> --}}
+<link href="{{ asset('/css/krstables.css') }}" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
 @endsection
 
 @section('content')
@@ -150,68 +141,57 @@
 {{-- CONTENT --}}
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Presensi Mahasiswa</h1>
+    <h1 class="h2">Presensi</h1>
   </div>
   <div class="card">
     <div class="card-header">
-      <p class="fs-6 m-0">Daftar Presensi</p>
+        <p class="fs-6 m-0">Presensi Mahasiswa</p>
     </div>
-    <div class="card-body" id="tableMahasiswa">
-        <table class="table table-striped table-bordered" id="jadwalTable">
-            <thead>
-              <tr>
-                <th class="header text-center" rowspan="2" style="width: 90px;">No</th>
-                <th class="header text-center" rowspan="2" style="width: 400px;">Mata Kuliah</i></th>
-                <th class="header text-center" rowspan="2">SKS</th>
-                <th class="header text-center" rowspan="2" style="width: 400px;">Jadwal</th>
-                <th colspan="16" class="header text-center">Pertemuan </th>
-              </tr>
-              <tr>
-                <th class="header text-center column-absen">1</th>
-                <th class="header text-center column-absen">2</th>
-                <th class="header text-center column-absen">3</th>
-                <th class="header text-center column-absen">4</th>
-                <th class="header text-center column-absen">5</th>
-                <th class="header text-center column-absen">6</th>
-                <th class="header text-center column-absen">7</th>
-                <th class="header text-center column-absen">8</th>
-                <th class="header text-center column-absen">9</th>
-                <th class="header text-center column-absen">10</th>
-                <th class="header text-center column-absen">11</th>
-                <th class="header text-center column-absen">12</th>
-                <th class="header text-center column-absen">13</th>
-                <th class="header text-center column-absen">14</th>
-              </tr>
-            </thead>
-            <tbody>
-              @forelse ($kehadiran as $index => $absensi)
-                  <tr>
-                      <td class="text-center">{{ $index + 1 }}</td>
-                      <td class="text">{{ $absensi['matkul'] }}</td>
-                      <td class="text-center">{{ $absensi['sks']}}</td>
-                      <td class="text-center">{{ $absensi['jadwal']}}</td>
-                      @foreach ($absensi['presensi'] as $ket)
-                        <td class="text-center">{{ $ket->ket }}</td>
-                      @endforeach
-                  </tr>
-              @empty
-                  <div class="alert alert-danger">
-                      Data Jadwal Belum Tersedia
-                  </div>
-              @endforelse
-            </tbody>
-        </table>
-    </div>
+    <form action="{{ route('scanabsen.store') }}" method="POST">
+      @csrf
+      <div class="card-body">
+        <div class="my-3">
+          <input class="form-control" type="text" name="kode_absen" placeholder="Kode Presensi" aria-label="kode-presensi">
+        </div>
+        <div class="d-flex justify-content-center">
+          <button type="submit" class="btn btn-success">Absen Sekarang</button>
+        </div>
+      </div>
+    </form>
   </div>
-
 </main>
 {{-- CONTENT END --}}
 </div>
 </div>
 
 @section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
 <script src="{{ asset('/js/dashboard.js') }}"></script>
-{{-- <script src="{{ asset('/js/dosen/riwayat-absen.js') }}"></script> --}}
+{{-- <script src="{{ asset('/js/mhs/krs.js') }}"></script> --}}
+
+<script>
+    //message with sweetalert
+    @if(session('success'))
+        Swal.fire({
+            icon: "success",
+            title: "BERHASIL",
+            text: "{{ session('success') }}",
+            showConfirmButton: false,
+            timer: 2000
+        });
+    @elseif(session('error'))
+        Swal.fire({
+            icon: "error",
+            title: "GAGAL!",
+            text: "{{ session('error') }}",
+            showConfirmButton: false,
+            timer: 2000
+        });
+    @endif
+</script>
+
+
 @endsection
+
 @endsection
 

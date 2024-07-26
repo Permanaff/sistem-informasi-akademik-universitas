@@ -17,6 +17,8 @@ use App\Http\Controllers\Dosen\RiwayatAbsenController;
 use App\Http\Controllers\Dosen\UbahAbsensiController;
 use App\Http\Controllers\Mahasiswa\HomeMahasiswaController;
 use App\Http\Controllers\Mahasiswa\InputKrsController;
+use App\Http\Controllers\Mahasiswa\PresensiMahasiswaController;
+use App\Http\Controllers\Mahasiswa\ScanPresensiController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -60,6 +62,8 @@ Route::middleware(['auth'])->group(function() {
     Route::post('/dsn/ubahabsen', [UbahAbsensiController::class, 'store'] )->middleware('userAccess:dosen');
     Route::put('/dsn/ubahabsen/update', [UbahAbsensiController::class, 'updateAbsen'] )->middleware('userAccess:dosen');
     
+
+    
     // Route Mahasiswa
     Route::get('/std', [HomeMahasiswaController::class, 'index'])->middleware('userAccess:mahasiswa');
     
@@ -67,7 +71,11 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/std/krs', [InputKrsController::class, 'index'])->middleware('userAccess:mahasiswa');
     Route::get('/std/krs/daftarmatkul', [InputKrsController::class, 'daftarMatkul'])->middleware('userAccess:mahasiswa');
     Route::get('/std/krs/tambahkrs', [InputKrsController::class, 'tambahKrs'])->middleware('userAccess:mahasiswa');
-    Route::post('/std/krs', [InputKrsController::class, 'store'])->name('std.krs.store')->middleware('userAccess:mahasiswa');
+
+    Route::post('/std/scanpresensi', [InputKrsController::class, 'store'])->name('std.krs.store')->middleware('userAccess:mahasiswa');
     
     // Route::get('/std/krs/daftarMatkul', [InputKrsController::class, 'daftarMatkul'])->name('std.krs.daftarMatkul');
+
+    Route::resource('/std/kehadiran', PresensiMahasiswaController::class )->middleware('userAccess:mahasiswa');
+    Route::resource('/std/scanabsen', ScanPresensiController::class )->middleware('userAccess:mahasiswa');
 });

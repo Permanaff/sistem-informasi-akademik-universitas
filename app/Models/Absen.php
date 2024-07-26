@@ -10,7 +10,7 @@ class Absen extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id_jadwal', 'pertemuan', 'ket', 'kode_absen', 'batas_mulai', 'batas_selesai'
+        'id_jadwal', 'pertemuan', 'kode_absen', 'batas_mulai', 'batas_selesai'
     ];
 
     public function jadwal()
@@ -18,9 +18,9 @@ class Absen extends Model
         return $this->belongsTo(Jadwal::class,'id_jadwal','id');
     }
 
-    public function riwayat_jadwal()
-    {
-        return $this->hasMany(RiwayatAbsen::class,'id_absen');
-    }
+    // public function riwayat_absen()
+    // {
+    //     return $this->hasMany(RiwayatAbsen::class,'id_absen', 'id');
+    // }
 
 }

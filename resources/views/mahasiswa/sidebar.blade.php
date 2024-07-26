@@ -22,7 +22,7 @@
           </h6>
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-2" href="/adm/fakultas">
+            <a class="nav-link d-flex align-items-center gap-2" href="/std/scanabsen">
               <i class="fa fa-qrcode" aria-hidden="true"></i>
               Scan Presensi
             </a>
@@ -55,7 +55,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-2" href="/adm/student">
+            <a class="nav-link d-flex align-items-center gap-2" href="/std/kehadiran">
               <i class="fa fa-id-card" aria-hidden="true"></i>
               Kehadiran
             </a>
