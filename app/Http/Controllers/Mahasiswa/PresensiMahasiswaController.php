@@ -26,7 +26,9 @@ class PresensiMahasiswaController extends Controller
 
     public function index() : View 
     {
-        $data = Krs::with(['jadwal', 'jadwal.matkul', 'jadwal.presensi', 'jadwal.gedungs'])->where('nim', $this->nim)->get();
+        $data = Krs::with(['jadwal', 'jadwal.matkul', 'jadwal.presensi' => function ($query) {
+            $query->where('nim', $this->nim);
+        }, 'jadwal.gedungs'])->where('nim', $this->nim)->get();
 
         $kehadiran = $data->map(function ($items) {
             $hadir = $items->jadwal->presensi->map(function ($ket) {

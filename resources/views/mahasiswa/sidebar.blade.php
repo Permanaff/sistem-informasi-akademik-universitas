@@ -34,7 +34,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-2" href="/adm/matkul">
+            <a class="nav-link d-flex align-items-center gap-2" href="/std/khs">
               <i class="bi bi-book"></i>
               KHS
             </a>

@@ -184,7 +184,7 @@
               </tr>
             </thead>
             <tbody>
-              @forelse ($kehadiran as $index => $absensi)
+              {{-- @forelse ($kehadiran as $index => $absensi)
                   <tr>
                       <td class="text-center">{{ $index + 1 }}</td>
                       <td class="text">{{ $absensi['matkul'] }}</td>
@@ -198,7 +198,7 @@
                   <tr>
                     <td class="text-center" colspan="18">Data Kehadiran Belum Tersedia!</td>
                 </tr>
-              @endforelse
+              @endforelse --}}
             </tbody>
         </table>
     </div>

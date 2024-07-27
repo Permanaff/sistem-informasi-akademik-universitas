@@ -22,4 +22,9 @@ class Krs extends Model
     {
         return $this->belongsTo(Jadwal::class,'id_jadwal', 'id');
     }
+
+    public function khs()
+    {
+        return $this->hasMany(Khs::class,'id_krs');
+    }
 }

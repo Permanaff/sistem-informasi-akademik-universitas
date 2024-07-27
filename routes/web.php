@@ -17,6 +17,7 @@ use App\Http\Controllers\Dosen\RiwayatAbsenController;
 use App\Http\Controllers\Dosen\UbahAbsensiController;
 use App\Http\Controllers\Mahasiswa\HomeMahasiswaController;
 use App\Http\Controllers\Mahasiswa\InputKrsController;
+use App\Http\Controllers\Mahasiswa\KhsController;
 use App\Http\Controllers\Mahasiswa\PresensiMahasiswaController;
 use App\Http\Controllers\Mahasiswa\ScanPresensiController;
 use Illuminate\Support\Facades\Route;
@@ -78,4 +79,5 @@ Route::middleware(['auth'])->group(function() {
 
     Route::resource('/std/kehadiran', PresensiMahasiswaController::class )->middleware('userAccess:mahasiswa');
     Route::resource('/std/scanabsen', ScanPresensiController::class )->middleware('userAccess:mahasiswa');
+    Route::resource('/std/khs', KhsController::class )->middleware('userAccess:mahasiswa');
 });
