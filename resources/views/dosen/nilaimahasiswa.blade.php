@@ -89,24 +89,8 @@
     border-bottom-right-radius: 0px;
   }
 
-  .column-50 {
-    width: 50px;
-  }
-  .column-80 {
-    width: 80px;
-  }
-  .column-100 {
-    width: 100px;
-  }
-  .column-450 {
-    width: 450px;
-  }
-
-  .table-bordered {
-    border: 2px solid #ddd !important;
-  }
-  .colbordered {
-    border: 2px solid #ddd !important;
+  .col-nilai {
+    width: 90px
   }
 </style>
 
@@ -161,63 +145,79 @@
 <div class="container-fluid">
 {{-- SIDEBARD --}}
 <div class="row">
-@include('mahasiswa/sidebar')
+@include('dosen/sidebar')
 
 {{-- CONTENT --}}
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Kartu Hasil Studi</h1>
+    <h1 class="h2">Nilai Mahasiswa</h1>
   </div>
-  <div class="card">
+  <div class="card card-rounded-top">
     <div class="card-header">
-      <p class="fs-6 m-0">Kartu Hasil Studi</p>
+      <p class="fs-6 m-0">Daftar Mahasiswa</p>
     </div>
-    <div class="card-body" id="tableMahasiswa">
-      <table class="table table-striped table-bordered">
-        <thead>
-            <tr class="text-center colbordered">
-                <th class="text-center column-50" scope="col">No</th>
-                <th class="text-center" scope="col">Kode MK</th>
-                <th class="text-center column-450" scope="col">Mata Kuliah</th>
-                <th class="text-center" scope="col">SKS</th>
-                <th class="text-center" scope="col">SMT</th>
-                <th class="text-center" scope="col">Kelas</th>
-                <th class="text-center" scope="col">UTS</th>
-                <th class="text-center" scope="col">Nilai</th>
-                <th class="text-center" scope="col">Bobot</th>
-                <th class="text-center" scope="col">Total</th>
-            </tr>
-        </thead>
-        <tbody>
-          @forelse($khs as $index => $nilai)
-              <tr>
-                  <td class="text-center">{{ $index + 1 }}</td>
-                  <td>{{ $nilai['kode_mk'] }}</td>
-                  <td>{{ $nilai['matkul'] }}</td>
-                  <td class="text-center">{{ $nilai['sks'] }}</td>
-                  <td class="text-center">{{ $nilai['smt'] }}</td>
-                  <td class="text-center">{{ $nilai['kelas'] }}</td>
-                  <td class="text-center">{{ $nilai['uts'] }}</td>
-                  <td class="text-center">{{ $nilai['nilai'] }}</td>
-                  <td class="text-center">{{ $nilai['bobot'] }}</td>
-                  <td class="text-center">{{ $nilai['total'] }}</td>
-              </tr>
-            @empty
-              <tr>
-                <td class="text-center" colspan="10">Data KHS untuk semester ini masih kosong</td>
-              </tr>
-            @endforelse
-        </tbody>
-        <tfoot>
-          <tr>
-            <td class="text-center fw-bold fs-6" colspan="3">Total SKS : {{ $totalSks }}</td>
-            <td class="text-center fw-bold fs-6" colspan="3">Total Nilai : {{ $totalNilai }}</td>
-            <td class="text-center fw-bold fs-6" colspan="4">IP Semester : {{ $ip }}</td>
-          </tr>
-        </tfoot>
-    </table>
+    <div class="card-body">
+      <form action="{{ route('nilaimahasiswa.show') }}" method="POST">
+        @csrf
+        <div class="container col-md-8">
+          <select class="form-select" aria-label="kelas" name="kelas" id="kelas">
+            <option value="0" selected>--- Pilih Kelas ---</option>
+            @foreach ($jadwal as $jdwl)
+              <option value="{{ $jdwl->id }}">{{ $jdwl->matkul->nama_matkul }} - Kelas {{ $jdwl->kls }}</option>
+            @endforeach
+          </select>
+          <div class="d-flex justify-content-end mt-2" id="buttonContainer">
+            <button type="submit" class="btn btn-success">Tampilkan</button>
+          </div>
+      </form>
+      </div>
     </div>
   </div>
+
+  @if (isset($mahasiswa) && !empty($mahasiswa))
+  <div class="card mt-3 card-rounded-bottom">
+    <div class="card-body">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr class="text-center">
+                    <th class="text-center" scope="col" rowspan="2">No</th>
+                    <th class="text-center" scope="col" rowspan="2">NPM</th>
+                    <th class="text-center" scope="col" rowspan="2">Nama Mahasiswa</th>
+                    <th class="text-center" scope="col" colspan="7">Nilai</th>
+                </tr>
+                <tr>
+                    <th class="text-center col-nilai" scope="col">CPMK 1</th>
+                    <th class="text-center col-nilai" scope="col">CPMK 2</th>
+                    <th class="text-center col-nilai" scope="col">CPMK 3</th>
+                    <th class="text-center col-nilai" scope="col">CPMK 4</th>
+                    <th class="text-center col-nilai" scope="col">UTS</th>
+                    <th class="text-center col-nilai" scope="col">UAS</th>
+                    <th class="text-center col-nilai" scope="col">Nilai Akhir</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse ($mahasiswa as $index => $mhs)
+                    <tr>
+                      <td class="text-center">{{ $index + 1 }}</td>
+                      <td class="text-center">{{ $mhs['nim'] }}</td>
+                      <td class="text">{{ $mhs['nama'] }}</td>
+                      {{-- <td class="text-center">{{ $mhs['nilai'] }}</td> --}}
+                      @foreach ($mhs['nilai'] as $nilai)
+                          <td class="text-center">{{ $nilai }}</td>
+                      @endforeach
+                    </tr>
+                @empty
+                    <tr>
+                        <td class="text-center" colspan="10">Data Jadwal Belum Tersedia</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+  </div>
+  @endif
+
+  
 
 </main>
 {{-- CONTENT END --}}
@@ -226,7 +226,7 @@
 
 @section('scripts')
 <script src="{{ asset('/js/dashboard.js') }}"></script>
-{{-- <script src="{{ asset('/js/dosen/riwayat-absen.js') }}"></script> --}}
+{{-- <script src="{{ asset('/js/dosen/daftar-mahasiswa.js') }}"></script> --}}
 @endsection
 @endsection
 

@@ -12,6 +12,7 @@ use App\Http\Controllers\Dosen\DaftarMahasiswaController;
 use App\Http\Controllers\Dosen\HomeDosenController;
 use App\Http\Controllers\Dosen\JadwalDosenController;
 use App\Http\Controllers\Dosen\KelasBimbinganController;
+use App\Http\Controllers\Dosen\NilaiMahasiswaController;
 use App\Http\Controllers\Dosen\PresensiController;
 use App\Http\Controllers\Dosen\RiwayatAbsenController;
 use App\Http\Controllers\Dosen\UbahAbsensiController;
@@ -40,7 +41,7 @@ route::middleware(['guest'])->group(function () {
 Route::middleware(['auth'])->group(function() {
     Route::get('/logout', [AuthController::class, 'logout']);
     
-    // Route Admin
+    // --------------- Route Admin ---------------
     Route::get('/adm', [FakultasController::class, 'index'] )->middleware('userAccess:admin');
     Route::resource('/adm/fakultas', FakultasController::class )->middleware('userAccess:admin');
     Route::resource('/adm/prodi', ProdiController::class )->middleware('userAccess:admin');
@@ -50,7 +51,7 @@ Route::middleware(['auth'])->group(function() {
     Route::resource('/adm/dosen', DosenController::class )->middleware('userAccess:admin');
     Route::resource('/adm/student', MahasiswaController::class )->middleware('userAccess:admin');
     
-    // Route Dosen
+    // --------------- Route Dosen ---------------
     Route::get('/dsn', [HomeDosenController::class, 'index'] )->middleware('userAccess:dosen');
     Route::resource('/dsn/presensi', PresensiController::class )->middleware('userAccess:dosen');
     Route::resource('/dsn/bimbingan', KelasBimbinganController::class )->middleware('userAccess:dosen');
@@ -63,9 +64,12 @@ Route::middleware(['auth'])->group(function() {
     Route::post('/dsn/ubahabsen', [UbahAbsensiController::class, 'store'] )->middleware('userAccess:dosen');
     Route::put('/dsn/ubahabsen/update', [UbahAbsensiController::class, 'updateAbsen'] )->middleware('userAccess:dosen');
     
+    // Route Nilai Mahasiswa
+    Route::get('/dsn/nilaimahasiswa', [NilaiMahasiswaController::class, 'index'])->middleware('userAccess:dosen');
+    Route::post('/dsn/nilaimahasiswa', [NilaiMahasiswaController::class, 'show'])->name('nilaimahasiswa.show')->middleware('userAccess:dosen');
 
     
-    // Route Mahasiswa
+    // --------------- Route Mahasiswa ---------------
     Route::get('/std', [HomeMahasiswaController::class, 'index'])->middleware('userAccess:mahasiswa');
     
     // Mahasiswa KRS

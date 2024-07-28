@@ -17,47 +17,25 @@
 
     </style>
 <body>
-    <div class="container d-flex justify-content-center mt-5">
-        <div class="row">
-            <div class="col-5">
-                <div class="mt-5 "></div>
-                @if (session('message'))
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert" style="width: 450px !important;">
-                        Email atau Password Salah! 
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div> 
-                @endif
-                
-                <div class="mt-2"></div>
-                <div class="border rounded-0 p-4 card-login" style="width: 450px !important;">
-                    <h1 class="fs-1 fw-bold mb-5 text-center">Login</h1>
-                    <form action="{{ url('/') }}" method="POST">
-                        @csrf
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email address</label>
-                            <input type="text" class="form-control rounded-0" id="email" placeholder="Masukkan Email" name='email'>
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control rounded-0" id="password" placeholder="Masukkan Password" name='password'>
-                        </div>
-        
-                        <button class="btn btn-primary w-100 fw-bold my-2" type="submit">Login</button>
-                        {{-- <p class="text-center my-2">Belum Memiliki Akun? <span><a href="#" style="text-decoration: none">Daftar</a></span></p> --}}
-                    </form>
-                </div>
-                
-                
+    <div class="container p-0">
+        <div class="login-box">
+            <div class="signin">
+                <h2 class="mb-5">SIAKAD</h2>
+                <form action="{{ url('/') }}" method="POST">
+                    @csrf
+                    <div class="textbox">
+                        <input type="text" placeholder="NIDN/NPM" name="email" id="email" required>
+                    </div>
+                    <div class="textbox">
+                        <input type="password" placeholder="Password" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn">Masuk</button>
+                </form>
             </div>
-            
-            
+            <div class="welcome">
+                <h2>SISTEM INFORMASI AKADEMIK</h2>
+            </div>
         </div>
-
-        <div class="row">
-            
-        </div>
-
-
     </div>
 
 

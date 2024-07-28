@@ -17,12 +17,13 @@ return new class extends Migration
                 table : 'krs',
                 indexName: 'khs_id_krs'
             );
-            $table->integer('uts');
-            $table->integer('nilai');
-            $table->integer('cpmk1');
-            $table->integer('cpmk2');
-            $table->integer('cpmk3');
-            $table->integer('cpmk4');
+            $table->integer('nilai')->nullable();
+            $table->integer('cpmk1')->nullable();
+            $table->integer('cpmk2')->nullable();
+            $table->integer('cpmk3')->nullable();
+            $table->integer('cpmk4')->nullable();
+            $table->integer('uts')->nullable();
+            $table->integer('uas')->nullable();
             $table->timestamps();
         });
     }

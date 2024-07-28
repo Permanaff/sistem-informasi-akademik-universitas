@@ -2,6 +2,164 @@
     background-image: aqua;
 } */
 
-.card-login {
+/* .card-login {
     background-color: #fff;
+} */
+
+body {
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    /* background-color: #f2f2f2; */
+    background-image: url('/images/login-background.png');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+}
+
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(250, 247, 247, 0.2); /* Warna overlay hitam dengan transparansi 50% */
+    z-index: -1;
+}
+
+/* body {
+    position: relative;
+    z-index: 2; 
+    color: white; 
+    text-align: center;
+    padding-top: 20%;
+} */
+
+.container {
+    width: 100%;
+    max-width: 900px;
+    background-color: #fff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-wrap: wrap;
+    margin: 20px;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.login-box {
+    width: 100%;
+    height: 500px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.signin, .welcome {
+    flex: 1;
+    min-width: 300px;
+    padding: 40px;
+}
+
+.signin {
+    background: #fff;
+}
+
+.signin h2 {
+    margin-bottom: 20px;
+}
+
+.textbox {
+    margin-bottom: 20px;
+}
+
+.textbox input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.btn {
+    width: 100%;
+    padding: 10px;
+    background: linear-gradient(to right, #ff416c, #ff4b2b);
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.options label {
+    display: flex;
+    align-items: center;
+}
+
+.options input {
+    margin-right: 8px;
+}
+
+.options a {
+    color: #ff416c;
+    text-decoration: none;
+}
+
+.welcome {
+    background: linear-gradient(to right, #ff416c, #ff4b2b);
+    color: #fff;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.welcome h2 {
+    margin-bottom: 20px;
+}
+
+.welcome p {
+    margin-bottom: 20px;
+}
+
+.signup-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #fff;
+    color: #ff416c;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+@media (max-width: 768px) {
+    .signin, .welcome {
+        padding: 20px;
+    }
+    
+    .textbox {
+        margin-right: 20px;
+    }
+}
+
+@media (max-width: 639px) {
+    .welcome {
+        visibility: hidden;
+    }
+    .login-box {
+        height: 400px;
+    }
 }
