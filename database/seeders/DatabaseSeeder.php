@@ -37,6 +37,7 @@ class DatabaseSeeder extends Seeder
             JadwalSeeder::class,
             KelasSeeder::class,
             MahasiswaSeeder::class,
+            JadwalKrsSeeder::class,
         ]);
 
         // Generate Mahasiswa data first

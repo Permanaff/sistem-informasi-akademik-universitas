@@ -11,15 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kalender_akademiks', function (Blueprint $table) {
+        Schema::create('jadwal_krs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_ta')->constrained(
-                table: 'tahun_akademiks',
-                indexName: 'ka_id_ta'
+                table : 'tahun_akademiks',
+                indexName: 'jadwal_krs_id_tahun_akademik'
             );
-            $table->enum('minggu', [1,2,3,4,5,6,7,8,9,10,11,12,13,14, 'uts', 'uas']);
-            $table->date('tgl_mulai');
-            $table->date('tgl_selesai');
+            $table->foreignId('id_fakultas')->constrained(
+                table: 'fakultas',
+                indexName: 'jadwal_krs_id_fakultas'
+            );
+            $table->dateTime('tgl_mulai')->nullable();
+            $table->dateTime('tgl_selesai')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kalender_akademiks');
+        Schema::dropIfExists('jadwal_krs');
     }
 };

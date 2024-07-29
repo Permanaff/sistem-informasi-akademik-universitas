@@ -151,6 +151,7 @@
             <thead>
                 <tr>
                     <th class="text-center" scope="col">No</th>
+                    <th class="text-center" scope="col">Fakultas</th>
                     <th class="text-center" scope="col">Semester</th>
                     <th class="text-center" scope="col">Ta</th>
                     <th class="text-center" scope="col">Jadwal</th>
@@ -158,29 +159,18 @@
                 </tr>
             </thead>
             <tbody>
-              {{-- @foreach ($jadwals as $jadwal)
-                <tr>
-                    <td class="text-center">{{ $jadwal->matkul->kode_matkul }}</td>
-                    <td class="text-center">{{ $jadwal->matkul->nama_matkul }}</td>
-                    <td class="text-center">{{ $jadwal->matkul->sks }}</td>
-                    <td class="text-center">{{ $jadwal->matkul->semester }}</td>
-                    <td class="text-center">{{ $jadwal->tahun_ajar->tahun_ajaran}}</td>
-                    <td class="text-center">{{ $jadwal->dosen->nama}}</td>
-                    <td class="text-center">{{ $jadwal->kls}}</td>
-                    <td class="text-center">{{ $jadwal->kuota }}</td>
-                    <td class="text-center">({{ Str::title($jadwal->hari) }}) {{ $jadwal->formatted_jam_mulai }}-{{ $jadwal->formatted_jam_selesai }} ({{ $jadwal->gedungs->gedung }}-{{ $jadwal->gedungs->no_ruang }})</td>
-                    <td>
-                      <div class="d-flex justify-content-center"> 
-                        <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="#" method="POST">
-                            <a href="#" class="btn btn-sm btn-primary">EDIT</a>
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger">HAPUS</button>
-                        </form>
-                      </div>
-                    </td>
-                </tr>  
-              @endforeach --}}
+              @forelse ($jadwal_krs as $index => $jdwl)
+                  <tr>
+                    <td class="text-center">{{ $index + 1 }}</td>
+                    <td class="text-center">{{ $jdwl->fakultas }}</td>
+                    <td class="text-center">{{ Str::title($jdwl->semester) }}</td>
+                    <td class="text-center">{{ $jdwl->ta }}</td>
+                    <td class="text-center">{{ $jdwl->jadwal }}</td>
+                    <td class="text-center">{{ Str::title($jdwl->status) }}</td>
+                  </tr>
+              @empty
+                  
+              @endforelse
             </tbody>
             <p>
 

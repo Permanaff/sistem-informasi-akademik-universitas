@@ -20,20 +20,21 @@ class InputKrsController extends Controller
     public function index() : View
     {
         $mahasiswaId = Auth::user()->no_induk;
-        $krs = Krs::with('mahasiswa', 'jadwal', 'jadwal.matkul', 'jadwal.tahun_ajar', 'jadwal.gedungs')->where('nim', $mahasiswaId)->get();
+        $krs = Krs::with('mahasiswa', 'jadwal', 'jadwal.matkul', 'jadwal.tahun_akademik', 'jadwal.gedungs')->where('nim', $mahasiswaId)->get();
 
         foreach ($krs as $kr) {
             $kr->formatted_jam_mulai = Carbon::parse($kr->jadwal->jam_mulai)->format('H:i');
             $kr->formatted_jam_selesai = Carbon::parse($kr->jadwal->jam_selesai)->format('H:i');
         }
 
-        $ta = TahunAjar::all()->where('status', 'aktif');
+        $ta = KalenderAkademik::all()->where('status', 'aktif');
+        // dd($ta->toArray());
         return view('mahasiswa.inputkrs', compact('krs', 'ta'));
     }   
     
     public function daftarMatkul() : View
     {
-        $jadwals = Jadwal::with('matkul', 'gedungs', 'tahun_ajar', 'dosen')->latest()->get();
+        $jadwals = Jadwal::with('matkul', 'gedungs', 'tahun_akademik', 'dosen')->latest()->get();
 
         foreach ($jadwals as $jadwal) {
             $jadwal->formatted_jam_mulai = Carbon::parse($jadwal->jam_mulai)->format('H:i');
@@ -47,7 +48,7 @@ class InputKrsController extends Controller
 
     public function tambahKrs() : View
     {
-        $jadwals = Jadwal::with('matkul', 'gedungs', 'tahun_ajar', 'dosen')->latest()->get();
+        $jadwals = Jadwal::with('matkul', 'gedungs', 'tahun_akademik', 'dosen')->latest()->get();
 
         foreach ($jadwals as $jadwal) {
             $jadwal->formatted_jam_mulai = Carbon::parse($jadwal->jam_mulai)->format('H:i');
@@ -55,6 +56,8 @@ class InputKrsController extends Controller
         }
         $matkuls = Matkul::all();
         $kelas = Gedung::all();
+
+        // dd($jadwal->toArray());
         
         return view('mahasiswa.tambahkrs', compact('jadwals', 'matkuls', 'kelas'));
     }

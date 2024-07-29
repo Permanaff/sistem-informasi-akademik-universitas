@@ -14,7 +14,8 @@ document.addEventListener('DOMContentLoaded', function () {
     function buttonChange() {
         if (kelasInput.value != '0') {
             btnContainer.innerHTML='';
-            btnContainer.innerHTML= '<button class="btn btn-success" id="tampilBtn" onclick="tampilData()">Tampilkan</button>'
+            // btnContainer.innerHTML= '<button class="btn btn-success" id="tampilBtn" onclick="tampilData()">Tampilkan</button>'
+            btnContainer.innerHTML= '<button class="btn btn-success" type="submit">Tampilkan</button>'
         } else {
             btnContainer.innerHTML='';
             btnContainer.innerHTML= '<button class="btn btn-success" disabled>Tampilkan</button>'

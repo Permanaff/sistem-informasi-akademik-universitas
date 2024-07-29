@@ -18,6 +18,11 @@ class TahunAkademik extends Model
         return $this->hasMany(Jadwal::class,'id_ta');
     }
 
+    public function jadwalkrs()
+    {
+        return $this->hasMany(JadwalKrs::class,'id_ta');
+    }
+
     public function ka()
     {
         return $this->hasMany(KalenderAkademik::class,'id_ta');

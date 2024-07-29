@@ -175,7 +175,7 @@
                     <td class="">{{ $kr->jadwal->matkul->nama_matkul }}</td>
                     <td class="text-center">{{ $kr->jadwal->matkul->sks }}</td>
                     <td class="text-center">{{ $kr->jadwal->matkul->semester }}</td>
-                    <td class="text-center">{{ $kr->jadwal->tahun_ajar->tahun_ajaran}}</td>
+                    <td class="text-center">{{ $kr->jadwal->tahun_akademik->tahun_ajaran}}</td>
                     <td class="text-center">{{ $kr->jadwal->kls}}</td>
                     <td class="text-center">{{ $kr->jadwal->kuota }}</td>
                     <td class="text-center">({{ Str::title($kr->jadwal->hari) }}) {{ $kr->formatted_jam_mulai }}-{{ $kr->formatted_jam_selesai }} ({{ $kr->jadwal->gedungs->gedung }}-{{ $kr->jadwal->gedungs->no_ruang }})</td>

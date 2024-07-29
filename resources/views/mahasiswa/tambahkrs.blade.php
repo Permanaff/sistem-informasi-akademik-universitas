@@ -182,7 +182,7 @@
                       <td class="">{{ $jadwal->matkul->nama_matkul }}</td>
                       <td class="text-center">{{ $jadwal->matkul->sks }}</td>
                       <td class="text-center">{{ $jadwal->matkul->semester }}</td>
-                      <td class="text-center">{{ $jadwal->tahun_ajar->tahun_ajaran}}</td>
+                      <td class="text-center">{{ $jadwal->tahun_akademik->tahun_ajaran}}</td>
                       <td class="text-center">{{ $jadwal->kls}}</td>
                       <td class="text-center">{{ $jadwal->kuota }}</td>
                       <td class="text-center">({{ Str::title($jadwal->hari) }}) {{ $jadwal->formatted_jam_mulai }}-{{ $jadwal->formatted_jam_selesai }} ({{ $jadwal->gedungs->gedung }}-{{ $jadwal->gedungs->no_ruang }})</td>

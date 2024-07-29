@@ -26,4 +26,9 @@ class Fakultas extends Model
     {
         return $this->hasMany(Dosen::class,'id_fakultas');
     }
+
+    public function jadwalkrs()
+    {
+        return $this->hasMany(Jadwal::class,'id_fakultas');
+    }
 }

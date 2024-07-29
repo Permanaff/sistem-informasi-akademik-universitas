@@ -158,17 +158,19 @@
     </div>
     <div class="card-body">
       <div class="container col-md-8">
-
-        <select class="form-select" aria-label="Default select example" id="kelasInput">
-          <option value="0" selected>--- Pilih Kelas ---</option>
-          @foreach ($jadwal as $jdwl)
-            <option value="{{ $jdwl->id }}">{{ $jdwl->matkul->nama_matkul }} - Kelas {{ $jdwl->kls }}</option>
-          @endforeach
-        </select>
-
-        <div class="d-flex justify-content-end mt-2" id="buttonContainer">
-          <button class="btn btn-success" disabled>Tampilkan</button>
-        </div>
+        <form action="{{ route('daftarMahasiswa') }}" method="post">
+          @csrf
+          <select class="form-select" aria-label="Default select example" name="id_jadwal" id="kelasInput">
+            <option value="0" selected>--- Pilih Kelas ---</option>
+            @foreach ($jadwal as $jdwl)
+              <option value="{{ $jdwl->id }}">{{ $jdwl->matkul->nama_matkul }} - Kelas {{ $jdwl->kls }}</option>
+            @endforeach
+          </select>
+  
+          <div class="d-flex justify-content-end mt-2" id="buttonContainer">
+            <button class="btn btn-success" disabled>Tampilkan</button>
+          </div>
+        </form>
 
       </div>
     </div>

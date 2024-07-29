@@ -13,7 +13,7 @@ class KalenderAkademikSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('ka')->insert([
+        DB::table('kalender_akademiks')->insert([
             [
                 'id_ta' => 2,
                 'minggu' => '1',

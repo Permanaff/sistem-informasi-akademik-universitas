@@ -81,27 +81,32 @@ class RiwayatAbsenController extends Controller
             }
         }
 
-        // Log::info($groupedData);
-
-        
-        // $result = [];
-        // foreach ($groupedData as $nim => $data) {
-        //     $result[] = [
-        //         'nama' => $data['nama'],
-        //         'nim' => $data['nim'],
-        //         'pertemuan' => $data['pertemuan'],
-        //         'ket' => $data['ket']
-        //     ];
-        // }
-
-        
-
-
         return response()->json([
             'success' => true, 
             'data' => [
                 'mahasiswa' => $groupedData,
             ]
         ]);
+    }
+
+    public function daftarMahasiswa(Request $request) 
+    {
+        $request->validate([
+            'id_jadwal' => 'required',
+        ]);
+
+        $id_jadwal = $request->id_jadwal;
+
+
+        $jadwal = Jadwal::with('matkul')->where('nidn', $this->nidn)->get();
+
+        $absen = Mahasiswa::whereHas('krs', function($query) use($id_jadwal) {
+            $query->where('id_jadwal', $id_jadwal);
+        })->get();
+
+        // dd($request->id_jadwal);
+        dd($absen->toArray());
+
+        // return view('dosen.riwayatAbsen', compact('jadwal'));
     }
 }

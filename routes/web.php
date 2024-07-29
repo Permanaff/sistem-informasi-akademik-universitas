@@ -59,8 +59,11 @@ Route::middleware(['auth'])->group(function() {
     Route::resource('/dsn/presensi', PresensiController::class )->middleware('userAccess:dosen');
     Route::resource('/dsn/bimbingan', KelasBimbinganController::class )->middleware('userAccess:dosen');
     Route::resource('/dsn/daftarmahasiswa', DaftarMahasiswaController::class )->middleware('userAccess:dosen');
-    Route::resource('/dsn/absenmahasiswa', RiwayatAbsenController::class )->middleware('userAccess:dosen');
     Route::resource('/dsn/jadwalmengajar', JadwalDosenController::class )->middleware('userAccess:dosen');
+    
+    // Route Riwayat Absen
+    Route::get('/dsn/absenmahasiswa', [RiwayatAbsenController::class, 'index'] )->middleware('userAccess:dosen');
+    Route::post('/dsn/absenmahasiswa', [RiwayatAbsenController::class, 'daftarMahasiswa'] )->name('daftarMahasiswa')->middleware('userAccess:dosen');
 
     // Route Ubah Absen Dosen
     Route::get('/dsn/ubahabsen',[UbahAbsensiController::class, 'index'] )->middleware('userAccess:dosen');

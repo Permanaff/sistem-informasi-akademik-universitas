@@ -22,7 +22,7 @@ class Jadwal extends Model
         return $this->belongsTo(Gedung::class,'id_kelas','id');
     }
 
-    public function tahun_ajar()
+    public function tahun_akademik()
     {
         return $this->belongsTo(TahunAkademik::class,'id_ta','id');
     }
