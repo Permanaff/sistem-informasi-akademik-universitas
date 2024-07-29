@@ -150,71 +150,100 @@
 {{-- CONTENT --}}
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Presensi Mahasiswa</h1>
+    <h1 class="h2">Presensi Mahasiswa <span class="fs-5 fw-normal text-secondary">Ubah Presensi</span></h1>
   </div>
   <div class="card card-rounded-top">
     <div class="card-header">
       <p class="fs-6 m-0">Daftar Presensi</p>
     </div>
     <div class="card-body">
-      <div class="container col-md-8">
-          <select class="form-select" aria-label="Default select example" id="kelasInput">
-            <option value="0" selected>--- Pilih Kelas ---</option>
-            @foreach ($jadwal as $jdwl)
-              <option value="{{ $jdwl->id }}">{{ $jdwl->matkul->nama_matkul }} - Kelas {{ $jdwl->kls }}</option>
-            @endforeach
-          </select>
+      <form action="{{ route('getDataMahasiswa') }}" method="POST">
+        @csrf
+        <div class="container col-md-8">
+            <select class="form-select" aria-label="Default select example" name='id_jadwal' id="kelasInput">
+              <option value="0" selected>--- Pilih Kelas ---</option>
+              @foreach ($jadwal as $jdwl)
+                <option value="{{ $jdwl->id }}">{{ $jdwl->matkul->nama_matkul }} - Kelas {{ $jdwl->kls }}</option>
+              @endforeach
+            </select>
 
-          <select class="form-select my-3" name="pertemuan" id="pertemuanInput">
-            <option value="0" selected>--- Pilih Pertemuan ---</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="1">9</option>
-            <option value="2">10</option>
-            <option value="3">11</option>
-            <option value="4">12</option>
-            <option value="5">13</option>
-            <option value="6">14</option>
-          </select>
+            <select class="form-select my-3" name="pertemuan" id="pertemuanInput" value="8">
+              <option value="0" selected>--- Pilih Pertemuan ---</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="1">9</option>
+              <option value="2">10</option>
+              <option value="3">11</option>
+              <option value="4">12</option>
+              <option value="5">13</option>
+              <option value="6">14</option>
+            </select>
 
-        <div class="d-flex justify-content-end mt-2" id="buttonContainer">
-          <button class="btn btn-success" disabled>Tampilkan</button>
-        </div>
-
+          <div class="d-flex justify-content-end mt-2" id="buttonContainer">
+            <button class="btn btn-success" disabled>Tampilkan</button>
+          </div>
+      </form>
       </div>
     </div>
   </div>
   <div id="tableContainer">
-    <input type="hidden" id="X" value="">
-    <input type="hidden" id="Y" value="">
-    <div class="card mt-3 card-rounded-bottom">
-      <div class="card-body" id="tableMahasiswa">
-          <table class="table table-striped table-bordered" id="jadwalTable">
-            <thead>
-              <tr>
-                <th class="header text-center" style="width: 90px;">No</th>
-                <th class="header text-center" style="width: 200px;">NPM</i></th>
-                <th class="header text-center" style="width: 300px;">Nama Mahasiswa</th>
-                <th class="header text-center">Keterangan</th>
-              </tr>
-            </thead>
+    @if (isset($dataAbsen) && !empty($dataAbsen))
+      <div class="card mt-3 card-rounded-bottom">
+        <div class="card-body" id="tableMahasiswa">
+            <table class="table table-striped table-bordered" id="jadwalTable">
+              <thead>
+                <tr>
+                  <th class="header text-center" style="width: 90px;">No</th>
+                  <th class="header text-center" style="width: 200px;">NPM</i></th>
+                  <th class="header text-center" style="width: 300px;">Nama Mahasiswa</th>
+                  <th class="header text-center">Keterangan</th>
+                </tr>
+              </thead>
               <tbody id="tableBody">
-                <tr><td colspan='17' class='text-center'>Pilih Matakuliah!</td></tr>
+                <form action="{{ route('ubahabsen.update') }}" method="POST">
+                  @csrf
+                  {{-- @method('PUT') --}}
+                @forelse ($dataAbsen as $index => $absen)
+                    <tr>
+                        <td class="text-center">{{ $index + 1 }}</td>
+                        <td >{{ $absen->nim }}</td>
+                        <td>{{ $absen->nama }}</td>
+                        <td class="" style="width: 100px;">
+                            <input type="hidden" name="presensi[{{ $absen->nim }}][nim]" value="{{ $absen->nim }}">
+                            <select class="form-select ket-select" name="presensi[{{ $absen->nim }}][ket]">
+                                <option value="-" {{ $absen->ket == '-' ? 'selected' : '' }}>-</option>
+                                <option value="A" {{ $absen->ket == 'A' ? 'selected' : '' }}>Alpha</option>
+                                <option value="H" {{ $absen->ket == 'H' ? 'selected' : '' }}>Hadir</option>
+                                <option value="I" {{ $absen->ket == 'I' ? 'selected' : '' }}>Izin</option>
+                            </select>
+                        </td>  
+                    </tr>
+                @empty
+                    <tr><td colspan='17' class='text-center'>Pilih Matakuliah!</td></tr>
+                @endforelse
               </tbody>
-          </table>
+            </table>
+
+            <input type="hidden" name="jadwal_id" value="{{ $old_data->id_jadwal }}">
+            <input type="hidden" name="pert" value="{{ $old_data->pertemuan }}">
+            <div class="d-flex justify-content-end">
+              <button type="submit" class="btn btn-success">Simpan</button>
+            </div>
+          </form>
+        </div>
       </div>
-  </div>
+    @endif
   </div>
 
-  <div class="d-flex justify-content-end my-3">
+  {{-- <div class="d-flex justify-content-end my-3">
     <button class="btn btn-success" id="saveBtn" onclick="test()">Simpan</button>
-  </div>
+  </div> --}}
   
 
 
@@ -226,6 +255,25 @@
 @section('scripts')
 <script src="{{ asset('/js/dashboard.js') }}"></script>
 <script src="{{ asset('/js/dosen/ubah-absen.js') }}"></script>
+<script>
+   @if(session('success'))
+        Swal.fire({
+            icon: "success",
+            title: "BERHASIL",
+            text: "{{ session('success') }}",
+            showConfirmButton: false,
+            timer: 2000
+        });
+    @elseif(session('error'))
+        Swal.fire({
+            icon: "error",
+            title: "GAGAL!",
+            text: "{{ session('error') }}",
+            showConfirmButton: false,
+            timer: 2000
+        });
+    @endif
+</script>
 @endsection
 @endsection
 

@@ -66,9 +66,12 @@ Route::middleware(['auth'])->group(function() {
     Route::post('/dsn/absenmahasiswa', [RiwayatAbsenController::class, 'daftarMahasiswa'] )->name('daftarMahasiswa')->middleware('userAccess:dosen');
 
     // Route Ubah Absen Dosen
-    Route::get('/dsn/ubahabsen',[UbahAbsensiController::class, 'index'] )->middleware('userAccess:dosen');
-    Route::post('/dsn/ubahabsen', [UbahAbsensiController::class, 'store'] )->middleware('userAccess:dosen');
-    Route::put('/dsn/ubahabsen/update', [UbahAbsensiController::class, 'updateAbsen'] )->middleware('userAccess:dosen');
+    Route::get('/dsn/ubahabsen',[UbahAbsensiController::class, 'index'] )->name('ubahabsen.index')->middleware('userAccess:dosen');
+    // Route::post('/dsn/ubahabsen', [UbahAbsensiController::class, 'store'] )->middleware('userAccess:dosen');
+    // Route::put('/dsn/ubahabsen/update', [UbahAbsensiController::class, 'updateAbsen'] )->middleware('userAccess:dosen');
+    Route::post('/dsn/ubahabsen', [UbahAbsensiController::class, 'dataMahasiswa'] )->name('getDataMahasiswa')->middleware('userAccess:dosen');
+    Route::post('/dsn/ubahabsen/update', [UbahAbsensiController::class, 'update'] )->name('ubahabsen.update')->middleware('userAccess:dosen');
+
     
     // Route Nilai Mahasiswa
     Route::get('/dsn/nilaimahasiswa', [NilaiMahasiswaController::class, 'index'])->middleware('userAccess:dosen');
