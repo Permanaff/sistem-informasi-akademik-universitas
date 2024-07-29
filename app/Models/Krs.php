@@ -27,4 +27,9 @@ class Krs extends Model
     {
         return $this->hasOne(Khs::class,'id_krs');
     }
+
+    public function presensi() {
+        return $this->hasManyThrough(Presensi::class, Jadwal::class, 'id', 'id_jadwal', 'id_jadwal', 'id')
+                    ->whereColumn('presensi.nim', 'krs.nim');
+    }
 }

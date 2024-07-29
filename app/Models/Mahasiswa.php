@@ -46,4 +46,9 @@ class Mahasiswa extends Model
     {
         return $this->belongsTo(User::class, 'nim', 'no_induk');
     }
+
+    public function presensi()
+    {
+        return $this->hasMany(Presensi::class, 'nim', 'nim');
+    }
 }

@@ -16,11 +16,11 @@ class Presensi extends Model
     
     public function mahasiswa()
     {
-        return $this->belongsTo(Mahasiswa::class,'nim','nim');
+        return $this->hasMany(Mahasiswa::class,'nim','nim');
     }
 
     public function jadwal()
     {
-        return $this->belongsTo(Absen::class, 'id', 'id_jadwal');
+        return $this->belongsTo(Jadwal::class, 'id', 'id_jadwal');
     }
 }

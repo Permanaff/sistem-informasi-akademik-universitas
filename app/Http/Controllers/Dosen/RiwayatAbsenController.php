@@ -100,13 +100,54 @@ class RiwayatAbsenController extends Controller
 
         $jadwal = Jadwal::with('matkul')->where('nidn', $this->nidn)->get();
 
-        $absen = Mahasiswa::whereHas('krs', function($query) use($id_jadwal) {
-            $query->where('id_jadwal', $id_jadwal);
-        })->get();
+        // $absen = Mahasiswa::whereHas('krs', function($query) use($id_jadwal) {
+        //     $query->where('id_jadwal', $id_jadwal);
+        // })->with('krs.jadwal.presensi')->get();
 
-        // dd($request->id_jadwal);
-        dd($absen->toArray());
+        // $absen = Mahasiswa::whereHas('krs', function($query) use($id_jadwal) {
+        //     $query->where('id_jadwal', $id_jadwal);
+        // })
+        // ->with(['krs' => function($query) use($id_jadwal) {
+        //     $query->where('id_jadwal', $id_jadwal)
+        //           ->with(['jadwal.presensi']);
+        // }])
+        // ->get();
 
-        // return view('dosen.riwayatAbsen', compact('jadwal'));
+        // $absen = Krs::with(['mahasiswa', 'mahasiswa.presensi' => function ($query) use($id_jadwal) {
+        //     $query->where('id_jadwal', $id_jadwal);
+        // }, 'jadwal.gedungs'])->where('id_jadwal', $id_jadwal)->get();
+
+        $absen = Krs::with(['mahasiswa', 'mahasiswa.presensi'])->where('id_jadwal', $id_jadwal)->get();
+
+        $dataAbsen = $absen->map(function($item) {
+            $hadir = $item->mahasiswa->presensi->map(function($presensi) {
+                    return (object) [
+                        'pertemuan' => $presensi->pertemuan,
+                        'ket' => $presensi->ket,
+                    ];
+                });
+
+            for ($i = 1; $i <= 14; $i++) {
+                if (!$hadir->contains('pertemuan', $i)) {
+                    $hadir->push((object) [
+                        'pertemuan' => $i,
+                        'ket' => '',
+                    ]);
+                }
+            }
+
+            $hadir = $hadir->sortBy('pertemuan')->values();
+
+            return (object) [
+                'nama' => $item->mahasiswa->nama,
+                'nim' => $item->mahasiswa->nim,
+                'presensi' => $hadir,
+            ];
+        });
+
+        // dd($dataAbsen->toArray());
+        // dd($absen->toArray());
+
+        return view('dosen.riwayatAbsen', compact('jadwal', 'dataAbsen'));
     }
 }

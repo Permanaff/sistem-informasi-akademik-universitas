@@ -175,6 +175,8 @@
       </div>
     </div>
   </div>
+  @if (isset($dataAbsen) && !empty($dataAbsen))
+      
   <div id="tableContainer">
     <div class="card mt-3 card-rounded-bottom">
       <div class="card-body" id="tableMahasiswa">
@@ -203,12 +205,24 @@
                 <th class="header text-center column-absen">14</th>
               </tr>
             </thead>
-              <tbody id="tableBody">
-                <tr><td colspan='17' class='text-center'>Pilih Matakuliah!</td></tr>
-              </tbody>
+            <tbody id="tableBody">
+              @forelse ($dataAbsen as $index => $item)
+                  <tr>
+                    <td class="text-center">{{ $index + 1 }}</td>
+                    <td class="text-center">{{ $item->nim }}</td>
+                    <td class="text-center">{{ $item->nama }}</td>
+                    @foreach ($item->presensi as $presensi)
+                            <td class="text-center">{{ $presensi->ket }}</td>
+                    @endforeach
+                  </tr>
+              @empty
+                  <tr><td colspan='17' class='text-center'>Pilih Matakuliah!</td></tr>
+              @endforelse
+            </tbody>
           </table>
       </div>
   </div>
+  @endif
 
   </div>
   
