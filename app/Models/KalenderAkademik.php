@@ -15,8 +15,8 @@ class KalenderAkademik extends Model
 
     
 
-    public function tahunajar()
+    public function tahunAkademik()
     {
-        return $this->belongsTo(TahunAjar::class,'id_ta','id');
+        return $this->belongsTo(TahunAkademik::class,'id_ta','id');
     }
 }

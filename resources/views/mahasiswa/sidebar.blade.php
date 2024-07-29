@@ -27,12 +27,12 @@
               Scan Presensi
             </a>
           </li>
-          <li class="nav-item">
+          {{-- <li class="nav-item">
             <a class="nav-link d-flex align-items-center gap-2" href="/adm/prodi">
               <i class="bi bi-building"></i>
               Prodi
             </a>
-          </li>
+          </li> --}}
           <li class="nav-item">
             <a class="nav-link d-flex align-items-center gap-2" href="/std/khs">
               <i class="bi bi-book"></i>
@@ -49,7 +49,7 @@
           {{-- <hr class="my-1 mx-4"> --}}
 
           <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-2" href="/adm/dosen">
+            <a class="nav-link d-flex align-items-center gap-2" href="/std/cetakkrs">
               <i class="fa fa-print" aria-hidden="true"></i>
               Cetak KRS
             </a>
@@ -62,7 +62,7 @@
           </li>
         </ul>
   
-        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase">
+        {{-- <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase">
           <span>Infrastruktur</span>
           <a class="link-secondary" href="#" aria-label="Add a new report">
             <svg class="bi"><use xlink:href="#plus-circle"/></svg>
@@ -74,7 +74,7 @@
               <i class="bi bi-house"></i>
               Ruang Kelas
             </a>
-          </li>
+          </li> --}}
           {{-- <li class="nav-item">
             <a class="nav-link d-flex align-items-center gap-2" href="#">
               <svg class="bi"><use xlink:href="#file-earmark-text"/></svg>

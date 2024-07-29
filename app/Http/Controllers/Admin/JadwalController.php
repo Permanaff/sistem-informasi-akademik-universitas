@@ -8,6 +8,7 @@ use App\Models\Gedung;
 use App\Models\Jadwal;
 use App\Models\Matkul;
 use App\Models\TahunAjar;
+use App\Models\TahunAkademik;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -44,7 +45,7 @@ class JadwalController extends Controller
             'kuota' => 'required|integer',
         ]);
 
-        $id_ta = TahunAjar::where('status', 'aktif')->value('id');
+        $id_ta = TahunAkademik::where('status', 'aktif')->value('id');
 
         Jadwal::create([
             'id_matkul' => $request->matkul,

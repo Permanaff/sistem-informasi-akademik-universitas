@@ -32,6 +32,12 @@ body::before {
     z-index: -1;
 }
 
+.logo-img {
+    background-color: #fff;
+    display: inline-block;
+    border-radius: 50%;
+}
+
 /* body {
     position: relative;
     z-index: 2; 

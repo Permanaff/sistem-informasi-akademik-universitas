@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\DosenController;
 use App\Http\Controllers\Admin\FakultasController;
 use App\Http\Controllers\Admin\GedungController;
 use App\Http\Controllers\Admin\JadwalController;
+use App\Http\Controllers\Admin\JadwalKrsController;
 use App\Http\Controllers\Admin\MahasiswaController;
 use App\Http\Controllers\Admin\MatkulController;
 use App\Http\Controllers\Admin\ProdiController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\Dosen\NilaiMahasiswaController;
 use App\Http\Controllers\Dosen\PresensiController;
 use App\Http\Controllers\Dosen\RiwayatAbsenController;
 use App\Http\Controllers\Dosen\UbahAbsensiController;
+use App\Http\Controllers\Mahasiswa\CetakKrsController;
 use App\Http\Controllers\Mahasiswa\HomeMahasiswaController;
 use App\Http\Controllers\Mahasiswa\InputKrsController;
 use App\Http\Controllers\Mahasiswa\KhsController;
@@ -50,6 +52,7 @@ Route::middleware(['auth'])->group(function() {
     Route::resource('/adm/jadwal', JadwalController::class )->middleware('userAccess:admin');
     Route::resource('/adm/dosen', DosenController::class )->middleware('userAccess:admin');
     Route::resource('/adm/student', MahasiswaController::class )->middleware('userAccess:admin');
+    Route::resource('/adm/jadwalkrs', JadwalKrsController::class )->middleware('userAccess:admin');
     
     // --------------- Route Dosen ---------------
     Route::get('/dsn', [HomeDosenController::class, 'index'] )->middleware('userAccess:dosen');
@@ -84,4 +87,6 @@ Route::middleware(['auth'])->group(function() {
     Route::resource('/std/kehadiran', PresensiMahasiswaController::class )->middleware('userAccess:mahasiswa');
     Route::resource('/std/scanabsen', ScanPresensiController::class )->middleware('userAccess:mahasiswa');
     Route::resource('/std/khs', KhsController::class )->middleware('userAccess:mahasiswa');
+
+    Route::resource('/std/cetakkrs', CetakKrsController::class )->middleware('userAccess:mahasiswa');
 });

@@ -24,7 +24,7 @@ class Jadwal extends Model
 
     public function tahun_ajar()
     {
-        return $this->belongsTo(TahunAjar::class,'id_ta','id');
+        return $this->belongsTo(TahunAkademik::class,'id_ta','id');
     }
 
     public function dosen()

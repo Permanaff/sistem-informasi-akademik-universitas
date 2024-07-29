@@ -20,7 +20,7 @@
     <div class="container p-0">
         <div class="login-box">
             <div class="signin">
-                <h2 class="mb-5">SIAKAD</h2>
+                <h2 class="mb-5 fs-4 fw-bold">SISTEM INFORMASI AKADEMIK</h2>
                 <form action="{{ url('/') }}" method="POST">
                     @csrf
                     <div class="textbox">
@@ -33,7 +33,7 @@
                 </form>
             </div>
             <div class="welcome">
-                <h2>SISTEM INFORMASI AKADEMIK</h2>
+                <img class="logo-img" src="{{ url('/images/logo.png') }}" alt="logo" width="250px">
             </div>
         </div>
     </div>

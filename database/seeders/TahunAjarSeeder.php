@@ -13,7 +13,7 @@ class TahunAjarSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('tahun_ajars')->insert([
+        DB::table('tahun_akademiks')->insert([
             [
                 'tahun_ajaran' => '2023/2024',
                 'semester' => 'ganjil',

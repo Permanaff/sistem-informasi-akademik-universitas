@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('ka', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_ta')->constrained(
-                table: 'tahun_ajars',
+                table: 'tahun_akademiks',
                 indexName: 'ka_id_ta'
             );
             $table->enum('minggu', [1,2,3,4,5,6,7,8,9,10,11,12,13,14, 'uts', 'uas']);

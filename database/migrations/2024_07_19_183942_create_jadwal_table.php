@@ -22,7 +22,7 @@ return new class extends Migration
                 indexName: 'jadwal_id_kelas'
             );
             $table->foreignId('id_ta')->constrained(
-                table: 'tahun_ajars',
+                table: 'tahun_akademiks',
                 indexName: 'jadwals_id_ta'
             );
             // $table->foreignId('id_dosen')->constrained(
