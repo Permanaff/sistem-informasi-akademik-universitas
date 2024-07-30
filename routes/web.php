@@ -74,8 +74,10 @@ Route::middleware(['auth'])->group(function() {
 
     
     // Route Nilai Mahasiswa
-    Route::get('/dsn/nilaimahasiswa', [NilaiMahasiswaController::class, 'index'])->middleware('userAccess:dosen');
+    Route::get('/dsn/nilaimahasiswa', [NilaiMahasiswaController::class, 'index'])->name('nilaimahasiswa.index')->middleware('userAccess:dosen');
     Route::post('/dsn/nilaimahasiswa', [NilaiMahasiswaController::class, 'show'])->name('nilaimahasiswa.show')->middleware('userAccess:dosen');
+    Route::post('/dsn/nilaimahasiswa/inputnilai', [NilaiMahasiswaController::class, 'inputPage'])->name('nilai.input')->middleware('userAccess:dosen');
+    Route::post('/dsn/nilaimahasiswa/input', [NilaiMahasiswaController::class, 'inputNilai'])->name('nilai.inputnilai')->middleware('userAccess:dosen');
 
     
     // --------------- Route Mahasiswa ---------------

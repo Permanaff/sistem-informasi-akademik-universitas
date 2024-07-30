@@ -104,7 +104,7 @@
 
 @section('content')
     
-<div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
+{{-- <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
   <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center"
           id="bd-theme"
           type="button"
@@ -137,7 +137,7 @@
       </button>
     </li>
   </ul>
-</div>
+</div> --}}
 @include('admin/navbar')
 
 
@@ -152,82 +152,62 @@
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2">Nilai Mahasiswa</h1>
   </div>
-  <div class="card card-rounded-top">
-    <div class="card-header">
-      <p class="fs-6 m-0">Daftar Mahasiswa</p>
-    </div>
-    <div class="card-body">
-      <form action="{{ route('nilaimahasiswa.show') }}" method="POST">
-        @csrf
-        <div class="container col-md-8">
-          <select class="form-select" aria-label="kelas" name="kelas" id="kelas">
-            <option value="0" selected>--- Pilih Kelas ---</option>
-            @foreach ($jadwal as $jdwl)
-              <option value="{{ $jdwl->id }}">{{ $jdwl->matkul->nama_matkul }} - Kelas {{ $jdwl->kls }}</option>
-            @endforeach
-          </select>
-          <div class="d-flex justify-content-end mt-2" id="buttonContainer">
-            <button type="submit" class="btn btn-success">Tampilkan</button>
-          </div>
-      </form>
-      </div>
-    </div>
+
+  <div class="mb-3 d-flex justify-content-end">
+        <input type="text" class="form-control" id="search-bar" placeholder="Search" style="width: 250px" onkeyup="search()">
   </div>
 
-  @if (isset($mahasiswa) && !empty($mahasiswa))
-  <div class="card mt-3 card-rounded-bottom">
+  <div class="card card-rounded-top">
+    <div class="card-header">
+      <p class="fs-6 m-0">Input Nilai Mahasiswa</p>
+    </div>
     <div class="card-body">
-        <form action="{{ route('nilai.input') }}" method="POST">
-          @csrf
-          <input type="hidden" name="id_kelas" value="{{ $id_kelas }}">
-          <button type="submit" class="btn btn-success mb-3">Input Nilai</button>
+        <form action="{{ route('nilai.inputnilai') }}" method="POST">
+            @csrf
+            @foreach ($mahasiswa as $mhs)
+                <div class="card card-mhs mb-3 rounded-0">
+                    <div class="card-body">
+                        <p class="fs-6 m-0 mb-3 fw-bold">{{ $mhs->nim }} - {{ $mhs->nama }}</p>
+                        <div class="row">
+                            <input type="hidden" name="nilai[{{ $mhs->nim }}][nim]" value="{{ $mhs->nim }}">
+                            <div class="col">
+                                <label for="inputEmail4" class="form-label">CPMK 1</label>
+                                <input type="text" class="form-control" name="nilai[{{ $mhs->nim }}][cpmk1]" placeholder="CPMK 1" aria-label="cpmk1" value="{{ $mhs->nilai->cpmk1 }}">
+                            </div>
+                            <div class="col">
+                                <label for="inputEmail4" class="form-label">CPMK 2</label>
+                                <input type="text" class="form-control" name="nilai[{{ $mhs->nim }}][cpmk2]" placeholder="CPMK 2" aria-label="cpmk2" value="{{ $mhs->nilai->cpmk2 }}">
+                            </div>
+                            <div class="col">
+                                <label for="inputEmail4" class="form-label">CPMK 3</label>
+                                <input type="text" class="form-control" name="nilai[{{ $mhs->nim }}][cpmk3]" placeholder="CPMK 3" aria-label="cpmk3" value="{{ $mhs->nilai->cpmk3 }}">
+                            </div>
+                            <div class="col">
+                                <label for="inputEmail4" class="form-label">CPMK 4</label>
+                                <input type="text" class="form-control" name="nilai[{{ $mhs->nim }}][cpmk4]" placeholder="CPMK 4" aria-label="cpmk4" value="{{ $mhs->nilai->cpmk4 }}">
+                            </div>
+                            <div class="col">
+                                <label for="inputEmail4" class="form-label">UTS</label>
+                                <input type="text" class="form-control" name="nilai[{{ $mhs->nim }}][uts]" placeholder="UTS" aria-label="uts" value="{{ $mhs->nilai->uts }}">
+                            </div>
+                            <div class="col">
+                                <label for="inputEmail4" class="form-label">UAS</label>
+                                <input type="text" class="form-control" name="nilai[{{ $mhs->nim }}][uas]" placeholder="UAS" aria-label="uas" value="{{ $mhs->nilai->uas }}">
+                            </div>
+                            <div class="col">
+                                <label for="inputEmail4" class="form-label">Nilai Akhir</label>
+                                <input type="text" class="form-control" name="nilai[{{ $mhs->nim }}][total]" placeholder="Nilai Akhir" aria-label="total" value="{{ $mhs->nilai->nilai }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-success">Simpan</button>
+            </div>
         </form>
-        <table class="table table-striped table-bordered">
-            <thead>
-                <tr class="text-center">
-                    <th class="text-center" scope="col" rowspan="2">No</th>
-                    <th class="text-center" scope="col" rowspan="2">NPM</th>
-                    <th class="text-center" scope="col" rowspan="2">Nama Mahasiswa</th>
-                    <th class="text-center" scope="col" colspan="7">Nilai</th>
-                </tr>
-                <tr>
-                    <th class="text-center col-nilai" scope="col">CPMK 1</th>
-                    <th class="text-center col-nilai" scope="col">CPMK 2</th>
-                    <th class="text-center col-nilai" scope="col">CPMK 3</th>
-                    <th class="text-center col-nilai" scope="col">CPMK 4</th>
-                    <th class="text-center col-nilai" scope="col">UTS</th>
-                    <th class="text-center col-nilai" scope="col">UAS</th>
-                    <th class="text-center col-nilai" scope="col">Nilai Akhir</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($mahasiswa as $index => $mhs)
-                    <tr>
-                      <td class="text-center" data-id="{{ $mhs->nim }}">{{ $index + 1 }}</td>
-                      <td class="text-center">{{ $mhs->nim }}</td>
-                      <td class="text">{{ $mhs->nama }}</td>
-                      <td class="text-center">{{ $mhs->nilai->cpmk1 }}</td>
-                      <td class="text-center">{{ $mhs->nilai->cpmk2 }}</td>
-                      <td class="text-center">{{ $mhs->nilai->cpmk3 }}</td>
-                      <td class="text-center">{{ $mhs->nilai->cpmk4 }}</td>
-                      <td class="text-center">{{ $mhs->nilai->uts }}</td>
-                      <td class="text-center">{{ $mhs->nilai->uas }}</td>
-                      <td class="text-center">{{ $mhs->nilai->nilai }}</td>
-                      {{-- <td class="text-center">{{ $mhs['nilai'] }}</td> --}}
-                      {{-- @foreach ($mhs->nilai as $nilai)
-                          <td class="text-center fs-6" contenteditable>{{ $nilai['uts'] }}</td>
-                      @endforeach --}}
-                    </tr>
-                @empty
-                    <tr>
-                        <td class="text-center" colspan="10">Data Jadwal Belum Tersedia</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
     </div>
   </div>
-  @endif
 
   
 
@@ -240,23 +220,26 @@
 <script src="{{ asset('/js/dashboard.js') }}"></script>
 {{-- <script src="{{ asset('/js/dosen/daftar-mahasiswa.js') }}"></script> --}}
 <script>
-    @if(session('success'))
-          Swal.fire({
-              icon: "success",
-              title: "BERHASIL",
-              text: "{{ session('success') }}",
-              showConfirmButton: false,
-              timer: 2000
-          });
-      @elseif(session('error'))
-          Swal.fire({
-              icon: "error",
-              title: "GAGAL!",
-              text: "{{ session('error') }}",
-              showConfirmButton: false,
-              timer: 2000
-          });
-      @endif
+    function search() {
+        let input, filter, cards, cardBody, p, i, txtValue;
+
+        input = document.getElementById('search-bar');
+        filter = input.value.toUpperCase();
+        cards = document.getElementsByClassName('card-mhs');
+
+        
+
+        for (i = 0; i < cards.length; i++) {
+            cardBody = cards[i].getElementsByClassName('card-body')[0];
+            p = cardBody.getElementsByTagName('p')[0];
+            txtValue = p.textContent || p.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                cards[i].style.display = "";
+            } else {
+                cards[i].style.display = "none";
+            }
+        }
+    }
 </script>
 @endsection
 @endsection

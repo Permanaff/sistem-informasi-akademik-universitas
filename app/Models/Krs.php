@@ -25,7 +25,7 @@ class Krs extends Model
 
     public function khs()
     {
-        return $this->hasOne(Khs::class,'id_krs');
+        return $this->hasOne(Khs::class, 'id_krs', 'id');
     }
 
     public function presensi() {
