@@ -169,7 +169,7 @@
                     <td class="text-center">{{ $jadwal->matkul->nama_matkul }}</td>
                     <td class="text-center">{{ $jadwal->matkul->sks }}</td>
                     <td class="text-center">{{ $jadwal->matkul->semester }}</td>
-                    <td class="text-center">{{ $jadwal->tahun_ajar->tahun_ajaran}}</td>
+                    <td class="text-center">{{ $jadwal->tahun_akademik->tahun_ajaran}}</td>
                     <td class="text-center">{{ $jadwal->dosen->nama}}</td>
                     <td class="text-center">{{ $jadwal->kls}}</td>
                     <td class="text-center">{{ $jadwal->kuota }}</td>

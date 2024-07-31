@@ -94,7 +94,8 @@ body::before {
 .btn {
     width: 100%;
     padding: 10px;
-    background: linear-gradient(to right, #ff416c, #ff4b2b);
+    /* background: linear-gradient(to right, #ff416c, #ff4b2b); */
+    background: linear-gradient(to right, #0C359E, #008DDA);
     border: none;
     border-radius: 5px;
     color: #fff;
@@ -124,7 +125,8 @@ body::before {
 }
 
 .welcome {
-    background: linear-gradient(to right, #ff416c, #ff4b2b);
+    /* background: linear-gradient(to right, #ff416c, #ff4b2b); */
+    background: linear-gradient(to right, #0C359E, #008DDA);
     color: #fff;
     text-align: center;
     display: flex;
@@ -145,7 +147,7 @@ body::before {
     display: inline-block;
     padding: 10px 20px;
     background-color: #fff;
-    color: #ff416c;
+    /* color: #ff416c; */
     border-radius: 5px;
     text-decoration: none;
     font-size: 16px;

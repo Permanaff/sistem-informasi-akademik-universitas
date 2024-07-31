@@ -19,6 +19,10 @@
   }
 }
 
+.bg-main {
+  background-color: #0C359E;
+}
+
 .sidebar .nav-link {
   font-size: .885rem;
   font-weight: 500;

@@ -146,7 +146,9 @@
 
   {{-- <button type="button" class="btn btn-md btn-success mb-3" id="showModalBtn">Tambah Jadwal</button> --}}
   <a href="/std/krs/daftarmatkul" class="btn btn-md btn-success mb-3">Daftar Matkul</a>
-  <a href="/std/krs/tambahkrs" class="btn btn-md btn-success mb-3">Tambah Krs</a>
+  @if ($periodeKrs == 'aktif')
+      <a href="/std/krs/tambahkrs" class="btn btn-md btn-success mb-3">Tambah Krs</a>
+  @endif
 
   <div class="card">
     <div class="card-header">

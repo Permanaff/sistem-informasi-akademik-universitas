@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Mahasiswa;
 
 use App\Http\Controllers\Controller;
+use App\Models\Fakultas;
 use App\Models\Gedung;
 use App\Models\Jadwal;
+use App\Models\JadwalKrs;
 use App\Models\KalenderAkademik;
 use App\Models\Krs;
 use App\Models\Matkul;
+use App\Models\Prodi;
 use App\Models\TahunAjar;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -22,6 +25,31 @@ class InputKrsController extends Controller
         $mahasiswaId = Auth::user()->no_induk;
         $krs = Krs::with('mahasiswa', 'jadwal', 'jadwal.matkul', 'jadwal.tahun_akademik', 'jadwal.gedungs')->where('nim', $mahasiswaId)->get();
 
+        $id_fakultas = Fakultas::whereHas('prodi', function ($query)  use($mahasiswaId)  {
+            $query->whereHas('mahasiswa', function ($query) use($mahasiswaId) {
+                $query->where('nim', $mahasiswaId);
+            });
+        })->value('id');
+
+        // dd($id_fakultas);
+
+        $currentDateTime = Carbon::now()->toDateTimeString();
+
+        $periodeCheck = JadwalKrs::where('id_fakultas', $id_fakultas)
+                            ->where('tgl_mulai', '<=', $currentDateTime)
+                            ->where('tgl_selesai', '>=', $currentDateTime)
+                            ->get();
+
+        if ($periodeCheck->isEmpty()) {
+            $periodeKrs = 'non-aktif';
+        } else {
+            $periodeKrs = 'aktif';
+        }
+
+        // dd($currentDateTime);
+        // dd($periodeKrs);
+        // dd($periodeCheck->toArray());
+
         foreach ($krs as $kr) {
             $kr->formatted_jam_mulai = Carbon::parse($kr->jadwal->jam_mulai)->format('H:i');
             $kr->formatted_jam_selesai = Carbon::parse($kr->jadwal->jam_selesai)->format('H:i');
@@ -29,7 +57,7 @@ class InputKrsController extends Controller
 
         $ta = KalenderAkademik::all()->where('status', 'aktif');
         // dd($ta->toArray());
-        return view('mahasiswa.inputkrs', compact('krs', 'ta'));
+        return view('mahasiswa.inputkrs', compact('krs', 'ta', 'periodeKrs'));
     }   
     
     public function daftarMatkul() : View

@@ -1,6 +1,8 @@
 {{-- NAVBAR --}}
-<header class="navbar sticky-top bg-dark flex-md-nowrap p-0 shadow" data-bs-theme="dark">
-    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-4 fw-bold text-white text-center" href="{{ url('/std') }}">SIAKAD</a>
+<header class="navbar sticky-top bg-main flex-md-nowrap p-0 shadow" data-bs-theme="dark">
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-4 fw-bold text-white text-center" href="{{ url('/std') }}">
+      <img src="{{ asset('/images/logo-circle.png') }}" alt="logo" width="35px">
+      | SIA UNIV</a>
     
     <ul class="navbar-nav flex-row d-md-none">
     <li class="nav-item text-nowrap">

@@ -19,7 +19,7 @@ class JadwalController extends Controller
 {
     public function index() : View 
     {
-        $jadwals = Jadwal::with('matkul', 'gedungs', 'tahun_ajar', 'dosen')->latest()->get();
+        $jadwals = Jadwal::with('matkul', 'gedungs', 'tahun_akademik', 'dosen')->latest()->get();
 
         foreach ($jadwals as $jadwal) {
             $jadwal->formatted_jam_mulai = Carbon::parse($jadwal->jam_mulai)->format('H:i');

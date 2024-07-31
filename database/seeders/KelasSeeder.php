@@ -20,6 +20,12 @@ class KelasSeeder extends Seeder
                 'id_prodi' => 1,
                 'angkatan' => '2023'
             ],
+            [
+                'nama' => 'B',
+                'nidn' => 2345678,
+                'id_prodi' => 1,
+                'angkatan' => '2023'
+            ],
         ]);
     }
 }
