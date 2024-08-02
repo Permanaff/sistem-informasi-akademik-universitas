@@ -205,7 +205,7 @@ class UbahAbsensiController extends Controller
                     'id_jadwal'  => $request->jadwal_id, 
                     'nim'  => $data['nim'], 
                     'pertemuan'  => $request->pert, 
-                    'ket'  => $data['ket'], 
+                    'ket'  => $data['ket'] != '-' ? $data['ket'] : null, 
                 ]);
                 
 
@@ -216,9 +216,9 @@ class UbahAbsensiController extends Controller
                     'id_jadwal'  => $request->jadwal_id, 
                     'nim'  => $data['nim'], 
                     'pertemuan'  => $request->pert, 
-                    'ket'  => $data['ket'], 
+                    'ket'  => $data['ket'] != '-' ? $data['ket'] : null, 
                 ]);
-                Log::info($data['ket']);
+                // Log::info($data['ket']);
             }
         }
 
