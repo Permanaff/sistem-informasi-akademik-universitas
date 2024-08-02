@@ -79,6 +79,11 @@ body::before {
     margin-bottom: 20px;
 }
 
+.signin h2 {
+    /* font-size: 24px;  */
+    text-align: center; 
+}
+
 .textbox {
     margin-bottom: 20px;
 }
@@ -95,12 +100,18 @@ body::before {
     width: 100%;
     padding: 10px;
     /* background: linear-gradient(to right, #ff416c, #ff4b2b); */
-    background: linear-gradient(to right, #0C359E, #008DDA);
+    /* background: linear-gradient(to right, #0C359E, #008DDA); */
+    background-color: #0C359E;
     border: none;
     border-radius: 5px;
     color: #fff;
     font-size: 16px;
     cursor: pointer;
+}
+
+.btn:hover {
+    color: #fff;
+    background-color: #072778;
 }
 
 .options {

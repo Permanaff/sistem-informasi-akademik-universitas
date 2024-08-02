@@ -1,0 +1,26 @@
+
+.scroll-table {
+    display: inline-block;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.scroll-table::-webkit-scrollbar {
+    height: 8px;
+}
+
+  /* Track */
+  .scroll-table::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+/* Handle */
+.scroll-table::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+.scroll-table::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
