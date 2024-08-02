@@ -87,6 +87,7 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/std/krs', [InputKrsController::class, 'index'])->middleware('userAccess:mahasiswa');
     Route::get('/std/krs/daftarmatkul', [InputKrsController::class, 'daftarMatkul'])->middleware('userAccess:mahasiswa');
     Route::get('/std/krs/tambahkrs', [InputKrsController::class, 'tambahKrs'])->middleware('userAccess:mahasiswa');
+    Route::get('/std/krs/deleteKrs/{id_krs}', [InputKrsController::class, 'deleteKrs'])->name('krs.delete')->middleware('userAccess:mahasiswa');
 
     Route::post('/std/scanpresensi', [InputKrsController::class, 'store'])->name('std.krs.store')->middleware('userAccess:mahasiswa');
     

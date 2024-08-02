@@ -89,7 +89,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
 <!-- Custom styles for this template -->
 <link href="{{ asset('/css/dashboard.css') }}" rel="stylesheet">
-<link href="{{ asset('/css/krstables.css') }}" rel="stylesheet">
+{{-- <link href="{{ asset('/css/krstables.css') }}" rel="stylesheet"> --}}
 <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
 @endsection
 
@@ -160,30 +160,32 @@
         <table class="table table-bordered table-striped" id="jadwalTable">
             <thead>
                 <tr>
-                    <th class="text-center" scope="col" style="min-width: 50px">Kode MK</th>
-                    <th class="text-center" scope="col" style="min-width: 350px">Matakuliah</th>
-                    <th class="text-center" scope="col" style="min-width: 50px">SKS</th>
-                    <th class="text-center" scope="col" style="min-width: 50px">SMT</th>
-                    <th class="text-center" scope="col" style="min-width: 50px">Tahun Ajar</th>
-                    <th class="text-center" scope="col" style="min-width: 50px">Kelas</th>
-                    <th class="text-center" scope="col" style="min-width: 50px">Sisa Kuota</th>
-                    <th class="text-center" scope="col" style="min-width: 350px">Jadwal/Ruang</th>
-                    <th class="text-center" scope="col" style="min-width: 50px">Status</th>
+                    <th class="text-center" scope="col">No</th>
+                    <th class="text-center" scope="col" style="min-width: 50">Kode MK</th>
+                    <th class="text-center" scope="col" style="min-width: 360px">Matakuliah</th>
+                    <th class="text-center" scope="col" style="min-width: 50">SKS</th>
+                    <th class="text-center" scope="col" style="min-width: 50">SMT</th>
+                    <th class="text-center" scope="col" style="min-width: 50">Tahun Ajar</th>
+                    <th class="text-center" scope="col" style="min-width: 50">Kelas</th>
+                    {{-- <th class="text-center" scope="col" style="min-width: 50px">Sisa Kuota</th> --}}
+                    <th class="text-center" scope="col" style="min-width: 360px">Jadwal/Ruang</th>
+                    <th class="text-center" scope="col" style="min-width: 50">Status</th>
                   </tr>
             </thead>
             <tbody>
-              @foreach ($krs as $kr)       
+              @foreach ($krs as $index => $kr)       
+                    <td class="text-center">{{ $index + 1 }}</td>
                     <td class="text-center">{{ $kr->jadwal->matkul->kode_matkul }}</td>
                     <td class="">{{ $kr->jadwal->matkul->nama_matkul }}</td>
                     <td class="text-center">{{ $kr->jadwal->matkul->sks }}</td>
                     <td class="text-center">{{ $kr->jadwal->matkul->semester }}</td>
                     <td class="text-center">{{ $kr->jadwal->tahun_akademik->tahun_ajaran}}</td>
                     <td class="text-center">{{ $kr->jadwal->kls}}</td>
-                    <td class="text-center">{{ $kr->jadwal->kuota }}</td>
+                    {{-- <td class="text-center">{{ $kr->jadwal->kuota }}</td> --}}
                     <td class="text-center">({{ Str::title($kr->jadwal->hari) }}) {{ $kr->formatted_jam_mulai }}-{{ $kr->formatted_jam_selesai }} ({{ $kr->jadwal->gedungs->gedung }}-{{ $kr->jadwal->gedungs->no_ruang }})</td>
                     <td class="text-center">
                       @if ($kr->status == 'belum-acc')
-                        <button type="submit" class="btn btn-sm btn-icon-danger"><i class="fa fa-trash"></i></button>
+                        <a href="{{ route('krs.delete', $kr->id) }}" type="submit" class="btn btn-sm btn-icon-danger"><i class="fa fa-trash"></i></a>
                         @else
                         <p class="fs-5 m-0 text-success"><i class="fa fa-check-square-o" aria-hidden="true"></i></p>
                       @endif

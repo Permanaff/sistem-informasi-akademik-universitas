@@ -12,6 +12,7 @@ use App\Models\Krs;
 use App\Models\Matkul;
 use App\Models\Prodi;
 use App\Models\TahunAjar;
+use App\Models\TahunAkademik;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -55,7 +56,7 @@ class InputKrsController extends Controller
             $kr->formatted_jam_selesai = Carbon::parse($kr->jadwal->jam_selesai)->format('H:i');
         }
 
-        $ta = KalenderAkademik::all()->where('status', 'aktif');
+        $ta = TahunAkademik::all()->where('status', 'aktif');
         // dd($ta->toArray());
         return view('mahasiswa.inputkrs', compact('krs', 'ta', 'periodeKrs'));
     }   
@@ -100,6 +101,20 @@ class InputKrsController extends Controller
 
         foreach ($request->matkul_ids as $matkulId) {
             $jadwal = Jadwal::findOrFail($matkulId);
+
+            $kode_matkul = Matkul::whereHas('jadwal', function($query) use($matkulId) {
+                $query->where('id', $matkulId);
+            })->value('kode_matkul');
+
+            // Validasi Matkul Telah Ditambahkan
+            $checkKrs = Krs::whereHas('jadwal.matkul', function($query) use($kode_matkul) {
+                $query->where('kode_matkul', $kode_matkul);
+            })->exists();
+        
+            if ($checkKrs) {
+                // Matkul already taken, skip to the next one
+                continue;
+            }
             
             $jadwal->update([
                 'kuota' => $jadwal->kuota - 1
@@ -111,8 +126,21 @@ class InputKrsController extends Controller
             ]);
         }
 
-        return redirect('/std/krs')->with('success', 'KRS berhasil disimpan.');
+        return redirect('/std/krs')->with('success', 'KRS berhasil disimpan.'); 
+    }
 
-        
+    public function deleteKrs($id_krs) 
+    {
+        $krs = Krs::findOrFail($id_krs);
+
+        $jadwal = Jadwal::findOrFail($krs->id_jadwal);
+
+        $jadwal->update([
+            'kuota' => $jadwal->kuota + 1
+        ]);
+
+        $krs->delete();
+
+        return redirect('/std/krs')->with('success', 'KRS berhasil Dihapus.'); 
     }
 }
