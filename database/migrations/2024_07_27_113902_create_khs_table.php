@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('khs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_krs')->constrained(
-                table : 'krs',
-                indexName: 'khs_id_krs'
+            $table->foreignId('id_detail_krs')->constrained(
+                table : 'detail_krs',
+                indexName: 'khs_id_detail_krs'
             );
             $table->integer('nilai')->nullable();
             $table->integer('cpmk1')->nullable();

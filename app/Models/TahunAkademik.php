@@ -27,4 +27,9 @@ class TahunAkademik extends Model
     {
         return $this->hasMany(KalenderAkademik::class,'id_ta');
     }
+
+    public function krs()
+    {
+        return $this->hasMany(Krs::class,'id_ta');
+    }
 }

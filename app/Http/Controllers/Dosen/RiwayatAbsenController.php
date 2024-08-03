@@ -100,24 +100,9 @@ class RiwayatAbsenController extends Controller
 
         $jadwal = Jadwal::with('matkul')->where('nidn', $this->nidn)->get();
 
-        // $absen = Mahasiswa::whereHas('krs', function($query) use($id_jadwal) {
-        //     $query->where('id_jadwal', $id_jadwal);
-        // })->with('krs.jadwal.presensi')->get();
-
-        // $absen = Mahasiswa::whereHas('krs', function($query) use($id_jadwal) {
-        //     $query->where('id_jadwal', $id_jadwal);
-        // })
-        // ->with(['krs' => function($query) use($id_jadwal) {
-        //     $query->where('id_jadwal', $id_jadwal)
-        //           ->with(['jadwal.presensi']);
-        // }])
-        // ->get();
-
-        // $absen = Krs::with(['mahasiswa', 'mahasiswa.presensi' => function ($query) use($id_jadwal) {
-        //     $query->where('id_jadwal', $id_jadwal);
-        // }, 'jadwal.gedungs'])->where('id_jadwal', $id_jadwal)->get();
-
-        $absen = Krs::with(['mahasiswa', 'mahasiswa.presensi'])->where('id_jadwal', $id_jadwal)->get();
+        $absen = Krs::with(['mahasiswa', 'mahasiswa.presensi'])->whereHas('detail_krs', function($query) use($id_jadwal) {
+            $query->where('id_jadwal', $id_jadwal);
+        })->get();
 
         $dataAbsen = $absen->map(function($item) {
             $hadir = $item->mahasiswa->presensi->map(function($presensi) {

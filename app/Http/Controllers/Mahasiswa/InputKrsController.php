@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Mahasiswa;
 
 use App\Http\Controllers\Controller;
+use App\Models\DetailKrs;
 use App\Models\Fakultas;
 use App\Models\Gedung;
 use App\Models\Jadwal;
@@ -21,10 +22,19 @@ use Illuminate\View\View;
 
 class InputKrsController extends Controller
 {
+    private $nim;
+
+    public function __construct()
+    {
+        $this->nim = Auth::user()->no_induk;
+    }
+
     public function index() : View
     {
         $mahasiswaId = Auth::user()->no_induk;
-        $krs = Krs::with('mahasiswa', 'jadwal', 'jadwal.matkul', 'jadwal.tahun_akademik', 'jadwal.gedungs')->where('nim', $mahasiswaId)->get();
+        $krs = DetailKrs::with('krs','jadwal', 'jadwal.matkul', 'jadwal.tahun_akademik', 'jadwal.gedungs')->whereHas('krs', function($query) {
+            $query->where('nim', $this->nim);
+        })->get();
 
         $id_fakultas = Fakultas::whereHas('prodi', function ($query)  use($mahasiswaId)  {
             $query->whereHas('mahasiswa', function ($query) use($mahasiswaId) {
@@ -32,7 +42,7 @@ class InputKrsController extends Controller
             });
         })->value('id');
 
-        // dd($id_fakultas);
+        // dd($krs->toArray());
 
         $currentDateTime = Carbon::now()->toDateTimeString();
 
@@ -47,18 +57,19 @@ class InputKrsController extends Controller
             $periodeKrs = 'aktif';
         }
 
-        // dd($currentDateTime);
-        // dd($periodeKrs);
-        // dd($periodeCheck->toArray());
-
         foreach ($krs as $kr) {
             $kr->formatted_jam_mulai = Carbon::parse($kr->jadwal->jam_mulai)->format('H:i');
             $kr->formatted_jam_selesai = Carbon::parse($kr->jadwal->jam_selesai)->format('H:i');
         }
 
         $ta = TahunAkademik::all()->where('status', 'aktif');
-        // dd($ta->toArray());
-        return view('mahasiswa.inputkrs', compact('krs', 'ta', 'periodeKrs'));
+        $status_krs = Krs::where('nim', $this->nim)->whereHas('tahun_akademik', function($query) {
+            $query->where('status', 'aktif');
+        })->value('status');
+
+        // dd($status_krs);
+
+        return view('mahasiswa.inputkrs', compact('krs', 'ta', 'periodeKrs', 'status_krs'));
     }   
     
     public function daftarMatkul() : View
@@ -99,6 +110,7 @@ class InputKrsController extends Controller
         // $mahasiswaId = auth()->id(); // Asumsi mahasiswa sudah login
         $mahasiswaId = Auth::user()->no_induk;
 
+
         foreach ($request->matkul_ids as $matkulId) {
             $jadwal = Jadwal::findOrFail($matkulId);
 
@@ -106,13 +118,32 @@ class InputKrsController extends Controller
                 $query->where('id', $matkulId);
             })->value('kode_matkul');
 
+            $id_krs = Krs::whereHas('mahasiswa', function($query) {
+                    $query->where('nim', $this->nim);
+                })->value('id');
+
+            $id_ta = TahunAkademik::where('status', 'aktif')->value('id');
+
+            if($id_krs === null) {
+                $krs = Krs::create([
+                    'nim' => $this->nim,
+                    'id_ta' => $id_ta,
+                ]);
+
+                $id_krs = $krs->id;
+            }
+
+            // dd($id_krs);
+
             // Validasi Matkul Telah Ditambahkan
-            $checkKrs = Krs::whereHas('jadwal.matkul', function($query) use($kode_matkul) {
+            $checkmatkul = DetailKrs::whereHas('jadwal.matkul', function($query) use($kode_matkul) {
                 $query->where('kode_matkul', $kode_matkul);
-            })->exists();
-        
-            if ($checkKrs) {
-                // Matkul already taken, skip to the next one
+            })->whereHas('krs', function($query) {$query->where('nim', $this->nim);})->exists();
+
+            Log::info($checkmatkul);
+
+            if ($checkmatkul) {
+                // dd($checkmatkul);
                 continue;
             }
             
@@ -120,8 +151,8 @@ class InputKrsController extends Controller
                 'kuota' => $jadwal->kuota - 1
             ]);
 
-            Krs::create([
-                'nim' => $mahasiswaId,
+            DetailKrs::create([
+                'id_krs' => $id_krs,
                 'id_jadwal' => $matkulId,
             ]);
         }

@@ -10,26 +10,22 @@ class Krs extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nim', 'id_jadwal', 'status'
+        'nim', 'id_ta','status'
     ];
+
+    public function detail_krs()
+    {
+        return $this->hasMany(DetailKrs::class,'id_krs', 'id');
+    }
 
     public function mahasiswa()
     {
         return $this->belongsTo(Mahasiswa::class,'nim', 'nim');
     }
 
-    public function jadwal()
+    public function tahun_akademik()
     {
-        return $this->belongsTo(Jadwal::class,'id_jadwal', 'id');
+        return $this->belongsTo(TahunAkademik::class,'id_ta', 'id');
     }
 
-    public function khs()
-    {
-        return $this->hasOne(Khs::class, 'id_krs', 'id');
-    }
-
-    public function presensi() {
-        return $this->hasManyThrough(Presensi::class, Jadwal::class, 'id', 'id_jadwal', 'id_jadwal', 'id')
-                    ->whereColumn('presensi.nim', 'krs.nim');
-    }
 }

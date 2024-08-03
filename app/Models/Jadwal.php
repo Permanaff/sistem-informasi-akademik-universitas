@@ -42,9 +42,9 @@ class Jadwal extends Model
         return $this->hasMany(Presensi::class,'id_jadwal');
     }
 
-    public function krs()
+    public function detail_krs()
     {
-        return $this->hasMany(Krs::class,'id_jadwal');
+        return $this->hasMany(DetailKrs::class,'id_jadwal');
     }
 
 }

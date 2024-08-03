@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dosen;
 
 use App\Http\Controllers\Controller;
 use App\Models\Absen;
+use App\Models\DetailKrs;
 use App\Models\Jadwal;
 use App\Models\Krs;
 use App\Models\Presensi;
@@ -48,13 +49,23 @@ class UbahAbsensiController extends Controller
             return response()->json($validator->errors(), 422);
         } 
 
-        $absen = Krs::with(['mahasiswa' => function($query) {
+        // $absen = DetailKrs::with(['krs.mahasiswa' => function($query) {
+        //     $query->orderBy('nim', 'asc');
+        // }, 'mahasiswa.riwayat_absen' => function($query) use ($request) {
+        //     $query->where('pertemuan', $request->pertemuan);
+        // }])
+        // ->where('id_jadwal', $request->id_jadwal)
+        // ->get();
+
+        $absen = Krs::with(['mahasiswa' => function ($query) {
             $query->orderBy('nim', 'asc');
-        }, 'mahasiswa.riwayat_absen' => function($query) use ($request) {
+        }, 'mahasiswa.riwayat_absen' => function ($query) use ($request) {
             $query->where('pertemuan', $request->pertemuan);
-        }])
-        ->where('id_jadwal', $request->id_jadwal)
-        ->get();
+        }])->whereHas('detail_krs', function($query) use($request) {
+            $query->where('id_jadwal', $request->id_jadwal);
+        })->get();
+
+        dd($absen);
 
         $dataAbsen = $absen->map(function ($item) {
             $riwayatAbsen = $item->mahasiswa->riwayat_absen->first();
@@ -154,13 +165,15 @@ class UbahAbsensiController extends Controller
 
         $jadwal = Jadwal::with('matkul')->where('nidn', $this->nidn)->get();
 
-        $absen = Krs::with(['mahasiswa' => function($query) {
+        $absen = Krs::with(['mahasiswa' => function ($query) {
             $query->orderBy('nim', 'asc');
-        }, 'mahasiswa.presensi' => function($query) use ($request) {
+        }, 'mahasiswa.presensi' => function ($query) use ($request) {
             $query->where('pertemuan', $request->pertemuan);
-        }])
-        ->where('id_jadwal', $request->id_jadwal)
-        ->get();
+        }])->whereHas('detail_krs', function($query) use($request) {
+            $query->where('id_jadwal', $request->id_jadwal);
+        })->get();
+
+        // dd($absen->toArray());
 
         $dataAbsen = $absen->map(function ($item) {
             $riwayatAbsen = $item->mahasiswa->presensi->first();
@@ -171,6 +184,7 @@ class UbahAbsensiController extends Controller
             ];
         });
 
+        // dd($dataAbsen->toArray());
         // dd($request->pertemuan);
         // dd($absen->toArray());
         // dd($old_data);

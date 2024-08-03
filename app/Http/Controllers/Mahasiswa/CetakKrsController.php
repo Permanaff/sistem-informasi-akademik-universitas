@@ -3,13 +3,15 @@
 namespace App\Http\Controllers\Mahasiswa;
 
 use App\Http\Controllers\Controller;
+use App\Models\DetailKrs;
+use App\Models\Jadwal;
 use App\Models\Krs;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Barryvdh\DomPDF\Facade\Pdf;
-
+use Illuminate\Support\Facades\Log;
 
 class CetakKrsController extends Controller
 {
@@ -22,7 +24,12 @@ class CetakKrsController extends Controller
 
     public function index() 
     {
-        $dataKrs = Krs::with('jadwal', 'jadwal.matkul')->where('nim', $this->nim)->get();
+
+        // $dataKrs = DetailKrs::with('jadwal', 'jadwal.matkul')->whereHas('krs')->whereHas('krs.tahun_akademik', function($query) {$query->where('status', 'aktif');})->get();
+
+        $dataKrs = Krs::with('detail_krs', 'detail_krs.jadwal', 'detail_krs.jadwal.matkul')->where('nim', $this->nim)->get();
+
+        // dd($dataKrs->toArray());
         $mhs = Mahasiswa::with('prodi', 'prodi.fakultas', 'kelas.dosen')->where('nim', $this->nim)->get();
 
         $mahasiswa = $mhs->map(function ($item) {
@@ -36,20 +43,19 @@ class CetakKrsController extends Controller
             ];
         });
 
-        $krs = $dataKrs->map(function ($kr) {
-            return (object) [
-                'kode_mk' => $kr->jadwal->matkul->kode_matkul,
-                'matkul' => $kr->jadwal->matkul->nama_matkul,
-                'sks' => $kr->jadwal->matkul->sks,
-                'kls' => $kr->jadwal->kls,
-            ];
-        });
-        // dd($mahasiswa->toArray());
+        $krs = $dataKrs->Map(function ($kr) {
+            return $kr->detail_krs->map(function ($detail) {
+                return (object) [
+                    'kode_mk' => $detail->jadwal->matkul->kode_matkul,
+                    'matkul' => $detail->jadwal->matkul->nama_matkul,
+                    'sks' => $detail->jadwal->matkul->sks,
+                    'kls' => $detail->jadwal->kls,
+                ];
+            });
+        })->collapse();
+
+        // dd($krs->toArray());
+
         return view('mahasiswa.cetakkrs', compact('mahasiswa','krs'));
-        // $pdf = Pdf::loadView('mahasiswa.cetakkrs', compact('mahasiswa', 'krs'));
-        // $pdf->setOption([ 'defaultFont' => 'sans-serif']);;
-
-        // return $pdf->download('invoice.pdf');
-
     }
 }

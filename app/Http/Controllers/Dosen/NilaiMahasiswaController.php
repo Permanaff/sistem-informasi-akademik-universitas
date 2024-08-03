@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dosen;
 
 use App\Http\Controllers\Controller;
+use App\Models\DetailKrs;
 use App\Models\Jadwal;
 use App\Models\Khs;
 use App\Models\Krs;
@@ -54,10 +55,12 @@ class NilaiMahasiswaController extends Controller
 
 
         $dataMahasiswa = Mahasiswa::whereHas('krs', function ($query) use ($id_kelas) {
+            $query->whereHas('detail_krs', function($query) use ($id_kelas) {$query->where('id_jadwal', $id_kelas);});
+        })->with(['krs.detail_krs' => function ($query) use ($id_kelas) {
             $query->where('id_jadwal', $id_kelas);
-        })->with(['krs' => function ($query) use ($id_kelas) {
-            $query->where('id_jadwal', $id_kelas);
-        }, 'krs.jadwal', 'krs.khs'])->get();
+        }, 'krs.detail_krs.jadwal', 'krs.detail_krs.khs'])->get();
+
+        // dd($dataMahasiswa->toArray());
 
         $mahasiswa = $dataMahasiswa->map(function ($mhs) {
             $nilai_null = (object) [
@@ -72,8 +75,12 @@ class NilaiMahasiswaController extends Controller
 
             
             $khs = $mhs->krs->map(function ($krs) {
-                return $krs->khs;
+                return $krs->detail_krs->map(function ($item) {
+                    return $item->khs;
+                })->first();
             })->first();
+
+            // dd($khs->toArray());
 
             $nilai = $khs != null ? (object) [
                 'cpmk1' => $khs->cpmk1 == null ? '' : $khs->cpmk1 ,
@@ -120,10 +127,12 @@ class NilaiMahasiswaController extends Controller
         $id_kelas = $request->id_kelas;
 
         $dataMahasiswa = Mahasiswa::whereHas('krs', function ($query) use ($id_kelas) {
+            $query->whereHas('detail_krs', function($query) use ($id_kelas) {$query->where('id_jadwal', $id_kelas);});
+        })->with(['krs.detail_krs' => function ($query) use ($id_kelas) {
             $query->where('id_jadwal', $id_kelas);
-        })->with(['krs' => function ($query) use ($id_kelas) {
-            $query->where('id_jadwal', $id_kelas);
-        }, 'krs.jadwal', 'krs.khs'])->get();
+        }, 'krs.detail_krs.jadwal', 'krs.detail_krs.khs'])->get();
+
+        // dd($dataMahasiswa);
 
         $mahasiswa = $dataMahasiswa->map(function ($mhs) {
             $nilai_null = (object) [
@@ -138,7 +147,9 @@ class NilaiMahasiswaController extends Controller
 
             
             $khs = $mhs->krs->map(function ($krs) {
-                return $krs->khs;
+                return $krs->detail_krs->map(function ($item) {
+                    return $item->khs;
+                })->first();
             })->first();
 
             $nilai = $khs != null ? (object) [
@@ -180,11 +191,18 @@ class NilaiMahasiswaController extends Controller
         foreach ($request->nilai as $data) {
 
             try {
+                // dd('inputNilai');
                 // Mencari entri khs yang ada
-                $checkKhs = Khs::whereHas('krs', function ($query) use($data, $id_jadwal) {
-                    $query->where('nim', $data['nim'])->where('id_jadwal', $id_jadwal);
+
+                // $checkKhs = Khs::whereHas('detail_krs', function ($query) use($data, $id_jadwal) {
+                //     $query->where('nim', $data['nim'])->where('id_jadwal', $id_jadwal);
+                // })->get();
+
+                $checkKhs = Khs::whereHas('detail_krs', function ($query) use($data, $id_jadwal) {
+                    $query->whereHas('krs',function ($query) use($data) {$query->where('nim', $data['nim']);})->where('id_jadwal', $id_jadwal);
                 })->firstOrFail();
 
+                // dd($checkKhs->toArray());
                 
                 // Jika ditemukan, update data
                 $checkKhs->update([
@@ -199,11 +217,17 @@ class NilaiMahasiswaController extends Controller
 
             } catch (ModelNotFoundException $e) {
 
-                $id_krs = Krs::where('nim', $data['nim'])->where('id_jadwal', $id_jadwal)->value('id');
+                $nim = $data['nim'];
+
+                $id_krs = DetailKrs::whereHas('krs', function ($query) use($nim) {
+                    $query->where('nim', $nim);
+                })->where('id_jadwal', $id_jadwal)->value('id');
+
+                // dd($id_krs);
 
                 // Jika tidak ditemukan, buat entri baru
                 Khs::create([
-                    'id_krs' => $id_krs,
+                    'id_detail_krs' => $id_krs,
                     'cpmk1'  => $data['cpmk1'], 
                     'cpmk2'  => $data['cpmk2'], 
                     'cpmk3'  => $data['cpmk3'], 

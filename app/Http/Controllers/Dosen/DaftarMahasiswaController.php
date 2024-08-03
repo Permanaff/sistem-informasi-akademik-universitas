@@ -40,7 +40,9 @@ class DaftarMahasiswaController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        $krs = Krs::with('mahasiswa', 'mahasiswa.kelas.dosen')->where('id_jadwal', $request->id_jadwal)->get();
+        $krs = Krs::with('mahasiswa', 'mahasiswa.kelas.dosen')->whereHas('detail_krs', function($query) use($request) {
+            $query->where('id_jadwal', $request->id_jadwal);
+        })->get();
 
         $mahasiswa = $krs->map(function ($item) {
             return [
