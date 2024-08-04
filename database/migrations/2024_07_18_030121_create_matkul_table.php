@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('kode_matkul');
             $table->string('nama_matkul');
             $table->tinyInteger('sks');
+            $table->enum('smt', ['genap', 'ganjil']);
             $table->string('semester');
             $table->timestamps();
         });

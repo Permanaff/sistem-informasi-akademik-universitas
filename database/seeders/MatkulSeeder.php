@@ -14,13 +14,46 @@ class MatkulSeeder extends Seeder
     public function run(): void
     {
         DB::table('matkuls')->insert([
-            'kode_matkul' => 'IF2032', 
-            'id_prodi' => 1, 
-            'nama_matkul' => 'Pemrogram Web', 
-            'sks' => 3,
-            'semester' => '3',
-            'created_at' => now(),
+            [
+                'kode_matkul' => 'IF2032', 
+                'id_prodi' => 1, 
+                'nama_matkul' => 'Pemrogram Web', 
+                'sks' => 3,
+                'smt' => 'genap',
+                'semester' => '4',
+                'created_at' => now(),
                 'updated_at' => now(),
+            ],
+            [
+                'kode_matkul' => '203421-20', 
+                'id_prodi' => 1, 
+                'nama_matkul' => 'Bahasa & Otomata', 
+                'sks' => 3,
+                'smt' => 'genap',
+                'semester' => '4',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'kode_matkul' => '203415-20', 
+                'id_prodi' => 1, 
+                'nama_matkul' => 'Machine Learning', 
+                'sks' => 3,
+                'smt' => 'genap',
+                'semester' => '4',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'kode_matkul' => '203315-20', 
+                'id_prodi' => 1, 
+                'nama_matkul' => 'Pengantar Analisis Data', 
+                'sks' => 3,
+                'smt' => 'ganjil',
+                'semester' => '3',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
     }
 }

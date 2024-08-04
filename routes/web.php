@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\MahasiswaController;
 use App\Http\Controllers\Admin\MatkulController;
 use App\Http\Controllers\Admin\ProdiController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Dosen\BimbinganKrsController;
 use App\Http\Controllers\Dosen\DaftarMahasiswaController;
 use App\Http\Controllers\Dosen\HomeDosenController;
 use App\Http\Controllers\Dosen\JadwalDosenController;
@@ -78,6 +79,11 @@ Route::middleware(['auth'])->group(function() {
     Route::post('/dsn/nilaimahasiswa', [NilaiMahasiswaController::class, 'show'])->name('nilaimahasiswa.show')->middleware('userAccess:dosen');
     Route::post('/dsn/nilaimahasiswa/inputnilai', [NilaiMahasiswaController::class, 'inputPage'])->name('nilai.input')->middleware('userAccess:dosen');
     Route::post('/dsn/nilaimahasiswa/input', [NilaiMahasiswaController::class, 'inputNilai'])->name('nilai.inputnilai')->middleware('userAccess:dosen');
+
+    // Route bimbingan KRS
+    Route::get('/dsn/bimbingankrs', [BimbinganKrsController::class, 'index'])->name('bimbingankrs')->middleware('userAccess:dosen');
+    Route::get('/dsn/bimbingankrs/{nim}', [BimbinganKrsController::class, 'show'])->name('bimbingankrs.show')->middleware('userAccess:dosen');
+    Route::get('/dsn/bimbingankrs/delete/{id_krs}', [BimbinganKrsController::class, 'deletekrs'])->name('bimbingankrs.delete')->middleware('userAccess:dosen');
 
     
     // --------------- Route Mahasiswa ---------------

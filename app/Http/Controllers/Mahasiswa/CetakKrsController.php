@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Dompdf\Options;
 use Illuminate\Support\Facades\Log;
 
 class CetakKrsController extends Controller
@@ -54,8 +55,21 @@ class CetakKrsController extends Controller
             });
         })->collapse();
 
+        // $path = public_path('images/logo.png');
+
         // dd($krs->toArray());
 
-        return view('mahasiswa.cetakkrs', compact('mahasiswa','krs'));
+        $options = new Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isRemoteEnabled', true);
+        $options->set('isFontSubsettingEnabled', true);
+        // $options->set('debugPng', true);
+        // $options->set('debugKeepTemp', true);
+        // $options->set('tempDir', storage_path('temp')); 
+
+        return view('mahasiswa.cetak', compact('mahasiswa','krs'));
+
+        // $pdf = Pdf::loadView('mahasiswa.cetak', [ 'mahasiswa' => $mahasiswa, 'krs' => $krs])->setOptions([$options]);
+        // return $pdf->download('krs.pdf');
     }
 }
