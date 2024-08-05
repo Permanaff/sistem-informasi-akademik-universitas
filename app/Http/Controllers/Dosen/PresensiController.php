@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 use Illuminate\Support\Str;
+use LaravelQRCode\Facades\QRCode;
 
 class PresensiController extends Controller
 {
@@ -51,10 +52,18 @@ class PresensiController extends Controller
             'batas_selesai' => $request->selesai,
         ]);
 
+        $path = public_path('/images/qr-absen').'/'.$kode_absen.'.png';
+        $filename = $kode_absen.'.png';
+        QRCode::text($kode_absen)
+            ->setSize(10)
+            ->setOutfile($path )
+            ->png();
+
         return response()->json([
             'success' => true, 
             'data' => [
-                'kode_absen' => $kode_absen
+                'kode_absen' => $kode_absen,
+                'qr_code' => $filename,
             ]
         ]);
     }

@@ -8,6 +8,8 @@ use App\Models\Jadwal;
 use App\Models\Khs;
 use App\Models\Krs;
 use App\Models\Mahasiswa;
+use App\Models\Nilai;
+use GuzzleHttp\Promise\Create;
 use Illuminate\Contracts\View\View as ViewView;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\RedirectResponse;
@@ -54,11 +56,17 @@ class NilaiMahasiswaController extends Controller
         $id_kelas = $request->kelas;
 
 
+        // $dataMahasiswa = Mahasiswa::whereHas('krs', function ($query) use ($id_kelas) {
+        //     $query->whereHas('detail_krs', function($query) use ($id_kelas) {$query->where('id_jadwal', $id_kelas);});
+        // })->with(['krs.detail_krs' => function ($query) use ($id_kelas) {
+        //     $query->where('id_jadwal', $id_kelas);
+        // }, 'krs.detail_krs.jadwal', 'krs.detail_krs.khs'])->get();
+
         $dataMahasiswa = Mahasiswa::whereHas('krs', function ($query) use ($id_kelas) {
             $query->whereHas('detail_krs', function($query) use ($id_kelas) {$query->where('id_jadwal', $id_kelas);});
         })->with(['krs.detail_krs' => function ($query) use ($id_kelas) {
             $query->where('id_jadwal', $id_kelas);
-        }, 'krs.detail_krs.jadwal', 'krs.detail_krs.khs'])->get();
+        }, 'krs.detail_krs.jadwal', 'krs.detail_krs.nilai'])->get();
 
         // dd($dataMahasiswa->toArray());
 
@@ -76,7 +84,7 @@ class NilaiMahasiswaController extends Controller
             
             $khs = $mhs->krs->map(function ($krs) {
                 return $krs->detail_krs->map(function ($item) {
-                    return $item->khs;
+                    return $item->nilai;
                 })->first();
             })->first();
 
@@ -130,7 +138,7 @@ class NilaiMahasiswaController extends Controller
             $query->whereHas('detail_krs', function($query) use ($id_kelas) {$query->where('id_jadwal', $id_kelas);});
         })->with(['krs.detail_krs' => function ($query) use ($id_kelas) {
             $query->where('id_jadwal', $id_kelas);
-        }, 'krs.detail_krs.jadwal', 'krs.detail_krs.khs'])->get();
+        }, 'krs.detail_krs.jadwal', 'krs.detail_krs.nilai'])->get();
 
         // dd($dataMahasiswa);
 
@@ -148,7 +156,7 @@ class NilaiMahasiswaController extends Controller
             
             $khs = $mhs->krs->map(function ($krs) {
                 return $krs->detail_krs->map(function ($item) {
-                    return $item->khs;
+                    return $item->nilai;
                 })->first();
             })->first();
 
@@ -191,14 +199,7 @@ class NilaiMahasiswaController extends Controller
         foreach ($request->nilai as $data) {
 
             try {
-                // dd('inputNilai');
-                // Mencari entri khs yang ada
-
-                // $checkKhs = Khs::whereHas('detail_krs', function ($query) use($data, $id_jadwal) {
-                //     $query->where('nim', $data['nim'])->where('id_jadwal', $id_jadwal);
-                // })->get();
-
-                $checkKhs = Khs::whereHas('detail_krs', function ($query) use($data, $id_jadwal) {
+                $checkKhs = Nilai::whereHas('detail_krs', function ($query) use($data, $id_jadwal) {
                     $query->whereHas('krs',function ($query) use($data) {$query->where('nim', $data['nim']);})->where('id_jadwal', $id_jadwal);
                 })->firstOrFail();
 
@@ -219,15 +220,18 @@ class NilaiMahasiswaController extends Controller
 
                 $nim = $data['nim'];
 
-                $id_krs = DetailKrs::whereHas('krs', function ($query) use($nim) {
+                $id_detail_krs = DetailKrs::whereHas('krs', function ($query) use($nim) {
                     $query->where('nim', $nim);
-                })->where('id_jadwal', $id_jadwal)->value('id');
+                })->where('id_jadwal', $id_jadwal)->first();
 
                 // dd($id_krs);
-
+                $khs = Khs::create([
+                    'id_krs' => $id_detail_krs->id_krs
+                ]);
                 // Jika tidak ditemukan, buat entri baru
-                Khs::create([
-                    'id_detail_krs' => $id_krs,
+                Nilai::create([
+                    'id_khs' => $khs->id,
+                    'id_detail_krs' => $id_detail_krs->id,
                     'cpmk1'  => $data['cpmk1'], 
                     'cpmk2'  => $data['cpmk2'], 
                     'cpmk3'  => $data['cpmk3'], 

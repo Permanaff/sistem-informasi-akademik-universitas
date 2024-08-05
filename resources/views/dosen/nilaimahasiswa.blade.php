@@ -220,7 +220,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td class="text-center" colspan="10">Data Jadwal Belum Tersedia</td>
+                        <td class="text-center" colspan="10">Tidak Ada Data Mahasiswa</td>
                     </tr>
                 @endforelse
             </tbody>

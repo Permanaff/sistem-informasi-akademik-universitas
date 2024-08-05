@@ -10,12 +10,17 @@ class Khs extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nim', 'id_detail_krs', 'uts', 'nilai', 'uas', 'cpmk1', 'cpmk2', 'cpmk3', 'cpmk4'
+        'id_krs', 'ips'
     ];
 
-    public function detail_krs()
+    public function krs()
     {
-        return $this->belongsTo(DetailKrs::class,'id_detail_krs', 'id');
+        return $this->belongsTo(Krs::class,'id_krs', 'id');
+    }
+
+    public function nilai()
+    {
+        return $this->hasMany(Nilai::class,'id_khs', 'id');
     }
 
 }

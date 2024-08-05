@@ -216,7 +216,7 @@
                     @endforeach
                   </tr>
               @empty
-                  <tr><td colspan='17' class='text-center'>Pilih Matakuliah!</td></tr>
+                  <tr><td colspan='17' class='text-center'>Tidak Ada Data Mahasiswa</td></tr>
               @endforelse
             </tbody>
           </table>

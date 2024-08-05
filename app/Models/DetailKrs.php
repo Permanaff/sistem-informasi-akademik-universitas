@@ -23,9 +23,9 @@ class DetailKrs extends Model
         return $this->belongsTo(Jadwal::class, 'id_jadwal');
     }
 
-    public function khs()
+    public function nilai()
     {
-        return $this->hasOne(Khs::class, 'id_detail_krs', 'id');
+        return $this->hasOne(Nilai::class, 'id_detail_krs', 'id');
     }
 
     public function presensi() {

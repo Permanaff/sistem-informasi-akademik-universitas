@@ -29,7 +29,6 @@ return new class extends Migration
             $table->integer('uts')->nullable();
             $table->integer('uas')->nullable();
             $table->timestamps();
-            $table->timestamps();
         });
     }
 

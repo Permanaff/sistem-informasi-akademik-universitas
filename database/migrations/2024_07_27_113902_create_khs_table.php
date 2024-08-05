@@ -17,7 +17,7 @@ return new class extends Migration
                 table:'krs',
                 indexName: 'nilai_id_krs'
             );
-            $table->integer('ips')->nullable();
+            $table->float('ips')->nullable();
             $table->timestamps();
         });
     }
