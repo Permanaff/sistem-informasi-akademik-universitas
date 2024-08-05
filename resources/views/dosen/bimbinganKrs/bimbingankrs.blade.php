@@ -136,9 +136,9 @@
 {{-- CONTENT --}}
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Kelas Bimbingan <span class="fs-5 fw-normal text-secondary">Kelas {{ $kelas->pluck('nama')->implode(',') }}</span></h1>
+    <h1 class="h2">Bimbingan KRS <span class="fs-5 fw-normal text-secondary">Kelas {{ $kelas->pluck('nama')->implode(',') }}</span></h1>
   </div>
-  <div class="card">
+  <div class="card mb-5">
     <div class="card-header">
       @foreach ($kelas as $kls)
       <p class="fs-6 m-0">Daftar Mahasiswa | {{ Str::title($kls->prodi->nama_prodi) }} | Kelas {{ $kls->nama }} | Angkatan {{ $kls->angkatan }} </p>
@@ -151,10 +151,10 @@
                     <th class="text-center" scope="col">No</th>
                     <th class="text-center" scope="col">NPM</th>
                     <th class="text-center" scope="col">Nama Mahasiswa</th>
-                    <th class="text-center" scope="col">Angkatan</th>
-                    <th class="text-center" scope="col">L/P</th>
-                    <th class="text-center" scope="col">No. Telp</th>
+                    <th class="text-center" scope="col">SKS Max</th>
+                    <th class="text-center" scope="col">SKS Diambil</th>
                     <th class="text-center" scope="col">Status</th>
+                    <th class="text-center" scope="col">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -163,16 +163,13 @@
                     <td class="text-center">{{ $index + 1 }}</td>
                     <td class="text-center">{{ $mhs->nim }}</td>
                     <td class="text">{{ $mhs->nama }}</td>
-                    <td class="text-center">{{ $mhs->angkatan }}</td>
+                    <td class="text-center"></td>
+                    <td class="text-center">{{ $mhs->sks_diambil }}</td>
+                    <td class="text-center">{{ Str::title($mhs->status_krs) }}</td>
                     <td class="text-center">
-                      @if ($mhs->jk == "laki-laki")
-                          L
-                      @else
-                          P
-                      @endif
+                      <a href="{{ route('bimbingankrs.show', $mhs->nim) }}" class="btn btn-primary">Lihat</a>
+                      <a href="#" class="btn btn-success">Acc</a>
                     </td>
-                    <td class="text">{{ $mhs->notelp }}</td>
-                    <td class="text-center">{{ Str::title($mhs->status) }}</td>
                 </tr>  
               @endforeach
             </tbody>

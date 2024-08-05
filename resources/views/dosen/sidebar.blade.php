@@ -71,7 +71,7 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-2" href="/adm/dosen">
+            <a class="nav-link d-flex align-items-center gap-2" href="/dsn/bimbingankrs">
               <i class="bi bi-people"></i>
               Bimbingan KRS
             </a>

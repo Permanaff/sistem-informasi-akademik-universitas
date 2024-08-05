@@ -1,5 +1,4 @@
 
-
 function sendData() {
     // let xhr = new XMLHttpRequest();
     // let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -10,6 +9,8 @@ function sendData() {
         mulai: document.getElementById("mulai").value,
         selesai: document.getElementById("batas").value,
     });
+
+    let asset = document.querySelector('#asset').value
 
 
     // xhr.open("POST", "/dsn/presensi", true);
@@ -46,12 +47,20 @@ function sendData() {
     .then(response => response.json())
     .then(response => {
         let kode_absen = response.data.kode_absen
+        let qr_code = response.data.qr_code
+
+        document.getElementById('qr-image-container').innerHTML = "";
+        const qrImageContainer = document.getElementById('qr-image-container');
+        qrImageContainer.innerHTML = `
+            <img src="${asset}/${qr_code}" alt="qr-absen" id="qr-absen" width="500px">
+        `;
 
         document.getElementById('inputKode').innerHTML = "";
         document.getElementById('inputKode').innerHTML = `
             <input type="text" class="form-control mt-3" id="awal" value="${kode_absen}" readonly>
         `;
-        
+
+
     })
     .catch(error => {
         console.error('Gagal mengambil data:', error);

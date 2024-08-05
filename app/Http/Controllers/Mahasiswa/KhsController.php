@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
+use function PHPUnit\Framework\isEmpty;
+
 class KhsController extends Controller
 {
     private $nim;
@@ -22,22 +24,26 @@ class KhsController extends Controller
 
     public function index() 
     {
-        // $dataMahasiswa = Mahasiswa::whereHas('krs', function ($query) use ($id_kelas) {
-        //     $query->where('id_jadwal', $id_kelas);
-        // })->with(['krs' => function ($query) use ($id_kelas) {
-        //     $query->where('id_jadwal', $id_kelas);
-        // }, 'krs.jadwal', 'krs.khs'])->get();
 
-        $dataMatkul = Krs::with( 'detail_krs.khs', 'detail_krs.jadwal.matkul')->where('nim', $this->nim)->get();
+        // $dataMatkul = Krs::with( 'detail_krs.khs', 'detail_krs.jadwal.matkul')->where('nim', $this->nim)->get();
 
-        
+        $dataMatkul = Krs::with( 'detail_krs.nilai', 'detail_krs.jadwal.matkul')->where('nim', $this->nim)->get();
+
+        if ($dataMatkul->isEmpty()) {
+            $khs = [];
+            $totalNilai = 0;
+            $ip = 0;
+            $totalSks = 0;
+
+            return view('mahasiswa.khs', compact('khs', 'totalSks', 'totalNilai', 'ip'));
+        }
 
         $khs = $dataMatkul->map(function ($item) {
             return $item->detail_krs->map(function ($nilai) {
-                $nilai_akhir = $nilai->khs != null ? $nilai->khs->nilai : '';
+                $nilai_akhir = $nilai->nilai != null ? $nilai->nilai->nilai : '';
                 $bobot = $nilai_akhir == '' ? '' : ($nilai_akhir > 80 ? '4' : ($nilai_akhir > 60 ? '3' : ($nilai_akhir > 40 ? '2' : '1')));
                 $total = $bobot == '' ? '' : $nilai->jadwal->matkul->sks * $bobot;
-                $uts = $nilai->khs != null ? ($nilai->khs->uts == '' ? : $nilai->khs->uts) : '';
+                $uts = $nilai->nilai != null ? ($nilai->nilai->uts == '' ? : $nilai->nilai->uts) : '';
     
                 return [
                     'kode_mk' => $nilai->jadwal->matkul->kode_matkul,
@@ -51,12 +57,11 @@ class KhsController extends Controller
                     'total' => $total,
                 ];
             });
-        })->collapse();
+        })->first();
 
-        // dd($khs->toArray());
 
         $totalSks = $khs->sum('sks');
-        // $totalNilai = $khs->sum('total');
+
         $totalNilai = $khs->sum(function($item) {
             return $item['total'] === '' ? 0 : $item['total'] ;
         });
@@ -66,10 +71,7 @@ class KhsController extends Controller
         });
 
         $ip = $totalSks > 0 ? $totalBobot / $totalSks : 0;
-
-        // foreach ($dataMatkul as $matkul) {
-        //     Log::info($matkul);
-        // }
+        $ip = floor($ip) == $ip ? $ip = number_format($ip, 0) :  $ip = number_format($ip, 2);
 
 
         // Log::info($khs);

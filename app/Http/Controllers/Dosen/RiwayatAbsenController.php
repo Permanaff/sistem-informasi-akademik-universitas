@@ -100,7 +100,9 @@ class RiwayatAbsenController extends Controller
 
         $jadwal = Jadwal::with('matkul')->where('nidn', $this->nidn)->get();
 
-        $absen = Krs::with(['mahasiswa', 'mahasiswa.presensi'])->whereHas('detail_krs', function($query) use($id_jadwal) {
+        $absen = Krs::with(['mahasiswa', 'mahasiswa.presensi' => function($query) use($id_jadwal) {
+            $query->where('id_jadwal', $id_jadwal);
+        }])->whereHas('detail_krs', function($query) use($id_jadwal) {
             $query->where('id_jadwal', $id_jadwal);
         })->get();
 

@@ -168,7 +168,7 @@ class UbahAbsensiController extends Controller
         $absen = Krs::with(['mahasiswa' => function ($query) {
             $query->orderBy('nim', 'asc');
         }, 'mahasiswa.presensi' => function ($query) use ($request) {
-            $query->where('pertemuan', $request->pertemuan);
+            $query->where('pertemuan', $request->pertemuan)->where('id_jadwal', $request->id_jadwal);
         }])->whereHas('detail_krs', function($query) use($request) {
             $query->where('id_jadwal', $request->id_jadwal);
         })->get();

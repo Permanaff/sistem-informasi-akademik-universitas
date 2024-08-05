@@ -79,18 +79,8 @@
     display: block !important;
   }
 
-  .card-rounded-bottom {
-    border-top-left-radius: 0px; 
-    border-top-right-radius: 0px;
-  }
-
-  .card-rounded-top {
-    border-bottom-left-radius: 0px; 
-    border-bottom-right-radius: 0px;
-  }
-
-  .col-nilai {
-    width: 90px
+  .datatable-info {
+    visibility: hidden;
   }
 </style>
 
@@ -100,6 +90,7 @@
 <!-- Custom styles for this template -->
 <link href="{{ asset('/css/dashboard.css') }}" rel="stylesheet">
 {{-- <link href="{{ asset('/css/krstables.css') }}" rel="stylesheet"> --}}
+<link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
 @endsection
 
 @section('content')
@@ -150,113 +141,99 @@
 {{-- CONTENT --}}
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Nilai Mahasiswa</h1>
-  </div>
-  <div class="card card-rounded-top">
-    <div class="card-header">
-      <p class="fs-6 m-0">Daftar Mahasiswa</p>
-    </div>
-    <div class="card-body">
-      <form action="{{ route('nilaimahasiswa.show') }}" method="POST">
-        @csrf
-        <div class="container col-md-8">
-          <select class="form-select" aria-label="kelas" name="kelas" id="kelas">
-            <option value="0" selected>--- Pilih Kelas ---</option>
-            @foreach ($jadwal as $jdwl)
-              <option value="{{ $jdwl->id }}">{{ $jdwl->matkul->nama_matkul }} - Kelas {{ $jdwl->kls }}</option>
-            @endforeach
-          </select>
-          <div class="d-flex justify-content-end mt-2" id="buttonContainer">
-            <button type="submit" class="btn btn-success">Tampilkan</button>
-          </div>
-      </form>
-      </div>
-    </div>
+    <h1 class="h2">Kartu Rencana Studi</h1>
   </div>
 
-  @if (isset($mahasiswa) && !empty($mahasiswa))
-  <div class="card mt-3 card-rounded-bottom">
+  {{-- <button type="button" class="btn btn-md btn-success mb-3" id="showModalBtn">Tambah Jadwal</button> --}}
+  <a href="/dsn/daftarmatkulkrs" class="btn btn-md btn-success mb-3">Daftar Matkul</a>
+  {{-- @if ($periodeKrs == 'aktif' && $status_krs == 'belum-acc' || $periodeKrs == 'aktif' && $status_krs == null)
+      <a href="/std/krs/tambahkrs" class="btn btn-md btn-success mb-3">Tambah Krs</a>
+  @endif --}}
+
+  <div class="card">
+    <div class="card-header">
+      {{-- @foreach ($ta as $ak)
+        <p class="fs-6 m-0">Kartu Rencana Studi | Tahun Akademik {{ $ak->tahun_ajaran }} - Semseter {{ Str::title($ak->semester) }}</p>
+      @endforeach --}}
+    </div>
     <div class="card-body">
-        <form action="{{ route('nilai.input') }}" method="POST">
-          @csrf
-          <input type="hidden" name="id_kelas" value="{{ $id_kelas }}">
-          <button type="submit" class="btn btn-success mb-3">Input Nilai</button>
-        </form>
-        <table class="table table-striped table-bordered">
+        <table class="table table-bordered table-striped" id="jadwalTable">
             <thead>
-                <tr class="text-center">
-                    <th class="text-center" scope="col" rowspan="2">No</th>
-                    <th class="text-center" scope="col" rowspan="2">NPM</th>
-                    <th class="text-center" scope="col" rowspan="2">Nama Mahasiswa</th>
-                    <th class="text-center" scope="col" colspan="7">Nilai</th>
-                </tr>
                 <tr>
-                    <th class="text-center col-nilai" scope="col">CPMK 1</th>
-                    <th class="text-center col-nilai" scope="col">CPMK 2</th>
-                    <th class="text-center col-nilai" scope="col">CPMK 3</th>
-                    <th class="text-center col-nilai" scope="col">CPMK 4</th>
-                    <th class="text-center col-nilai" scope="col">UTS</th>
-                    <th class="text-center col-nilai" scope="col">UAS</th>
-                    <th class="text-center col-nilai" scope="col">Nilai Akhir</th>
-                </tr>
+                    <th class="text-center" scope="col">No</th>
+                    <th class="text-center" scope="col" style="min-width: 50">Kode MK</th>
+                    <th class="text-center" scope="col" style="min-width: 360px">Matakuliah</th>
+                    <th class="text-center" scope="col" style="min-width: 50">SKS</th>
+                    <th class="text-center" scope="col" style="min-width: 50">SMT</th>
+                    <th class="text-center" scope="col" style="min-width: 50">Tahun Ajar</th>
+                    <th class="text-center" scope="col" style="min-width: 50">Kelas</th>
+                    {{-- <th class="text-center" scope="col" style="min-width: 50px">Sisa Kuota</th> --}}
+                    <th class="text-center" scope="col" style="min-width: 360px">Jadwal/Ruang</th>
+                    <th class="text-center" scope="col" style="min-width: 50">Status</th>
+                  </tr>
             </thead>
             <tbody>
-                @forelse ($mahasiswa as $index => $mhs)
-                    <tr>
-                      <td class="text-center" data-id="{{ $mhs->nim }}">{{ $index + 1 }}</td>
-                      <td class="text-center">{{ $mhs->nim }}</td>
-                      <td class="text">{{ $mhs->nama }}</td>
-                      <td class="text-center">{{ $mhs->nilai->cpmk1 }}</td>
-                      <td class="text-center">{{ $mhs->nilai->cpmk2 }}</td>
-                      <td class="text-center">{{ $mhs->nilai->cpmk3 }}</td>
-                      <td class="text-center">{{ $mhs->nilai->cpmk4 }}</td>
-                      <td class="text-center">{{ $mhs->nilai->uts }}</td>
-                      <td class="text-center">{{ $mhs->nilai->uas }}</td>
-                      <td class="text-center">{{ $mhs->nilai->nilai }}</td>
-                      {{-- <td class="text-center">{{ $mhs['nilai'] }}</td> --}}
-                      {{-- @foreach ($mhs->nilai as $nilai)
-                          <td class="text-center fs-6" contenteditable>{{ $nilai['uts'] }}</td>
-                      @endforeach --}}
-                    </tr>
-                @empty
-                    <tr>
-                        <td class="text-center" colspan="10">Tidak Ada Data Mahasiswa</td>
-                    </tr>
-                @endforelse
+              @foreach ($krs as $index => $kr)       
+                    <td class="text-center">{{ $index + 1 }}</td>
+                    <td class="text-center">{{ $kr->jadwal->matkul->kode_matkul }}</td>
+                    <td class="">{{ $kr->jadwal->matkul->nama_matkul }}</td>
+                    <td class="text-center">{{ $kr->jadwal->matkul->sks }}</td>
+                    <td class="text-center">{{ $kr->jadwal->matkul->semester }}</td>
+                    <td class="text-center">{{ $kr->jadwal->tahun_akademik->tahun_ajaran}}</td>
+                    <td class="text-center">{{ $kr->jadwal->kls}}</td>
+                    {{-- <td class="text-center">{{ $kr->jadwal->kuota }}</td> --}}
+                    <td class="text-center">({{ Str::title($kr->jadwal->hari) }}) {{ $kr->formatted_jam_mulai }}-{{ $kr->formatted_jam_selesai }} ({{ $kr->jadwal->gedungs->gedung }}-{{ $kr->jadwal->gedungs->no_ruang }})</td>
+                    <td class="text-center">
+                      @if ($kr->krs->status == 'belum-acc')
+                        <a href="{{ route('bimbingankrs.delete', $kr->id) }}" class="btn btn-sm btn-icon-danger"><i class="fa fa-trash"></i></a>
+                        @else
+                        <p class="fs-5 m-0 text-success"><i class="fa fa-check-square-o" aria-hidden="true"></i></p>
+                      @endif
+                    </td>
+                </tr>  
+              @endforeach
             </tbody>
-        </table>
+          </table>
+          @if ($krs->isEmpty())
+              <div class="alert alert-secondary text-center" role="alert">
+                  Mahasiswa belum input KRS Semester ini
+              </div>
+          @endif
     </div>
   </div>
-  @endif
-
-  
-
 </main>
 {{-- CONTENT END --}}
 </div>
 </div>
 
 @section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
 <script src="{{ asset('/js/dashboard.js') }}"></script>
-{{-- <script src="{{ asset('/js/dosen/daftar-mahasiswa.js') }}"></script> --}}
+{{-- <script src="{{ asset('/js/mhs/krs.js') }}"></script> --}}
+
 <script>
+    //message with sweetalert
     @if(session('success'))
-          Swal.fire({
-              icon: "success",
-              title: "BERHASIL",
-              text: "{{ session('success') }}",
-              showConfirmButton: false,
-              timer: 2000
-          });
-      @elseif(session('error'))
-          Swal.fire({
-              icon: "error",
-              title: "GAGAL!",
-              text: "{{ session('error') }}",
-              showConfirmButton: false,
-              timer: 2000
-          });
-      @endif
+        Swal.fire({
+            icon: "success",
+            title: "BERHASIL",
+            text: "{{ session('success') }}",
+            showConfirmButton: false,
+            timer: 2000
+        });
+    @elseif(session('error'))
+        Swal.fire({
+            icon: "error",
+            title: "GAGAL!",
+            text: "{{ session('error') }}",
+            showConfirmButton: false,
+            timer: 2000
+        });
+    @endif
 </script>
+
+
 @endsection
+
 @endsection
+

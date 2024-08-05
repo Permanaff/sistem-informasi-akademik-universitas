@@ -188,6 +188,9 @@
               </div>
             </div>
           </div>
+          <div class="d-flex container justify-content-center">
+            <button type="button" class="btn btn-success w-25 my-3" onclick="event.preventDefault(), sendData()">Buat Presensi</button>
+          </div>
         </div>
       </div>
     </div>
@@ -195,20 +198,20 @@
 
   <div class="container col-md-8 justify-content-center mt-3">
     <div class="row">
-      <div class="mt-3" id="qr-image-container"></div>
+      <div class="mt-3 d-flex justify-content-center" id="qr-image-container">
+        {{-- <img id="qr-absen" src="{{ asset('/images/qr-absen/HxPN6HBIW1sSAgTTWaPhHodP8ekDJLnVpeKl2vHA5eG2U0CHLJTbBZbP7UPBxQOKoBlVARkseanxu2WEWTDKa.png') }}" alt="qr-absen" width="500px"> --}}
+      </div>
       <div id="inputKode">
          
       </div>
-      <div class="d-flex container justify-content-center">
-        <button type="button" class="btn btn-success w-25 mt-3" onclick="event.preventDefault(), sendData()">Buat Presensi</button>
-      </div>
+     
     </div>
   </div>
 
 
   
 
-  
+  <input type="hidden" name="asset" id="asset" value="{{ asset('/images/qr-absen/') }}">
 
   
 </main>

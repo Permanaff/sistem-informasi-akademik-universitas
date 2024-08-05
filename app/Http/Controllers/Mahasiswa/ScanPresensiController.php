@@ -35,14 +35,16 @@ class ScanPresensiController extends Controller
 
         $kodeAbsen = Absen::where('kode_absen', $request->kode_absen)->first();
 
-        Log::info($kodeAbsen);
+        // Log::info($kodeAbsen);
         
-        $validateKrs = Krs::where('id_jadwal', $kodeAbsen->id_jadwal)->where('nim', $this->nim)->first();   
+        $validateKrs = Krs::whereHas('detail_krs', function($query) use($kodeAbsen) {
+            $query->where('id_jadwal', $kodeAbsen->id_jadwal);
+        })->where('nim', $this->nim)->first();   
 
         $validateDuplicate = Presensi::where('nim', $this->nim)->where('id_jadwal', $kodeAbsen->id_jadwal)->where('pertemuan', $kodeAbsen->pertemuan)->first();
 
-        Log::info($validateKrs);
-        Log::info($validateDuplicate);
+        // Log::info($validateKrs);
+        // Log::info($validateDuplicate);
         
         if ($validateDuplicate) {
             return redirect()->route('scanabsen.index')->with(['error' => 'Sudah Melakukan Presensi!']);

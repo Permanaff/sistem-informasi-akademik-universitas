@@ -18,6 +18,11 @@ class Krs extends Model
         return $this->hasMany(DetailKrs::class,'id_krs', 'id');
     }
 
+    public function khs()
+    {
+        return $this->hasOne(DetailKrs::class,'id_krs', 'id');
+    }
+
     public function mahasiswa()
     {
         return $this->belongsTo(Mahasiswa::class,'nim', 'nim');
