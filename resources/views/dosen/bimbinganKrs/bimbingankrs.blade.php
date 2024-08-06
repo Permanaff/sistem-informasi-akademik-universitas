@@ -168,7 +168,15 @@
                     <td class="text-center">{{ Str::title($mhs->status_krs) }}</td>
                     <td class="text-center">
                       <a href="{{ route('bimbingankrs.show', $mhs->nim) }}" class="btn btn-primary">Lihat</a>
-                      <a href="#" class="btn btn-success">Acc</a>
+                      @if ($mhs->status_krs == 'acc')
+                          <a href="{{ route('bimbingankrs.batalacc', $mhs->id_krs) }}" class="btn btn-danger">Batalkan</a>
+                      @else
+                          @if ($mhs->id_krs != null)
+                              <a href="{{ route('bimbingankrs.acc', $mhs->id_krs) }}" class="btn btn-success">ACC</a>
+                          @else
+                              <button class="btn btn-success" disabled>ACC</button>
+                          @endif
+                      @endif
                     </td>
                 </tr>  
               @endforeach

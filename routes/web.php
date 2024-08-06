@@ -81,9 +81,15 @@ Route::middleware(['auth'])->group(function() {
     Route::post('/dsn/nilaimahasiswa/input', [NilaiMahasiswaController::class, 'inputNilai'])->name('nilai.inputnilai')->middleware('userAccess:dosen');
 
     // Route bimbingan KRS
-    Route::get('/dsn/bimbingankrs', [BimbinganKrsController::class, 'index'])->name('bimbingankrs')->middleware('userAccess:dosen');
+    Route::get('/dsn/bimbingankrs', [BimbinganKrsController::class, 'index'])->name('bimbingankrs.index')->middleware('userAccess:dosen');
     Route::get('/dsn/bimbingankrs/{nim}', [BimbinganKrsController::class, 'show'])->name('bimbingankrs.show')->middleware('userAccess:dosen');
+    Route::get('/dsn/bimbingankrs/daftarmatkul', [BimbinganKrsController::class, 'daftarMatkul'])->name('bimbingankrs.daftarmatkul')->middleware('userAccess:dosen');
     Route::get('/dsn/bimbingankrs/delete/{id_krs}', [BimbinganKrsController::class, 'deletekrs'])->name('bimbingankrs.delete')->middleware('userAccess:dosen');
+    Route::get('/dsn/bimbingankrs/tambahkrs/{nim}', [BimbinganKrsController::class, 'tambahkrs'])->name('bimbingankrs.tambahkrs')->middleware('userAccess:dosen');
+    Route::post('/dsn/bimbingankrs/storekrs', [BimbinganKrsController::class, 'storeKrs'])->name('bimbingankrs.store')->middleware('userAccess:dosen');
+    Route::get('/dsn/bimbingankrs/acc/{id_krs}', [BimbinganKrsController::class, 'acc'])->name('bimbingankrs.acc')->middleware('userAccess:dosen');
+    Route::get('/dsn/bimbingankrs/batalacc/{id_krs}', [BimbinganKrsController::class, 'batalAcc'])->name('bimbingankrs.batalacc')->middleware('userAccess:dosen');
+
 
     
     // --------------- Route Mahasiswa ---------------

@@ -82,6 +82,10 @@
   .datatable-info {
     visibility: hidden;
   }
+
+  .w-8 {
+    width: 8rem;
+  }
 </style>
 
 
@@ -145,11 +149,11 @@
   </div>
 
   {{-- <button type="button" class="btn btn-md btn-success mb-3" id="showModalBtn">Tambah Jadwal</button> --}}
-  <a href="/dsn/daftarmatkulkrs" class="btn btn-md btn-success mb-3">Daftar Matkul</a>
+  <a href="/dsn/bimbingankrs/daftarmatkul" class="btn btn-md btn-success mb-3 w-8">Daftar Matkul</a>
   {{-- @if ($periodeKrs == 'aktif' && $status_krs == 'belum-acc' || $periodeKrs == 'aktif' && $status_krs == null)
-      <a href="/std/krs/tambahkrs" class="btn btn-md btn-success mb-3">Tambah Krs</a>
   @endif --}}
-
+  <a href="{{ route('bimbingankrs.tambahkrs', $nim ) }}" class="btn btn-md btn-success mb-3 w-8 ms-2">Tambah Krs</a>
+  <a href="{{ route('bimbingankrs.tambahkrs', $nim ) }}" class="btn btn-md btn-primary mb-3 w-8 ms-2">ACC</a>
   <div class="card">
     <div class="card-header">
       {{-- @foreach ($ta as $ak)
@@ -181,7 +185,6 @@
                     <td class="text-center">{{ $kr->jadwal->matkul->semester }}</td>
                     <td class="text-center">{{ $kr->jadwal->tahun_akademik->tahun_ajaran}}</td>
                     <td class="text-center">{{ $kr->jadwal->kls}}</td>
-                    {{-- <td class="text-center">{{ $kr->jadwal->kuota }}</td> --}}
                     <td class="text-center">({{ Str::title($kr->jadwal->hari) }}) {{ $kr->formatted_jam_mulai }}-{{ $kr->formatted_jam_selesai }} ({{ $kr->jadwal->gedungs->gedung }}-{{ $kr->jadwal->gedungs->no_ruang }})</td>
                     <td class="text-center">
                       @if ($kr->krs->status == 'belum-acc')

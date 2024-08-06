@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dosen;
 
 use App\Http\Controllers\Controller;
 use App\Models\Jadwal;
+use App\Models\TahunAkademik;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -21,7 +22,9 @@ class JadwalDosenController extends Controller
 
     public function index() : View
     {
-        $jadwals = Jadwal::with('matkul', 'gedungs')->where('nidn', $this->nidn)->get();
+        $jadwals = Jadwal::with('matkul', 'gedungs')->where('nidn', $this->nidn)->whereHas('tahun_akademik', function($query) {
+            $query->where('status', 'aktif');
+        })->get();
 
         foreach ($jadwals as $jadwal) {
             $jadwal->formatted_jam_mulai = Carbon::parse($jadwal->jam_mulai)->format('H:i');
