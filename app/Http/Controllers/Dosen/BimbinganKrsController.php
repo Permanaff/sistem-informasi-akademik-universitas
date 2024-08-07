@@ -14,6 +14,7 @@ use App\Models\TahunAkademik;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
 class BimbinganKrsController extends Controller
@@ -122,6 +123,7 @@ class BimbinganKrsController extends Controller
 
         $nim = session('nim');
 
+        Log::info('nim : '.$nim);
 
         foreach ($request->matkul_ids as $matkulId) {
             $jadwal = Jadwal::findOrFail($matkulId);

@@ -9,6 +9,7 @@ use App\Models\RiwayatAbsen;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
@@ -41,7 +42,12 @@ class PresensiController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        $kode_absen = Str::random(85);
+        // $kode_absen = Str::random(85);
+        $kode = $request->matkul.'/'.$request->pertemuan;
+        $kode_absen = Crypt::encryptString($kode);
+
+        $decrypted = Crypt::decryptString($kode_absen);
+
 
         Absen::create([
             'id_jadwal' => $request->matkul,

@@ -169,7 +169,7 @@
                     <td class="text-center">
                       <a href="{{ route('bimbingankrs.show', $mhs->nim) }}" class="btn btn-primary">Lihat</a>
                       @if ($mhs->status_krs == 'acc')
-                          <a href="{{ route('bimbingankrs.batalacc', $mhs->id_krs) }}" class="btn btn-danger">Batalkan</a>
+                          <a href="{{ route('bimbingankrs.batalacc', $mhs->id_krs) }}" class="btn btn-danger">Batal</a>
                       @else
                           @if ($mhs->id_krs != null)
                               <a href="{{ route('bimbingankrs.acc', $mhs->id_krs) }}" class="btn btn-success">ACC</a>
