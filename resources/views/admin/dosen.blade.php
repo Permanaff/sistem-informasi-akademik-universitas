@@ -142,7 +142,7 @@
   <div class="card border-0">
     <div class="card-body">
         <button type="button" class="btn btn-md btn-success mb-3" id="showModalBtn">Tambah Dosen</button>
-        <table class="table table-bordered">
+        <table class="table table-striped table-bordered">
             <thead>
                 <tr class="text-center">
                     <th scope="col">NIDN</th>
@@ -161,7 +161,7 @@
                 @forelse ($dosens as $dosen)
                     <tr>
                         <td class="text-center">{{ $dosen->nidn }}</td>
-                        <td class="text-center">{{ $dosen->nama }}</td>
+                        <td class="text">{{ $dosen->nama }}</td>
                         <td class="text-center">{{ Str::title($dosen->fakultas->nama_fakultas) }}</td>
                         <td class="text-center">{{ $dosen->notelp }}</td>
                         <td class="text-center">{{ $dosen->email }}</td>
@@ -196,15 +196,65 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Fakultas</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Daftar Data Dosen</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="{{ route('fakultas.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('dosen.store') }}" method="POST" enctype="multipart/form-data">
                 <div class="modal-body"> 
                     @csrf
-                    {{-- <div class="form-group mb-3">
+                    <div class="form-group mb-3">
+                        <label class="font-weight-bold">NIDN</label>
+                        <input type="text" class="form-control mt-2 @error('nidn') is-invalid @enderror" name="nidn" value="" placeholder="NIDN">
+                        <!-- error message untuk fakultas -->
+                        @error('nidn')
+                            <div class="alert alert-danger mt-2">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="font-weight-bold">Nama Lengkap</label>
+                        <input type="text" class="form-control mt-2 @error('nama') is-invalid @enderror" name="nama" value="" placeholder="Nama Lengkap">
+                        <!-- error message untuk fakultas -->
+                        @error('nama')
+                            <div class="alert alert-danger mt-2">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="font-weight-bold">Email</label>
+                        <input type="email" class="form-control mt-2 @error('email') is-invalid @enderror" name="email" value="" placeholder="Email">
+                        <!-- error message untuk fakultas -->
+                        @error('email')
+                            <div class="alert alert-danger mt-2">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="font-weight-bold">Nomor Telepon</label>
+                        <input type="text" class="form-control mt-2 @error('no_telp') is-invalid @enderror" name="no_telp" value="" placeholder="No Telp">
+                        <!-- error message untuk fakultas -->
+                        @error('no_telp')
+                            <div class="alert alert-danger mt-2">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+
+                    <div class="form-group mb-3">
                         <label class="font-weight-bold">Nama Fakultas</label>
-                        <input type="text" class="form-control mt-2 @error('Nama Fakultas') is-invalid @enderror" name="nama_fakultas" value="" placeholder="Masukkan Nama Fakultas">
+                        <select class="form-select mt-2" aria-label="fakultas" name="fakultas" id="fakultas">
+                          <option selected>-- Pilih Fakultas --</option>
+                          @foreach ($fakultas as $fakul)
+                              <option value="{{ $fakul->id }}">{{ $fakul->nama_fakultas }}</option>
+                          @endforeach
+                          
+                        </select>
                     
                         <!-- error message untuk fakultas -->
                         @error('fakultas')
@@ -212,7 +262,77 @@
                                 {{ $message }}
                             </div>
                         @enderror
-                    </div> --}}
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="font-weight-bold">Tempat Lahir</label>
+                        <input type="text" class="form-control mt-2 @error('tempat_lahir') is-invalid @enderror" name="tempat_lahir" value="" placeholder="Tempat Lahir">
+                        <!-- error message untuk fakultas -->
+                        @error('tempat_lahir')
+                            <div class="alert alert-danger mt-2">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="font-weight-bold">Tanggal Lahir</label>
+                        <input type="Date" class="form-control mt-2 @error('tanggal_lahir') is-invalid @enderror" name="tanggal_lahir" value="" placeholder="Tanggal Lahir">
+                        <!-- error message untuk fakultas -->
+                        @error('tanggal_lahir')
+                            <div class="alert alert-danger mt-2">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="font-weight-bold">Alamat Lengkap</label>
+                        <textarea  type="text" class="form-control mt-2 @error('alamat') is-invalid @enderror" name="alamat" value="" placeholder="Alamat"></textarea>
+                        <!-- error message untuk fakultas -->
+                        @error('alamat')
+                            <div class="alert alert-danger mt-2">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+
+                    <div class="form-group mb-3">
+                      <label class="font-weight-bold">Agama</label>
+                      <select class="form-select mt-2" aria-label="fakultas" name="agama" id="agama">
+                          <option selected>-- Pilih Agama --</option>
+                          <option value="islam">Islam</option>
+                          <option value="kristen">Kristen</option>
+                          <option value="katolik">Katolik</option>
+                          <option value="hindu">Hindu</option>
+                          <option value="budha">Budha</option>
+                          <option value="khonghucu">khonghucu</option>
+                      </select>
+                  
+                      <!-- error message untuk fakultas -->
+                      @error('agama')
+                          <div class="alert alert-danger mt-2">
+                              {{ $message }}
+                          </div>
+                      @enderror
+                  </div>
+
+                    <div class="form-group mb-3">
+                      <label class="font-weight-bold">Jenis Kelamin</label>
+                      <select class="form-select mt-2" aria-label="jk" name="jk" id="jk">
+                          <option selected>-- Jenis Kelamin --</option>
+                          <option value="laki-laki">Laki-Laki</option>
+                          <option value="perempuan">Perempuan</option>
+                      </select>
+                  
+                      <!-- error message untuk fakultas -->
+                      @error('jk')
+                          <div class="alert alert-danger mt-2">
+                              {{ $message }}
+                          </div>
+                      @enderror
+                  </div>
+
 
                 </div>
                 <div class="modal-footer">

@@ -10,7 +10,7 @@ class Dosen extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nidn', 'nama', 'tempat_lahir', 'alamat', 'agama', 'notelp', 'email', 'jk', 'id_fakultas', 'photo'
+        'nidn', 'nama', 'tempat_lahir', 'tanggal_lahir','alamat', 'agama', 'notelp', 'email', 'jk', 'id_fakultas', 'photo'
     ];
 
     protected $hidden = [

@@ -155,7 +155,7 @@
                 @forelse ($jadwals as $index => $jadwal)
                     <tr>
                         <td class="text-center">{{ $index + 1 }}</td>
-                        <td class="text-center">{{ $jadwal->matkul->nama_matkul }}</td>
+                        <td class="text">{{ $jadwal->matkul->nama_matkul }}</td>
                         <td class="text-center">{{ $jadwal->kls }}</td>
                         <td class="text-center">{{ $jadwal->matkul->sks }}</td>
                         <td class="text-center">{{ $jadwal->matkul->semester }}</td>

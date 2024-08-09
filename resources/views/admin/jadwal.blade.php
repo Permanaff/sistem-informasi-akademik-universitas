@@ -166,7 +166,7 @@
               @foreach ($jadwals as $jadwal)
                 <tr>
                     <td class="text-center">{{ $jadwal->matkul->kode_matkul }}</td>
-                    <td class="text-center">{{ $jadwal->matkul->nama_matkul }}</td>
+                    <td class="text">{{ $jadwal->matkul->nama_matkul }}</td>
                     <td class="text-center">{{ $jadwal->matkul->sks }}</td>
                     <td class="text-center">{{ $jadwal->matkul->semester }}</td>
                     <td class="text-center">{{ $jadwal->tahun_akademik->tahun_ajaran}}</td>

@@ -141,7 +141,7 @@
   <div class="card border-0">
     <div class="card-body">
         <button type="button" class="btn btn-md btn-success mb-3" id="showModalBtn">Tambah Matkul</button>
-        <table class="table table-bordered">
+        <table class="table table-striped table-bordered">
             <thead>
                 <tr class="text-center">
                     <th scope="col">Kode MK</th>
@@ -156,8 +156,8 @@
                 @forelse ($matkuls as $matkul)
                     <tr>
                         <td class="text-center">{{ $matkul->kode_matkul }}</td>
-                        <td class="text-center">{{ $matkul->prodis->nama_prodi }}</td>
-                        <td class="text-center">{{ $matkul->nama_matkul }}</td>
+                        <td class="text">{{ $matkul->prodis->nama_prodi }}</td>
+                        <td class="text">{{ $matkul->nama_matkul }}</td>
                         <td class="text-center">{{ $matkul->sks }}</td>
                         <td class="text-center">{{ $matkul->semester }}</td>
                         <td>
