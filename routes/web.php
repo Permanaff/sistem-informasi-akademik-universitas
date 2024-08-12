@@ -45,15 +45,27 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/logout', [AuthController::class, 'logout']);
     
     // --------------- Route Admin ---------------
+    // Route::get('/adm', [FakultasController::class, 'index'] )->middleware('userAccess:admin');
+    // Route::resource('/adm/fakultas', FakultasController::class )->middleware('userAccess:admin');
+    // Route::resource('/adm/prodi', ProdiController::class )->middleware('userAccess:admin');
+    // Route::resource('/adm/matkul', MatkulController::class )->middleware('userAccess:admin');
+    // Route::resource('/adm/kelas', GedungController::class )->middleware('userAccess:admin');
+    // Route::resource('/adm/jadwal', JadwalController::class )->middleware('userAccess:admin');
+    // Route::resource('/adm/dosen', DosenController::class )->middleware('userAccess:admin');
+    // Route::resource('/adm/student', MahasiswaController::class )->middleware('userAccess:admin');
+    // Route::resource('/adm/jadwalkrs', JadwalKrsController::class )->middleware('userAccess:admin');
+
     Route::get('/adm', [FakultasController::class, 'index'] )->middleware('userAccess:admin');
-    Route::resource('/adm/fakultas', FakultasController::class )->middleware('userAccess:admin');
-    Route::resource('/adm/prodi', ProdiController::class )->middleware('userAccess:admin');
-    Route::resource('/adm/matkul', MatkulController::class )->middleware('userAccess:admin');
-    Route::resource('/adm/kelas', GedungController::class )->middleware('userAccess:admin');
-    Route::resource('/adm/jadwal', JadwalController::class )->middleware('userAccess:admin');
-    Route::resource('/adm/dosen', DosenController::class )->middleware('userAccess:admin');
-    Route::resource('/adm/student', MahasiswaController::class )->middleware('userAccess:admin');
-    Route::resource('/adm/jadwalkrs', JadwalKrsController::class )->middleware('userAccess:admin');
+    Route::prefix('/adm')->group(function() {
+        Route::resource('/fakultas', FakultasController::class )->middleware('userAccess:admin');
+        Route::resource('/prodi', ProdiController::class )->middleware('userAccess:admin');
+        Route::resource('/matkul', MatkulController::class )->middleware('userAccess:admin');
+        Route::resource('/kelas', GedungController::class )->middleware('userAccess:admin');
+        Route::resource('/jadwal', JadwalController::class )->middleware('userAccess:admin');
+        Route::resource('/dosen', DosenController::class )->middleware('userAccess:admin');
+        Route::resource('/student', MahasiswaController::class )->middleware('userAccess:admin');
+        Route::resource('/jadwalkrs', JadwalKrsController::class )->middleware('userAccess:admin');
+    });
     
     // --------------- Route Dosen ---------------
     Route::get('/dsn', [HomeDosenController::class, 'index'] )->middleware('userAccess:dosen');
